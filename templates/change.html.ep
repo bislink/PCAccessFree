@@ -1,0 +1,6 @@
+% 
+% layout 'default';
+% title 'Changes Saved';
+<article class="container"><h2>Changes Saved</h2>
+	<%== $result %>
+</article>

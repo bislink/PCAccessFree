@@ -1,0 +1,6 @@
+% 
+% layout 'default';
+% title 'Enable/disable functions';
+<article class="container"><h2>Enable/Disable functions</h2>
+	<%== $form %>
+</article>

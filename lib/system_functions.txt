@@ -1,0 +1,9 @@
+enable_date_folder=0
+enable_server_info=1
+enable_cookie_secure=1
+cookie_value=AccessYourPC
+enable_browser_info=0
+cookie_name=user
+cookie_domain=user03.ns51.a1z.us
+cookie_expiry=+1h
+server_port=6633

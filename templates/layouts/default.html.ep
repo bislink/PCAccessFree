@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+
+	<title><%= title %></title>
+
+	<meta charset="utf-8">
+	<meta name="keywords" content="windows xp, windows 7, windows 8.1, windows 10, windows server 2012, file manager, blogs, hosted by a1z.us">
+	<meta name="description" content="Windows file Manager by a1z.us">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700&amp;subset=latin,cyrillic-ext,latin-ext,cyrillic" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.min.css">
+
+	<link rel="stylesheet" href="<%= $csjs %>/index.css">
+
+</head>
+
+<body>
+
+<h1>
+	<%== $h1 %>
+</h1>
+
+<main>
+	<%== content %>
+</main>
+
+<footer>
+
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+<script src="<%= $csjs %>/index.js"></script>
+		
+<script>
+
+	$(function () {
+		$('[data-toggle="popover"]').popover()
+	});
+	
+	$(function () {
+		$('[data-toggle="tooltip"]').tooltip()
+	});
+
+</script>
+		
+</body>
+		
+</html>
