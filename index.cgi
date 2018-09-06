@@ -17,7 +17,7 @@ $path =~ s!\\!\/!g;
 
 my $users_userpass_dir = '';
 my @path = ''; @path = split(/\//, $path);
-$users_userpass_dir = "$path[0]/$path[1]/$path[2]/PCAccessFree2018";		# This is mostly C:/Users OR C:/inetpub. Either way, it is not publicly accessible to store user/pass files, temporarily.
+$users_userpass_dir = "$path[0]/$path[1]/	$path[2]/PCAccessFree2018";		# This is mostly C:/Users OR C:/inetpub. Either way, it is not publicly accessible to store user/pass files, temporarily.
 
 my %sys;
 
@@ -28,10 +28,9 @@ my %sys;
 	script_url => "//$ENV{'SERVER_NAME'}:$ENV{SERVER_PORT}/$ENV{'SCRIPT_NAME'}",
 	PCAccessMainUrl => "//$ENV{'SERVER_NAME'}$ENV{'SCRIPT_NAME'}",
 	PCAccessAdminUrl => "admin.cgi",
-	PCAccessSetupUrl => "setup.cgi",
-	
-# system related 
 
+	
+	PCAccessSetupUrl => "setup.cgi",
 	script_name => "PC Access Free",	
 	script_powershell => "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",	
 	script_users_folder => "$users_userpass_dir",
@@ -44,17 +43,10 @@ my %sys;
 	dir_error => qq``,
 
 # cookies 
-	
-	cookie_name => 'user',
-	cookie_value => 'AccessYourPC',
-    cookie_expiry => "+1h",
-    cookie_domain => "user03.ns51.a1z.us",	          # CHANGE 
-    cookie_path => "/",                               # MODIFY/UPDATE
-    cookie_secure => 1                                # MODIFY/UPDATE
 
 );
 
-# include functions in %sys 
+# Add function variables and values in %sys 
 if ( -e -f "$path/lib/system_functions.txt" ) 
 {
 	open(SysFun, "$path/lib/system_functions.txt") or die $!;
@@ -68,6 +60,9 @@ if ( -e -f "$path/lib/system_functions.txt" )
 		$sys{"$left"} = "$right";
 	}
 }
+
+# reset pass directory to the one set by user 
+$sys{script_users_folder} = $sys{password_dir}; 
 
 #Date 
 my $date = '';

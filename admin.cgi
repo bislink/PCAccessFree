@@ -12,6 +12,7 @@ use Mojolicious::Lite;
 my %sys;
 %sys = (
 	script_name => "PCAccessFree",
+	password_dir_name => "PCAF_UP_041",
 );
 
 # error 
@@ -23,8 +24,23 @@ $sys{zero} =~ s!\\!/!g;
 my @path;
 @path = split(/\//, $sys{zero}, $#path);
 $sys{script_dir} = join('/', @path[0..$#path-1]);
-$sys{csjs} = "$path[4]";
 
+# suggested place to store user/pass files 
+if ( $sys{zero} =~ /^[A-Z]:\/Users/ ) 
+{
+	$sys{password_dir} = "$path[0]/$path[1]/$path[2]/$sys{password_dir_name}";
+	$sys{csjs_url} = "//$ENV{SERVER_NAME}:$ENV{SERVER_PORT}/";
+}
+elsif ( $sys{zero} =~ /^[A-Z]:\/inetpub\/wwwroot/ ) 
+{
+	$sys{password_dir} = "$path[0]/$path[1]/$sys{password_dir_name}";
+	$sys{csjs_url} = "$ENV{SCRIPT_NAME}:$ENV{SERVER_PORT}/$path[2]";
+}
+else 
+{
+	$sys{password_dir} = "$sys{password_dir_name}";
+	$sys{csjs_url} = "/";
+}
 #functions
 my %fun;
 
@@ -53,7 +69,38 @@ for (sort keys %fun )
 {
 	chomp;
 	
-	if ( $_ =~ /^enable/ ) { $sys{title_tip} = qq{0=disable 1=enable}; } else { $sys{title_tip} = qq{Please change value }; }
+	if ( $_ =~ /^enable/ ) 
+	{ 
+		$sys{title_tip} = qq{0=disable 1=enable}; 
+	} 
+	elsif ( $_ =~ /password_dir/ ) 
+	{ 
+		if ( $fun{$_} eq '' ) 
+		{ 
+			$fun{$_} = "$sys{password_dir}";  
+			$sys{title_tip} = "Suggested Path"; 
+		}
+		else 
+		{
+			$sys{title_tip} = "Please change value";
+		}
+	}
+	elsif ( $_ =~ /css_js_url/ )
+	{
+		if ( $fun{$_} eq '' ) 
+		{ 
+			$fun{$_} = "$sys{csjs_url}";  
+			$sys{title_tip} = "Suggested Path"; 
+		}
+		else 
+		{
+			$sys{title_tip} = "Please change value";
+		}
+	}
+	else 
+	{ 
+		$sys{title_tip} = qq{Please change value }; 
+	}
 	
 	$form .= qq{
 		<div class="form-group">
@@ -72,8 +119,8 @@ get '/' => sub {
 my $c = shift;
 	$c->render(
 		'index', 
-		h1 => qq{ $sys{script_name} $ENV{SCRIPT_NAME}}, 
-		csjs => "/$sys{csjs}",
+		h1 => qq{ $sys{script_name} $ENV{SCRIPT_NAME} }, 
+		csjs => "/$sys{csjs_url}",
 		form => qq{$form} 
 	);
 };
@@ -116,7 +163,7 @@ post '/change' => sub {
 	$c->render(
 		'change', 
 		h1 => qq{$sys{script_name}}, 
-		csjs => "$sys{csjs}",
+		csjs => "$sys{csjs_url}",
 		result => qq{ $result },
 	);
 };
