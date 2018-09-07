@@ -3,6 +3,7 @@
 body {
 	margin:0;
 	padding:0 2em 2em 2em;
+	top:4em;
 }
 
 a:link {
@@ -45,7 +46,7 @@ color:lightgreen;
 	border:1px dotted lightblue;
 	width:100%;
 	padding:0.5em;
-	margin:0 0 1em 0;
+	margin:2em 0 1em 0;
 }
 
 #A1 {

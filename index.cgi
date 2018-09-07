@@ -1459,9 +1459,13 @@ sub server_info
 		@_,
 	);
 	
-	$out .= qq{<table>};
+	$out .= qq{<table class="table table-compact table-responsive table-sm browser-info">};
 	
-	for (keys %ENV ) { $out .= qq{<tr> <td>$_</td> <td>$ENV{"$_"}</td> </tr>} if ( $_ and $ENV{$_} and $_ =~ /server/i ); }
+	for (keys %ENV ) { 
+		$_ =~ s!\'! !g;
+		$ENV{$_} =~ s!\'! !g;
+		$out .= qq{<tr> <td>$_</td> <td>$ENV{"$_"}</td> </tr>} if ( $_ and $ENV{$_} and $_ =~ /server/i ); 
+	}
 	
 	$out .= qq{
 			<tr> <td>Proc</td>    <td> $ENV{'PROCESSOR_ARCHITECTURE'}</td> </tr>		
