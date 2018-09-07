@@ -46,7 +46,7 @@ my %sys;
 
 );
 
-# Add function variables and values in %sys 
+# Add more function variables and values in %sys 
 if ( -e -f "$path/lib/system_functions.txt" ) 
 {
 	open(SysFun, "$path/lib/system_functions.txt") or die $!;
@@ -359,7 +359,7 @@ sub any
 				<td>					
 					<form action='$ENV{'SCRIPT_NAME'}' method='post' accept-charset='utf-8' enctype='multipart/form-data'>
 						<input type='hidden' value='list' name='action'>
-						<input name='f1' value='C:/Users/user03' type='hidden'>
+						<input name='f1' value="$sys{user_pref_home_dir}" type='hidden'>
 						<input type='hidden' name='user' value='$u'>
 						<input type='submit' value='HomeDir'>
 					</form>
