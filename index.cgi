@@ -40,6 +40,7 @@ my %sys;
 	website => "https://www.a1z.us",
 	bugs_url => "https://www.a1z.us/bugzilla/describecomponents.cgi?product=AccessYourPC",	
 	
+	cookie_name => 'user',
 	dir_error => qq``,
 
 # cookies 

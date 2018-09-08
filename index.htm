@@ -6,66 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="A1Z Hosting, Design, and Development">
 <meta name="keywords" content="a1z, hosting, design, development, pc, access">
-<style>
-	body {
-	font-size:1em;
-	margin:1em;
-	}
-	table {
-	margin:1em 0 1em 0;
-	}
-	table td {
-	padding:0.5em;
-	}
-	nav {
-	margin:1em 0 2em 0;
-	width:auto;
-	height:3em;
-	background-image:url('https://www.a1z.us/pcaccess/free/pixel-lightyellow.png');
-	background-repeat:x-repeat, y-repeat;
-	padding:0.4em 0 0.5em 0;
-	}
-	nav ul {
-	
-	}
-	nav ul li {
-	list-style-type:none;
-	position:relative;
-	float:left;
-	clear:right;
-	padding:0 1em 0 1em;
-	border-right:1px gray dotted;
-	}
-	nav ul li a {
-	padding:0;
-	text-decoration:none;
-	}
-	nav ul li a:hover {
-	text-decoration:underline;
-	color:red;
-	}
-	header {
-	clear:both;
-	margin:2em 0 0 0;
-	}
-	header h2 {
-	margin:1em 0 0 0;
-	}
-	.last {
-	border-right:none;
-	}
-	#sponsors {
-	margin:1em 0 1em 0;
-	width:auto;
-	height:4em;
-	border:0;
-	padding:0;
-	}
-	h3 {
-	font-size:0.8em;
-	display:none;
-	}
-</style>
+<link href="public/index.css" rel="stylesheet">
 </head>
 <body>
 <h1>PCAccessFree</h1>
@@ -85,86 +26,15 @@
 	</article>
 </main>
 <footer>
-	&copy; <a href="https://www.a1z.us" title="a1z hosting, design, & development">a1z</a> &amp; <span id="copy-rights"></span>
+	&copy; <a href="https://www.a1z.us" title="a1z hosting, design, &amp; development">a1z</a> <span id="copy-rights"></span>
 </footer>
 
 <script src="https://www.a1z.us/pcaccess/free/index.js"></script>
 
 <script src="index.js"></script>
 
-<script>
-	// All cookies
-	var cookie = document.cookie;
-	
-	// first cookie 
-	var decodedCookie = decodeURIComponent(document.cookie);
-	var ca = decodedCookie.split(';');
-	var pca_cookie = ca[0];
-	var pca = pca_cookie.split('=', 2);
-	
-	//set cookie 
-	if (pca_cookie != "") {
-		//		
-	}
-	else { 
-		document.cookie = "pcaccessfree=PCAccess Free; path=/; ";
-	}
-	
-	
-	var out = '';
+<script src="public/index.js"></script>
 
-	out += '<table>';
-	
-	var pcaDiv = document.getElementById('pcaccess-assistant');
-	
-	var host = window.location.host;            // with port
-	var hostname = window.location.hostname;   // without port 
-	var port = window.location.port;
-	var pathname = window.location.pathname;
-	var protocol = window.location.protocol;
-		
-	var path = new Array();
-	path = pathname.split('/');
-	 
-	
-// populate
-	//
-	out += '<tr> <td>Refresh</td><td><a href="' +protocol+ '//' +host+ '' +pathname+ '">This Page</a></td></tr>'; 
-	//
-	out += '<tr> <td>Protocol</td><td>' +protocol+ '</td></tr>';
-	//host 
-	//out += '<tr> <td>Host</td><td>' +host+ '</td></tr>';
-	//
-	out += '<tr> <td>Hostname</td><td>' +hostname+ '</td></tr>';
-	// port 
-	out += '<tr> <td>Port</td><td>' +port+ '</td></tr>';
-	// pathname 
-	out += '<tr> <td>PCAccess Dir.</td><td>' +path[1]+ '</td></tr>';
-	
-// cookie 
-	//
-	//out += '<tr> <td>PCA Cookie Name</td><td>' +pca[0]+ '</td></tr>';
-	//
-	//out += '<tr> <td>PCA Cookie Value</td><td>' +pca[1]+ '</td></tr>';
-	//
-	
-	
-	//
-	//out += '<tr> <td>All Cookies</td><td>' +cookie+ '</td></tr>';
-	
-	
-	
-	out += '</table>';
-	
-// Final output
-	// pcaccess-assistant
-	pcaDiv.innerHTML = out;
-	// rights
-	document.getElementById('copy-rights').innerHTML = hostname; 
-	//
-	document.getElementById('sponsors').innerHTML = sponsors();
-
-</script>
 </body>
 </html>
 

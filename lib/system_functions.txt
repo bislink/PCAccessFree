@@ -1,8 +1,6 @@
 script_web_dir=C:/Users/HostDesignDev/html/pcaccessfree
-cookie_name=user
 server_port=49662
 enable_date_folder=1
-cookie_value=AccessYourPC
 cookie_expiry=+3M
 password_dir=C:/Users/HostDesignDev/PCAF_UP_041
 enable_server_info=1

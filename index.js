@@ -1,4 +1,4 @@
-/* OneFile/index.js */
+/* /index.js */
 
 //<!--
 
