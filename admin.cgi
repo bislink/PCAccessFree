@@ -72,6 +72,7 @@ for (sort keys %fun )
 	if ( $_ =~ /^enable/ ) 
 	{ 
 		$sys{title_tip} = qq{0=disable 1=enable}; 
+		$sys{"suggest$_"} = qq{ (0=disable 1=enable) }; 
 	} 
 	elsif ( $_ =~ /password_dir/ ) 
 	{ 
@@ -83,6 +84,7 @@ for (sort keys %fun )
 		else 
 		{
 			$sys{title_tip} = "Please change value";
+			$sys{"suggest$_"} =  qq{ ($sys{password_dir})};
 		}
 	}
 	elsif ( $_ =~ /css_js_url/ )
@@ -95,6 +97,59 @@ for (sort keys %fun )
 		else 
 		{
 			$sys{title_tip} = "Please change value";
+			$sys{"suggest$_"} = qq{ ($sys{csjs_url}) }; 
+		}
+	}
+	elsif ( $_ =~ /cookie_domain/ )
+	{
+		if ( $fun{$_} eq '' ) 
+		{ 
+			$fun{$_} = "$ENV{SERVER_NAME}";  
+			$sys{title_tip} = "Suggested Path"; 
+		}
+		else 
+		{
+			$sys{title_tip} = "Please change value";
+			$sys{"suggest$_"} = qq{ ($ENV{SERVER_NAME}) }; 
+		}
+	}
+	elsif ( $_ =~ /user_pref_home_dir/ )
+	{
+		if ( $fun{$_} eq '' ) 
+		{ 
+			$fun{$_} = "$sys{script_dir}";  
+			$sys{title_tip} = "Suggested Path"; 
+		}
+		else 
+		{
+			$sys{title_tip} = "Please change value";
+			$sys{"suggest$_"} = qq{ ($sys{script_dir}) }; 
+		}
+	}
+	elsif ( $_ =~ /script_web_dir/ )
+	{
+		if ( $fun{$_} eq '' ) 
+		{ 
+			$fun{$_} = "$sys{script_dir}";  
+			$sys{title_tip} = "Suggested Path"; 
+		}
+		else 
+		{
+			$sys{title_tip} = "Please change value";
+			$sys{"suggest$_"} = qq{ ($sys{script_dir}) }; 
+		}
+	}
+	elsif ( $_ =~ /server_port/ )
+	{
+		if ( $fun{$_} eq '' ) 
+		{ 
+			$fun{$_} = "$ENV{SERVER_PORT}";  
+			$sys{title_tip} = "Suggested Path"; 
+		}
+		else 
+		{
+			$sys{title_tip} = "Please change value";
+			$sys{"suggest$_"} = qq{ ($ENV{SERVER_PORT}) }; 
 		}
 	}
 	else 
@@ -104,7 +159,7 @@ for (sort keys %fun )
 	
 	$form .= qq{
 		<div class="form-group">
-			<label for="$_" title="">$_</label> 
+			<label for="$_" title="">$_ $sys{"suggest$_"}</label> 
 			<input class="form-control" type="text" name="$_" id="$_" value="$fun{$_}" title="$sys{title_tip}">
 		</div>
 	}; 
@@ -119,8 +174,9 @@ get '/' => sub {
 my $c = shift;
 	$c->render(
 		'index', 
-		h1 => qq{ $sys{script_name} $ENV{SCRIPT_NAME} }, 
+		h1 => qq{ $sys{script_name} }, 
 		csjs => "/$sys{csjs_url}",
+		dir => "",
 		form => qq{$form} 
 	);
 };
