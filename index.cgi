@@ -323,7 +323,7 @@ sub any
 </script>
 	};
 	
-	print "<table id='A'>";
+	print qq{<table id='A' class="table table-compact table-responsive">};
 	
 	# header/welcome/ad
 	print qq`
@@ -346,7 +346,7 @@ sub any
 	</tr>
 	`; 
 	
-	print "<tr> <td width='10'>"; 
+	print "<tr> <td>"; 
 
 #UP DOWN A1
 
@@ -354,7 +354,7 @@ sub any
 
 	print qq{</td> <td colspan='7'>
 
-		<table id='A1'>
+		<table id='A1' class="table table-compact table-responsive">
 			<tr>
 			
 				<td>					
@@ -365,6 +365,7 @@ sub any
 						<input type='submit' value='HomeDir'>
 					</form>
 				</td>
+			</tr><tr>
 				<td>
 						<form action='$ENV{'SCRIPT_NAME'}' method='post' accept-charset='utf-8' enctype='multipart/form-data'>
 							<input type='hidden' value='list' name='action'>
@@ -375,11 +376,13 @@ sub any
 							print qq{<input type='submit' value=\"UP: $upDir\">
 						</form>
 				</td>
+			</tr><tr>
 				<td> 
 						<button type="button" class="btn btn-secondary btn-sm cur-folder">$H[$#H]
 							<span class="badge badge-pill badge-primary">$total</span> <span class="sr-only">Total including folders and files</span>
 						</button>
 				</td>
+			</tr><tr>
 				<td>
 					<form action='$ENV{'SCRIPT_NAME'}' method='post' accept-charset='utf-8' enctype='multipart/form-data'>
 						<input type='hidden' value='list' name='action'>
@@ -392,47 +395,53 @@ sub any
 						{ 
 							print qq{<option value="$g/$_">$_</option>\n} if (-d "$g/$_") && ($_ =~ /[a-zA-Z0-9]/); 
 						} 											#   
-						print "</select>
+						print qq{</select>
 					</form>
 				</td>
 			</tr>
 		</table>	
-	";
+	};
 		
 #colspan 2
 	
-	print "</td></tr><tr> <td width='10'>";  print "</td> <td colspan=7>"; 
+	print "</td></tr><tr> <td>";  print "</td> <td colspan=7>"; 
 
+=head1 Top Form disabled 
 # TOP FORMS 
-
-		print "<table id='A2_fileForms'>
-		<tr>";
+		print qq{<table id='A2_fileForms'  class="table table-compact table-responsive">
+		<tr>};
 			print "<td>"; &fileForm("$g");
-			print "</td>  <td>"; &folderForm("$g");
-			print "</td>  <td> "; &upload_form("$g"); 						# top upload form
+			print "</td> </tr><tr> <td>"; &folderForm("$g");
+			print "</td> </tr><tr> <td> "; &upload_form("$g"); 						# top upload form
 			print "</td>
 		</tr>
 		</table>";
+=cut
 
 	print "</td></tr>
-	<tr> <td width='10'>";  
+	<tr> <td>";  
 	
 # FOLDERS current folder 
 
 #colspan 3
 
-	print qq{<span class="badge badge-secondary">$folders</span> 
+	print qq{ 
 	</td> 
 	<td colspan='7'> 
 	}; # 
 	
 	#  	
 	
-		print "<table id='A3_foldersOperation'>";
+		print qq{<table id='A3_foldersOperation' class="table table-compact table-responsive">};
 		
 			# Folders Header
 		print qq{
-		<tr> <td class="td-spacer" colspan="8"> <span class='cur-folder'>$H[$#H]</span> </td> </tr>
+		<tr> 
+		<td class="td-spacer" colspan="8"> 
+			<span class='cur-folder'>$H[$#H]</span> &nbsp; 
+			<burron type="button" class="btn btn-outline-secondary">Folders &nbsp; <span class="badge badge-secondary">$folders</span></button>
+		</td> 
+		</tr>
 		
 		<tr>
 			<th>$sys{NameOrViewInBrowser}</th>
@@ -451,7 +460,7 @@ sub any
 			print qq{
 			<tr>
 				<td class='links'> 
-					<a href=\"http://$ENV{'SERVER_NAME'}/$url1/$_\" title=\"$_\">$_</a> 
+					<a href="http://$ENV{'SERVER_NAME'}/$url1/$_" title="$_">$_</a> 
 				</td> 
 				<td> 
 					<form action='$ENV{'SCRIPT_NAME'}' method='post' accept-charset='utf-8' enctype='multipart/form-data'>
@@ -474,18 +483,21 @@ sub any
 			</tr>} if (-d "$g/$_") && ($_ =~ /[a-zA-Z0-9]/); 
 		}
 
-	print "</table></td></tr><tr> <td width='10'>";   
+	print "</table></td></tr><tr> <td>";   
 	
 #colspan 4
 
-	print qq{<span class="badge badge-secondary">$files</span> </td> <td colspan=7>};
+	print qq{ </td> <td colspan=7>};
 
-		print "<table id='foldersOperation'>";
+		print qq{<table id='foldersOperation' class="table table-compact table-responsive">};
 		
 		# Files Header
 		print qq{
 		
-		<tr> <td class="td-spacer" colspan="8"><span class='cur-folder'>$H[$#H]</span></td> </tr>
+		<tr> <td class="td-spacer" colspan="8">
+		<span class='cur-folder'>$H[$#H]</span>
+		<burron type="button" class="btn btn-outline-secondary">Files &nbsp; <span class="badge badge-secondary">$files</span> </button>
+		</td> </tr>
 		
 		<tr>
 			<th>$sys{NameOrViewInBrowser}</th>
@@ -532,23 +544,24 @@ sub any
 		#
 		
 #colspan 5
+# bottom forms 
 
-	print "</table> </td> </tr> <tr> <td width='10'>";  
+	print "</table> </td> </tr> <tr> <td>";  
 		print "</td> <td colspan=7>"; 
-		print "<table id='bottomFileForms'>
-			<tr>";
+		print qq{<table id='bottomFileForms'  class="table table-compact table-responsive">
+			<tr>};
 		print "<td>"; &fileForm("$g");
-		print "</td> <td> "; &folderForm("$g");
-		print "</td> <td> "; &upload_form("$g"); # bottom upload form
+		print "</td> </tr> <tr> <td> "; &folderForm("$g");
+		print "</td> </tr> <tr> <td> "; &upload_form("$g"); # bottom upload form
 		print "</td></tr></table>";
-	print "</td> </tr> <tr> <td width='10'>";  #
+	print "</td> </tr> <tr> <td>";  #
 
 #colspan 6
 
 	print "</td><td colspan=7>";
 
 		print qq{
-		<table id='ComingSoonPro'>
+		<table id='ComingSoonPro' class="table table-compact table-responsive">
 			<tr>
 				<td> 
 					Logged in as $getUserCookie. <a href='$ENV{SCRIPT_NAME}?action=logout' title='Logout'>Logout</a> \|
@@ -702,18 +715,20 @@ return($last);
 
 sub upload_form 						# upload_form is used in both top and bottom of sub any
 {
-print <<"END";
+print qq{
 <form action="$ENV{'SCRIPT_NAME'}" method=post enctype="multipart/form-data">
-<table valign=top align=center><tr><td>
+<table class="table table-compact table-responsive"><tr><td>
 <input type=hidden name=upDir value=\"$_[0]\">
 <input type=hidden name=user value=$u>
 <input type=file name=\"upFile\">
-</td><td>
+</td>
+</tr><tr>
+<td>
 <input type=hidden name=action value=\"upload\">
 <input type=submit value=Upload>
 </td></tr></table>
 </form>
-END
+}
 }
 
 sub upload
@@ -817,19 +832,25 @@ sub numFiles				# total number of files under current folder displayed
 sub fileForm
 {
 
-print <<"END";
+print qq{
 <form action=\"$sys{script_url}\" method='post' accept-charset='utf-8' enctype='multipart/form-data'>
-<table valign=top align=center><tr><td>
-<input type=hidden name=user value=$u>
-<input type=hidden name='curDir' value="$_[0]">
-<input type=text name=\"file2create\" value=\"index.html\">
-</td><td>
-<input type=hidden name=action value=\"createFile\">
-<input type=submit value=\"Create File\">
-</td></tr></table>
+	<table class='table table-compact table-responsive'>
+		<tr>
+			<td>
+				<input type=hidden name=user value=$u>
+				<input type=hidden name='curDir' value="$_[0]">
+				<input type=text name=\"file2create\" value=\"index.html\">
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type=hidden name=action value=\"createFile\">
+				<input type=submit value=\"Create File\">
+			</td>
+		</tr>
+	</table>
 </form>
-</center>
-END
+}
 }
 
 # Create a folder form 
@@ -838,13 +859,14 @@ sub folderForm
 
 print <<"END";
 <form action=\"$sys{script_url}\" method='post' enctype=\"multipart/form-data\" >
-	<table valign=top align=center>
+	<table class='table table-compact table-responsive'>
 		<tr>
 			<td>
 			<input type=hidden name=user value=$u>
 			<input type=hidden name='curDir' value="$_[0]">
 			<input type=text name=\"folder2create\" value=\"$date\">
 			</td>
+		</tr><tr>
 			<td>
 			<input type=hidden name=action value=\"createFolder\">
 			<input type=submit value=\"Create Folder\">

@@ -2,8 +2,8 @@
 
 body {
 	margin:0;
-	padding:0 2em 2em 2em;
-	top:4em;
+	padding:0 2em 2em 0em;
+	top:2em;
 }
 
 a:link {
@@ -27,6 +27,9 @@ h2 {
 	margin:1em 0 1em 0;
 }
 
+/* table */
+
+/*
 table tr td:last-child {
     border-bottom: none;
 }
@@ -39,8 +42,6 @@ th {
 background-color:white;
 color:lightgreen;
 }
-
-/* tables tr td */
 
 #A {
 	border:1px dotted lightblue;
@@ -87,6 +88,7 @@ color:lightgreen;
 	border-bottom:1px lightblue dotted;
 	padding-bottom:1em;
 }
+*/
 
 .cur-folder {
 	font-weight:bold;
@@ -145,22 +147,14 @@ input[type=textarea] {
 .browser-info {
 	font-size:0.7em;	/* smaller than 0.7: text is illegible */
 }
-
+/*
 .td-spacer {
 	padding:0.5em 0 1em 0;
 }
+*/
 
 /* index.htm */
-	body {
-	font-size:1em;
-	margin:1em;
-	}
-	table {
-	margin:1em 0 1em 0;
-	}
-	table td {
-	padding:0.5em;
-	}
+
 	nav {
 	margin:1em 0 2em 0;
 	width:auto;
