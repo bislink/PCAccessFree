@@ -323,20 +323,25 @@ sub any
 </script>
 	};
 	
-	print qq{<table id='A' class="table table-compact table-responsive">};
-	
+	print qq{<table id='A' class="table table-compact table-responsive table-sm">};
+
 	# header/welcome/ad
 	print qq`
 	<tr>
 		<td colspan="8"> 
-			<table class="header-welcome">
+			<table class="table table-compact table-responsive table-sm">
 				<tr>
-					<td class="welcome-back">
-						<button type="button" class="btn btn-primary btn-sm">$getUserCookie</button>
-					</td>
 					<td class="ads-or-message">
-
+<button type="button" class="btn btn-secondary btn-sm cur-folder">$H[$#H]
+							<span class="badge badge-pill badge-primary">$total</span> <span class="sr-only">Total including folders and files</span>
+						</button>
 					</td>
+					<td class="welcome-back">
+						<button type="button" class="btn btn-primary btn-sm">
+							$getUserCookie
+						</button>
+					</td>
+					
 					<td>
 						<a href="$ENV{SCRIPT_NAME}?action=logout" title="Logout">$lang{logout}</a>
 					</td>
@@ -375,12 +380,6 @@ sub any
 							print qq{<input name="f1" value="$upDir" type="hidden">} if (-d "$prevDir") && ($prevDir =~ /[a-zA-Z0-9]/);
 							print qq{<input type='submit' value=\"UP: $upDir\">
 						</form>
-				</td>
-			</tr><tr>
-				<td> 
-						<button type="button" class="btn btn-secondary btn-sm cur-folder">$H[$#H]
-							<span class="badge badge-pill badge-primary">$total</span> <span class="sr-only">Total including folders and files</span>
-						</button>
 				</td>
 			</tr><tr>
 				<td>
@@ -439,7 +438,7 @@ sub any
 		<tr> 
 		<td class="td-spacer" colspan="8"> 
 			<span class='cur-folder'>$H[$#H]</span> &nbsp; 
-			<burron type="button" class="btn btn-outline-secondary">Folders &nbsp; <span class="badge badge-secondary">$folders</span></button>
+			<button type="button" class="btn btn-outline-secondary folders-btn">Folders &nbsp; <span class="badge badge-secondary">$folders</span></button>
 		</td> 
 		</tr>
 		
@@ -494,9 +493,9 @@ sub any
 		# Files Header
 		print qq{
 		
-		<tr> <td class="td-spacer" colspan="8">
+		<tr> <td colspan="8">
 		<span class='cur-folder'>$H[$#H]</span>
-		<burron type="button" class="btn btn-outline-secondary">Files &nbsp; <span class="badge badge-secondary">$files</span> </button>
+		<button type="button" class="btn btn-outline-secondary files-btn">Files &nbsp; <span class="badge badge-secondary">$files</span> </button>
 		</td> </tr>
 		
 		<tr>
@@ -720,12 +719,13 @@ print qq{
 <table class="table table-compact table-responsive"><tr><td>
 <input type=hidden name=upDir value=\"$_[0]\">
 <input type=hidden name=user value=$u>
-<input type=file name=\"upFile\">
+<label for="upFile">Upload Item</label>
+<input class="form-control" type=file id="upFile" name=\"upFile\">
 </td>
 </tr><tr>
 <td>
 <input type=hidden name=action value=\"upload\">
-<input type=submit value=Upload>
+<input class="form-control" type=submit value=Upload>
 </td></tr></table>
 </form>
 }
@@ -834,48 +834,50 @@ sub fileForm
 
 print qq{
 <form action=\"$sys{script_url}\" method='post' accept-charset='utf-8' enctype='multipart/form-data'>
-	<table class='table table-compact table-responsive'>
+	<table class='table table-compact table-responsive table-sm'>
 		<tr>
 			<td>
 				<input type=hidden name=user value=$u>
 				<input type=hidden name='curDir' value="$_[0]">
-				<input type=text name=\"file2create\" value=\"index.html\">
+				<label for="file2create">File Name</label>
+				<input class="form-control" type=text name="file2create" id="file2create" value="index.html">
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<input type=hidden name=action value=\"createFile\">
-				<input type=submit value=\"Create File\">
+				<input type=hidden name=action value="createFile">
+				<input class="form-control" type=submit value="Create File">
 			</td>
 		</tr>
 	</table>
 </form>
-}
+};
+
 }
 
 # Create a folder form 
 sub folderForm
 {
 
-print <<"END";
+print qq{
 <form action=\"$sys{script_url}\" method='post' enctype=\"multipart/form-data\" >
-	<table class='table table-compact table-responsive'>
+	<table class='table table-compact table-responsive table-sm'>
 		<tr>
 			<td>
 			<input type=hidden name=user value=$u>
 			<input type=hidden name='curDir' value="$_[0]">
-			<input type=text name=\"folder2create\" value=\"$date\">
+			<label for="folder2create">Folder Name</label>
+			<input class="form-control" type=text name=\"folder2create\" id="folder2create" value=\"$date\">
 			</td>
 		</tr><tr>
 			<td>
 			<input type=hidden name=action value=\"createFolder\">
-			<input type=submit value=\"Create Folder\">
+			<input class="form-control" type=submit value=\"Create Folder\">
 			</td>
 		</tr>
 	</table>
 </form>
-
-END
+};
 
 }
 
@@ -1215,20 +1217,19 @@ $url1 = &url("$file");
 &header1( title => "Make a copy of $file2rename[$#file2rename]");
 
 $firstOne = join('/', @file2rename[0..$onebefore]);
-print "<center> You have chosen to delete \"$url1\" <h1> <font color=red> Are You Sure <br> Do you want to delete $url1? </font> </h1>   
+print qq{<h3>You have chosen to delete "$url1." Are You Sure?</h3>
 
-	<form action=\"$ENV{'SCRIPT_NAME'}\" method=post accept-charset=utf-8 enctype='multipart/form-data'>
+	<form action="$ENV{'SCRIPT_NAME'}" method=post accept-charset=utf-8 enctype='multipart/form-data'>
 	<input type=hidden name=user value=$u>
 	<input type=hidden name=file value=$file>
 	<input type=hidden name=action value=doDelete>
 	<input type=hidden name=deleteFolder value=\"$firstOne\">
-	<input type=hidden name=deleteFile value=\"$file2rename[$#file2rename]\">
+	<input type=hidden name=deleteFile value="$file2rename[$#file2rename]">
 
 <br> 
-	<input type=submit value=\"YES I AM SURE, DELETE $file2rename[$#file2rename]\">
+	<input type=submit value="YES I AM SURE, DELETE $file2rename[$#file2rename]">
 	</form>
-	</center>
-	";											## had to remove the extra forward slash in $firstOne in order to get proper folder path in up:
+	};											## had to remove the extra forward slash in $firstOne in order to get proper folder path in up:
 
 &footer;
 
@@ -1274,8 +1275,6 @@ sub header1
 	$title = "$_[0]"; #shows the script path which i dont want 
 	@t = (split/\//, $title, $#t);
 	
-	##print header( -charset => "utf-8" ); # deep recursion on subroutine main::header 
-	
 	&cgi_header( cookie_status => "$in{cookie_status}", cookie_value => "$in{cookie_value}");
 
 	print qq{<!doctype html>
@@ -1289,11 +1288,11 @@ sub header1
 	<meta name="description" content="Windows file Manager by a1z.us">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700&amp;subset=latin,cyrillic-ext,latin-ext,cyrillic" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">	
+	<link rel="stylesheet"href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700&amp;subset=latin,cyrillic-ext,latin-ext,cyrillic">	
 	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.min.css">
-
-	<link rel="stylesheet" href="index.css">
+	
+	<link rel="stylesheet" href="public/index.css">
 
 </head>
 
@@ -1343,7 +1342,7 @@ sub footer
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
-		<script src="index.js"></script>
+		<script src="public/index.js"></script>
 		
 		<script>
 		
@@ -1357,10 +1356,11 @@ sub footer
 			
 		</script>
 		
-		</body>
+</body>
 		
-		</html>
-	~;
+</html>
+
+~;
 }
 
 

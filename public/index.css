@@ -1,7 +1,7 @@
-/* OneFile/index.css */
+/* public/index.css */
 
 body {
-	margin:0;
+	margin:0 0 0 1em;
 	padding:0 2em 2em 0em;
 	top:2em;
 }
@@ -27,74 +27,13 @@ h2 {
 	margin:1em 0 1em 0;
 }
 
-/* table */
-
-/*
-table tr td:last-child {
-    border-bottom: none;
-}
-
-table td {
-	padding:0.3em;
-}
-
-th { 
-background-color:white;
-color:lightgreen;
-}
-
-#A {
-	border:1px dotted lightblue;
-	width:100%;
-	padding:0.5em;
-	margin:2em 0 1em 0;
-}
-
-#A1 {
-	width:100%;
-	border-bottom:1px lightblue dotted;
-	padding-bottom:1em;
-}
-
-#A1 tr > td:last-of-type {
-	border-bottom:none;
-}
-
-#A3_foldersOperation {
-	width:100%;
-	border-bottom:1px lightblue dotted;
-	padding-bottom:1em;
-}
-#A3_foldersOperation td {
-	border-bottom:1px dotted silver;
-}
-
-#A3_foldersOperation tr > td:last-of-type {
-	border-bottom:none;
-}
-
-#foldersOperation {
-	width:100%;
-	background-color:white;
-	border-bottom:1px lightblue dotted;
-	padding-bottom:1em;
-}
-#foldersOperation td {
-	border-bottom:1px dotted silver;
-}
-
-#A2_fileForms {
-	width:100%;
-	border-bottom:1px lightblue dotted;
-	padding-bottom:1em;
-}
-*/
-
 .cur-folder {
 	font-weight:bold;
 	text-decoration:italic;
 	color:violet;
 	font-size:1.2em;
+	float:left;
+	clear:left;
 }
 
 .cur-folder-top {
@@ -136,6 +75,7 @@ color:lightgreen;
 
 .spacer {
 	margin:2em 0 2em 0;
+	border:0;
 }
 
 /* HTML Tags */
@@ -147,11 +87,6 @@ input[type=textarea] {
 .browser-info {
 	font-size:0.7em;	/* smaller than 0.7: text is illegible */
 }
-/*
-.td-spacer {
-	padding:0.5em 0 1em 0;
-}
-*/
 
 /* index.htm */
 
@@ -202,4 +137,21 @@ input[type=textarea] {
 	h3 {
 	font-size:0.8em;
 	display:none;
+	}
+
+	.files-btn {
+		float:right;
+		clear:right;
+	}
+	
+	.folders-btn {
+		float:right;
+		clear:right;
+	}
+	table {
+		 border-collapse:collapse;
+	}
+	tr, td, th {
+		border:none;
+		border-style : hidden!important;
 	}
