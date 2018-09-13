@@ -323,20 +323,25 @@ sub any
 </script>
 	};
 	
-	print "<table id='A'>";
-	
+	print qq{<table id='A' class="table table-compact table-responsive table-sm">};
+
 	# header/welcome/ad
 	print qq`
 	<tr>
 		<td colspan="8"> 
-			<table class="header-welcome">
+			<table class="table table-compact table-responsive table-sm">
 				<tr>
-					<td class="welcome-back">
-						<button type="button" class="btn btn-primary btn-sm">$getUserCookie</button>
-					</td>
 					<td class="ads-or-message">
-
+<button type="button" class="btn btn-secondary btn-sm cur-folder">$H[$#H]
+							<span class="badge badge-pill badge-primary">$total</span> <span class="sr-only">Total including folders and files</span>
+						</button>
 					</td>
+					<td class="welcome-back">
+						<button type="button" class="btn btn-primary btn-sm">
+							$getUserCookie
+						</button>
+					</td>
+					
 					<td>
 						<a href="$ENV{SCRIPT_NAME}?action=logout" title="Logout">$lang{logout}</a>
 					</td>
@@ -346,7 +351,7 @@ sub any
 	</tr>
 	`; 
 	
-	print "<tr> <td width='10'>"; 
+	print "<tr> <td>"; 
 
 #UP DOWN A1
 
@@ -354,7 +359,7 @@ sub any
 
 	print qq{</td> <td colspan='7'>
 
-		<table id='A1'>
+		<table id='A1' class="table table-compact table-responsive">
 			<tr>
 			
 				<td>					
@@ -365,6 +370,7 @@ sub any
 						<input type='submit' value='HomeDir'>
 					</form>
 				</td>
+			</tr><tr>
 				<td>
 						<form action='$ENV{'SCRIPT_NAME'}' method='post' accept-charset='utf-8' enctype='multipart/form-data'>
 							<input type='hidden' value='list' name='action'>
@@ -375,11 +381,7 @@ sub any
 							print qq{<input type='submit' value=\"UP: $upDir\">
 						</form>
 				</td>
-				<td> 
-						<button type="button" class="btn btn-secondary btn-sm cur-folder">$H[$#H]
-							<span class="badge badge-pill badge-primary">$total</span> <span class="sr-only">Total including folders and files</span>
-						</button>
-				</td>
+			</tr><tr>
 				<td>
 					<form action='$ENV{'SCRIPT_NAME'}' method='post' accept-charset='utf-8' enctype='multipart/form-data'>
 						<input type='hidden' value='list' name='action'>
@@ -392,47 +394,53 @@ sub any
 						{ 
 							print qq{<option value="$g/$_">$_</option>\n} if (-d "$g/$_") && ($_ =~ /[a-zA-Z0-9]/); 
 						} 											#   
-						print "</select>
+						print qq{</select>
 					</form>
 				</td>
 			</tr>
 		</table>	
-	";
+	};
 		
 #colspan 2
 	
-	print "</td></tr><tr> <td width='10'>";  print "</td> <td colspan=7>"; 
+	print "</td></tr><tr> <td>";  print "</td> <td colspan=7>"; 
 
+=head1 Top Form disabled 
 # TOP FORMS 
-
-		print "<table id='A2_fileForms'>
-		<tr>";
+		print qq{<table id='A2_fileForms'  class="table table-compact table-responsive">
+		<tr>};
 			print "<td>"; &fileForm("$g");
-			print "</td>  <td>"; &folderForm("$g");
-			print "</td>  <td> "; &upload_form("$g"); 						# top upload form
+			print "</td> </tr><tr> <td>"; &folderForm("$g");
+			print "</td> </tr><tr> <td> "; &upload_form("$g"); 						# top upload form
 			print "</td>
 		</tr>
 		</table>";
+=cut
 
 	print "</td></tr>
-	<tr> <td width='10'>";  
+	<tr> <td>";  
 	
 # FOLDERS current folder 
 
 #colspan 3
 
-	print qq{<span class="badge badge-secondary">$folders</span> 
+	print qq{ 
 	</td> 
 	<td colspan='7'> 
 	}; # 
 	
 	#  	
 	
-		print "<table id='A3_foldersOperation'>";
+		print qq{<table id='A3_foldersOperation' class="table table-compact table-responsive">};
 		
 			# Folders Header
 		print qq{
-		<tr> <td class="td-spacer" colspan="8"> <span class='cur-folder'>$H[$#H]</span> </td> </tr>
+		<tr> 
+		<td class="td-spacer" colspan="8"> 
+			<span class='cur-folder'>$H[$#H]</span> &nbsp; 
+			<button type="button" class="btn btn-outline-secondary folders-btn">Folders &nbsp; <span class="badge badge-secondary">$folders</span></button>
+		</td> 
+		</tr>
 		
 		<tr>
 			<th>$sys{NameOrViewInBrowser}</th>
@@ -451,7 +459,7 @@ sub any
 			print qq{
 			<tr>
 				<td class='links'> 
-					<a href=\"http://$ENV{'SERVER_NAME'}/$url1/$_\" title=\"$_\">$_</a> 
+					<a href="http://$ENV{'SERVER_NAME'}/$url1/$_" title="$_">$_</a> 
 				</td> 
 				<td> 
 					<form action='$ENV{'SCRIPT_NAME'}' method='post' accept-charset='utf-8' enctype='multipart/form-data'>
@@ -474,18 +482,21 @@ sub any
 			</tr>} if (-d "$g/$_") && ($_ =~ /[a-zA-Z0-9]/); 
 		}
 
-	print "</table></td></tr><tr> <td width='10'>";   
+	print "</table></td></tr><tr> <td>";   
 	
 #colspan 4
 
-	print qq{<span class="badge badge-secondary">$files</span> </td> <td colspan=7>};
+	print qq{ </td> <td colspan=7>};
 
-		print "<table id='foldersOperation'>";
+		print qq{<table id='foldersOperation' class="table table-compact table-responsive">};
 		
 		# Files Header
 		print qq{
 		
-		<tr> <td class="td-spacer" colspan="8"><span class='cur-folder'>$H[$#H]</span></td> </tr>
+		<tr> <td colspan="8">
+		<span class='cur-folder'>$H[$#H]</span>
+		<button type="button" class="btn btn-outline-secondary files-btn">Files &nbsp; <span class="badge badge-secondary">$files</span> </button>
+		</td> </tr>
 		
 		<tr>
 			<th>$sys{NameOrViewInBrowser}</th>
@@ -532,23 +543,24 @@ sub any
 		#
 		
 #colspan 5
+# bottom forms 
 
-	print "</table> </td> </tr> <tr> <td width='10'>";  
+	print "</table> </td> </tr> <tr> <td>";  
 		print "</td> <td colspan=7>"; 
-		print "<table id='bottomFileForms'>
-			<tr>";
+		print qq{<table id='bottomFileForms'  class="table table-compact table-responsive">
+			<tr>};
 		print "<td>"; &fileForm("$g");
-		print "</td> <td> "; &folderForm("$g");
-		print "</td> <td> "; &upload_form("$g"); # bottom upload form
+		print "</td> </tr> <tr> <td> "; &folderForm("$g");
+		print "</td> </tr> <tr> <td> "; &upload_form("$g"); # bottom upload form
 		print "</td></tr></table>";
-	print "</td> </tr> <tr> <td width='10'>";  #
+	print "</td> </tr> <tr> <td>";  #
 
 #colspan 6
 
 	print "</td><td colspan=7>";
 
 		print qq{
-		<table id='ComingSoonPro'>
+		<table id='ComingSoonPro' class="table table-compact table-responsive">
 			<tr>
 				<td> 
 					Logged in as $getUserCookie. <a href='$ENV{SCRIPT_NAME}?action=logout' title='Logout'>Logout</a> \|
@@ -702,18 +714,21 @@ return($last);
 
 sub upload_form 						# upload_form is used in both top and bottom of sub any
 {
-print <<"END";
+print qq{
 <form action="$ENV{'SCRIPT_NAME'}" method=post enctype="multipart/form-data">
-<table valign=top align=center><tr><td>
+<table class="table table-compact table-responsive"><tr><td>
 <input type=hidden name=upDir value=\"$_[0]\">
 <input type=hidden name=user value=$u>
-<input type=file name=\"upFile\">
-</td><td>
+<label for="upFile">Upload Item</label>
+<input class="form-control" type=file id="upFile" name=\"upFile\">
+</td>
+</tr><tr>
+<td>
 <input type=hidden name=action value=\"upload\">
-<input type=submit value=Upload>
+<input class="form-control" type=submit value=Upload>
 </td></tr></table>
 </form>
-END
+}
 }
 
 sub upload
@@ -817,43 +832,52 @@ sub numFiles				# total number of files under current folder displayed
 sub fileForm
 {
 
-print <<"END";
+print qq{
 <form action=\"$sys{script_url}\" method='post' accept-charset='utf-8' enctype='multipart/form-data'>
-<table valign=top align=center><tr><td>
-<input type=hidden name=user value=$u>
-<input type=hidden name='curDir' value="$_[0]">
-<input type=text name=\"file2create\" value=\"index.html\">
-</td><td>
-<input type=hidden name=action value=\"createFile\">
-<input type=submit value=\"Create File\">
-</td></tr></table>
+	<table class='table table-compact table-responsive table-sm'>
+		<tr>
+			<td>
+				<input type=hidden name=user value=$u>
+				<input type=hidden name='curDir' value="$_[0]">
+				<label for="file2create">File Name</label>
+				<input class="form-control" type=text name="file2create" id="file2create" value="index.html">
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type=hidden name=action value="createFile">
+				<input class="form-control" type=submit value="Create File">
+			</td>
+		</tr>
+	</table>
 </form>
-</center>
-END
+};
+
 }
 
 # Create a folder form 
 sub folderForm
 {
 
-print <<"END";
+print qq{
 <form action=\"$sys{script_url}\" method='post' enctype=\"multipart/form-data\" >
-	<table valign=top align=center>
+	<table class='table table-compact table-responsive table-sm'>
 		<tr>
 			<td>
 			<input type=hidden name=user value=$u>
 			<input type=hidden name='curDir' value="$_[0]">
-			<input type=text name=\"folder2create\" value=\"$date\">
+			<label for="folder2create">Folder Name</label>
+			<input class="form-control" type=text name=\"folder2create\" id="folder2create" value=\"$date\">
 			</td>
+		</tr><tr>
 			<td>
 			<input type=hidden name=action value=\"createFolder\">
-			<input type=submit value=\"Create Folder\">
+			<input class="form-control" type=submit value=\"Create Folder\">
 			</td>
 		</tr>
 	</table>
 </form>
-
-END
+};
 
 }
 
@@ -1193,20 +1217,19 @@ $url1 = &url("$file");
 &header1( title => "Make a copy of $file2rename[$#file2rename]");
 
 $firstOne = join('/', @file2rename[0..$onebefore]);
-print "<center> You have chosen to delete \"$url1\" <h1> <font color=red> Are You Sure <br> Do you want to delete $url1? </font> </h1>   
+print qq{<h3>You have chosen to delete "$url1." Are You Sure?</h3>
 
-	<form action=\"$ENV{'SCRIPT_NAME'}\" method=post accept-charset=utf-8 enctype='multipart/form-data'>
+	<form action="$ENV{'SCRIPT_NAME'}" method=post accept-charset=utf-8 enctype='multipart/form-data'>
 	<input type=hidden name=user value=$u>
 	<input type=hidden name=file value=$file>
 	<input type=hidden name=action value=doDelete>
 	<input type=hidden name=deleteFolder value=\"$firstOne\">
-	<input type=hidden name=deleteFile value=\"$file2rename[$#file2rename]\">
+	<input type=hidden name=deleteFile value="$file2rename[$#file2rename]">
 
 <br> 
-	<input type=submit value=\"YES I AM SURE, DELETE $file2rename[$#file2rename]\">
+	<input type=submit value="YES I AM SURE, DELETE $file2rename[$#file2rename]">
 	</form>
-	</center>
-	";											## had to remove the extra forward slash in $firstOne in order to get proper folder path in up:
+	};											## had to remove the extra forward slash in $firstOne in order to get proper folder path in up:
 
 &footer;
 
@@ -1252,8 +1275,6 @@ sub header1
 	$title = "$_[0]"; #shows the script path which i dont want 
 	@t = (split/\//, $title, $#t);
 	
-	##print header( -charset => "utf-8" ); # deep recursion on subroutine main::header 
-	
 	&cgi_header( cookie_status => "$in{cookie_status}", cookie_value => "$in{cookie_value}");
 
 	print qq{<!doctype html>
@@ -1267,11 +1288,11 @@ sub header1
 	<meta name="description" content="Windows file Manager by a1z.us">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700&amp;subset=latin,cyrillic-ext,latin-ext,cyrillic" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">	
+	<link rel="stylesheet"href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700&amp;subset=latin,cyrillic-ext,latin-ext,cyrillic">	
 	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.min.css">
-
-	<link rel="stylesheet" href="index.css">
+	
+	<link rel="stylesheet" href="public/index.css">
 
 </head>
 
@@ -1321,7 +1342,7 @@ sub footer
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
-		<script src="index.js"></script>
+		<script src="public/index.js"></script>
 		
 		<script>
 		
@@ -1335,10 +1356,11 @@ sub footer
 			
 		</script>
 		
-		</body>
+</body>
 		
-		</html>
-	~;
+</html>
+
+~;
 }
 
 
