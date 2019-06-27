@@ -65,10 +65,10 @@
 	
 // Final output
 	// pcaccess-assistant
-	pcaDiv.innerHTML = out;
+	//pcaDiv.innerHTML = out;
 	// rights
-	document.getElementById('copy-rights').innerHTML = '&amp; ' +hostname; 
+	//document.getElementById('copy-rights').innerHTML = '&amp; ' +hostname; 
 	//
-	document.getElementById('sponsors').innerHTML = sponsors();
+	//document.getElementById('sponsors').innerHTML = sponsors();
 
 	

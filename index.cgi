@@ -38,7 +38,7 @@ my %sys;
 	
 	author => "hosting\@a1z.us",
 	website => "https://www.a1z.us",
-	bugs_url => "https://www.a1z.us/bugzilla/describecomponents.cgi?product=AccessYourPC",	
+	bugs_url => "https://edge.a1z.us/bugzilla/describecomponents.cgi?product=AccessYourPC",	
 	
 	cookie_name => 'user',
 	dir_error => qq``,
@@ -323,13 +323,13 @@ sub any
 </script>
 	};
 	
-	print qq{<table id='A' class="table table-compact table-responsive table-sm">};
+	print qq{<br/><table id='A' class="table table-responsive">};
 
 	# header/welcome/ad
 	print qq`
 	<tr>
 		<td colspan="8"> 
-			<table class="table table-compact table-responsive table-sm">
+			<table class="table table-responsive">
 				<tr>
 					<td class="ads-or-message">
 <button type="button" class="btn btn-secondary btn-sm cur-folder">$H[$#H]
@@ -359,8 +359,8 @@ sub any
 
 	print qq{</td> <td colspan='7'>
 
-		<table id='A1' class="table table-compact table-responsive">
-			<tr>
+		<table id='A1' class="table table-responsive row">
+			<tr class="col-sm-4">
 			
 				<td>					
 					<form action='$ENV{'SCRIPT_NAME'}' method='post' accept-charset='utf-8' enctype='multipart/form-data'>
@@ -370,7 +370,7 @@ sub any
 						<input type='submit' value='HomeDir'>
 					</form>
 				</td>
-			</tr><tr>
+			</tr><tr class="col-sm-4">
 				<td>
 						<form action='$ENV{'SCRIPT_NAME'}' method='post' accept-charset='utf-8' enctype='multipart/form-data'>
 							<input type='hidden' value='list' name='action'>
@@ -378,16 +378,16 @@ sub any
 							<input name='g' type='hidden' value='$g'>
 						};
 							print qq{<input name="f1" value="$upDir" type="hidden">} if (-d "$prevDir") && ($prevDir =~ /[a-zA-Z0-9]/);
-							print qq{<input type='submit' value=\"UP: $upDir\">
+							print qq{<input type='submit' value="UP: $upDir">
 						</form>
 				</td>
-			</tr><tr>
+			</tr><tr class="col-sm-4">
 				<td>
 					<form action='$ENV{'SCRIPT_NAME'}' method='post' accept-charset='utf-8' enctype='multipart/form-data'>
 						<input type='hidden' value='list' name='action'>
 						<input type='hidden' name='user' value='$u'>
 						<input name='g' type='hidden' value='$g'>
-						<input type='submit' value=\"Down:\">
+						<input type='submit' value="Down:">
 						<select name='f1'>
 					}; 												# 
 						foreach (sort @G) 						#
@@ -407,7 +407,7 @@ sub any
 
 =head1 Top Form disabled 
 # TOP FORMS 
-		print qq{<table id='A2_fileForms'  class="table table-compact table-responsive">
+		print qq{<table id='A2_fileForms'  class="table table-responsive">
 		<tr>};
 			print "<td>"; &fileForm("$g");
 			print "</td> </tr><tr> <td>"; &folderForm("$g");
@@ -431,7 +431,7 @@ sub any
 	
 	#  	
 	
-		print qq{<table id='A3_foldersOperation' class="table table-compact table-responsive">};
+		print qq{<table id='A3_foldersOperation' class="table table-responsive">};
 		
 			# Folders Header
 		print qq{
@@ -488,7 +488,7 @@ sub any
 
 	print qq{ </td> <td colspan=7>};
 
-		print qq{<table id='foldersOperation' class="table table-compact table-responsive">};
+		print qq{<table id='foldersOperation' class="table table-responsive">};
 		
 		# Files Header
 		print qq{
@@ -531,7 +531,7 @@ sub any
 		
 			print qq{
 				<tr>
-					<td class='links'> <a href=\"http://$ENV{'SERVER_NAME'}/$url1/$_\"> $_</a> </td> 
+					<td class='links'> <a href="http://$ENV{'SERVER_NAME'}/$url1/$_"> $_</a> </td> 
 					<td><span class="badge badge-pill badge-info">$fDate{'size'}</span></td> 
 					<td><a href='$ENV{'SCRIPT_NAME'}?action=edit&file=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Edit</span></a> </td> 
 					<td><a href='$ENV{'SCRIPT_NAME'}?action=rename&f=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Ren</span></a> </td> 				
@@ -547,7 +547,7 @@ sub any
 
 	print "</table> </td> </tr> <tr> <td>";  
 		print "</td> <td colspan=7>"; 
-		print qq{<table id='bottomFileForms'  class="table table-compact table-responsive">
+		print qq{<table id='bottomFileForms'  class="table table-responsive">
 			<tr>};
 		print "<td>"; &fileForm("$g");
 		print "</td> </tr> <tr> <td> "; &folderForm("$g");
@@ -560,7 +560,7 @@ sub any
 	print "</td><td colspan=7>";
 
 		print qq{
-		<table id='ComingSoonPro' class="table table-compact table-responsive">
+		<table id='ComingSoonPro' class="table table-responsive">
 			<tr>
 				<td> 
 					Logged in as $getUserCookie. <a href='$ENV{SCRIPT_NAME}?action=logout' title='Logout'>Logout</a> \|
@@ -716,7 +716,7 @@ sub upload_form 						# upload_form is used in both top and bottom of sub any
 {
 print qq{
 <form action="$ENV{'SCRIPT_NAME'}" method=post enctype="multipart/form-data">
-<table class="table table-compact table-responsive"><tr><td>
+<table class="table table-responsive"><tr><td>
 <input type=hidden name=upDir value=\"$_[0]\">
 <input type=hidden name=user value=$u>
 <label for="upFile">Upload Item</label>
@@ -834,7 +834,7 @@ sub fileForm
 
 print qq{
 <form action=\"$sys{script_url}\" method='post' accept-charset='utf-8' enctype='multipart/form-data'>
-	<table class='table table-compact table-responsive table-sm'>
+	<table class='table table-responsive'>
 		<tr>
 			<td>
 				<input type=hidden name=user value=$u>
@@ -861,7 +861,7 @@ sub folderForm
 
 print qq{
 <form action=\"$sys{script_url}\" method='post' enctype=\"multipart/form-data\" >
-	<table class='table table-compact table-responsive table-sm'>
+	<table class='table table-responsive'>
 		<tr>
 			<td>
 			<input type=hidden name=user value=$u>
@@ -1278,21 +1278,22 @@ sub header1
 	&cgi_header( cookie_status => "$in{cookie_status}", cookie_value => "$in{cookie_value}");
 
 	print qq{<!doctype html>
-<html>
+<html lang="en">
 <head>
 
 	<title>$in{title}</title>
 
 	<meta charset="utf-8">
+	<meta name="theme-color" content="black">
 	<meta name="keywords" content="windows xp, windows 7, windows 8.1, windows 10, windows server 2012, file manager, blogs, hosted by a1z.us">
 	<meta name="description" content="Windows file Manager by a1z.us">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">	
-	<link rel="stylesheet"href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700&amp;subset=latin,cyrillic-ext,latin-ext,cyrillic">	
-	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
 	
 	<link rel="stylesheet" href="public/index.css">
+
+	<link rel="manifest" href="/pcaccessfree/manifest.json"
 
 </head>
 
@@ -1338,9 +1339,9 @@ sub footer
 			$browser_info
 		</div>
 		
-		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
 		<script src="public/index.js"></script>
 		
@@ -1355,6 +1356,18 @@ sub footer
 			});
 			
 		</script>
+
+		  <script>
+    // register service worker
+    if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+    navigator.serviceWorker.register("/pcaccessfree/service-worker.js")
+    .then((reg) => {
+    console.log('Service worker registered.', reg);
+    });
+    });
+    }
+  </script>
 		
 </body>
 		
@@ -1450,7 +1463,7 @@ sub browser_info
 	 
 	my $out = '';
 	
-	$out .= qq{<table class="table table-responsive table-sm browser-info">};
+	$out .= qq{<table class="table table-responsive browser-info">};
 	for (sort keys %ENV)
 	{
 		if ( $_ =~ /(http_|gate|remote)/i ) 
@@ -1482,7 +1495,7 @@ sub server_info
 		@_,
 	);
 	
-	$out .= qq{<table class="table table-compact table-responsive table-sm browser-info">};
+	$out .= qq{<table class="table table-responsiv browser-info">};
 	
 	for (keys %ENV ) { 
 		$_ =~ s!\'! !g;
