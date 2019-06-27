@@ -1,7 +1,7 @@
 {
   "name": "PC Access Free",
   "short_name": "PCAFwin",
-  "start_url": "/pcaccessfree/index.cgi",
+  "start_url": "/pcaccessfree/index.htm",
   "scope": "/pcaccessfree/",
   "description": "Access your pc from anywhere, anytime",
   "display": "standalone",

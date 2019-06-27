@@ -2,10 +2,11 @@
 
 'use strict';
 
-const CACHE_NAME = 'pcaf-static-cache-v4';
-const DATA_CACHE_NAME = 'pcaf-data-cache-v4';
+const CACHE_NAME = 'pcaf-static-cache-v6';
+const DATA_CACHE_NAME = 'pcaf-data-cache-v6';
 
 const FILES_TO_CACHE = [
+    '/pcaccessfree/index.htm',
     '/pcaccessfree/index.cgi',
     '/pcaccessfree/public/index.css',
     '/pcaccessfree/public/index.js',

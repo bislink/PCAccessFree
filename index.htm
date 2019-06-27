@@ -1,39 +1,73 @@
-<!doctype html>
-<html>
+﻿<!doctype html>
+<html lang="en">
 <head>
-<title>PCAccessFree</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="A1Z Hosting, Design, and Development">
-<meta name="keywords" content="a1z, hosting, design, development, pc, access">
-<link href="public/index.css" rel="stylesheet">
+    <title>PC-Access Free</title>
+
+    <meta charset="utf-8">
+    <meta name="theme-color" content="black">
+    <meta name="keywords" content="windows xp, windows 7, windows 8.1, windows 10, windows server 2012, file manager, blogs, hosted by a1z.us">
+    <meta name="description" content="Windows file Manager by a1z.us">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="public/index.css">
+
+    <link rel="manifest" href="/pcaccessfree/manifest.json" />
+
 </head>
 <body>
-<h1>PCAccessFree</h1>
-<nav>
-	<ul>
-		<li><a href='index.htm'>Home</a></li>
-		<li><a href="index.cgi">Login</a></li>
-		<li class="last"><a href="admin.cgi">Admin</a></li>
-	</ul>
-</nav>
-<header><h2>PCAccess Assistant</h2>
-	<div id="pcaccess-assistant"></div>
-</header>
-<main>
-	<article><h3>A1Z.us</h3>
-		<div id="sponsors"></div>
-	</article>
-</main>
-<footer>
-	&copy; <a href="https://www.a1z.us" title="a1z hosting, design, &amp; development">a1z</a> <span id="copy-rights"></span>
-</footer>
+    <h1>PCAccessFree</h1>
+    <nav>
+        <ul>
+            <li><a href='index.htm'>Home</a></li>
+            <li><a href="index.cgi">Login</a></li>
+            <li class="last"><a href="admin.cgi">Admin</a></li>
+        </ul>
+    </nav>
+    <header>
+        <h2>PCAccess Assistant</h2>
+        <div id="pcaccess-assistant"></div>
+    </header>
+    <main>
+        <article>
+            <h3>A1Z.us</h3>
+            <div id="sponsors"></div>
+        </article>
+    </main>
+    <footer>
+        &copy; <a href="https://www.a1z.us" title="a1z hosting, design, &amp; development">a1z</a> <span id="copy-rights"></span>
+    </footer>
 
-<script src="https://www.a1z.us/pcaccess/free/index.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
-<script src="index.js"></script>
+    <script src="public/index.js"></script>
 
-<script src="public/index.js"></script>
+    <script>
+
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        });
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+
+    </script>
+
+    <script>
+        // register service worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register("/pcaccessfree/service-worker.js")
+                    .then((reg) => {
+                        console.log('Service worker registered.', reg);
+                    });
+            });
+        }
+    </script>
 
 </body>
 </html>

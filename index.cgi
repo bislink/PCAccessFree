@@ -1281,7 +1281,7 @@ sub header1
 <html lang="en">
 <head>
 
-	<title>$in{title}</title>
+	<title>$in{title} - PC-Access Free</title>
 
 	<meta charset="utf-8">
 	<meta name="theme-color" content="black">

@@ -94,7 +94,7 @@ input[type=textarea] {
 	margin:1em 0 2em 0;
 	width:auto;
 	height:3em;
-	background-image:url('https://www.a1z.us/pcaccess/free/pixel-lightyellow.png');
+	/*background-image:url('https://www.a1z.us/pcaccess/free/pixel-lightyellow.png');*/
 	background-repeat:x-repeat, y-repeat;
 	padding:0.4em 0 0.5em 0;
 	}
