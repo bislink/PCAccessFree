@@ -2,15 +2,15 @@
 
 'use strict';
 
-const CACHE_NAME = 'pcaf-static-cache-v6';
-const DATA_CACHE_NAME = 'pcaf-data-cache-v6';
+const CACHE_NAME = 'pcaf-static-cache-v7';
+const DATA_CACHE_NAME = 'pcaf-data-cache-v7';
 
 const FILES_TO_CACHE = [
     '/pcaccessfree/index.htm',
     '/pcaccessfree/index.cgi',
     '/pcaccessfree/public/index.css',
     '/pcaccessfree/public/index.js',
-    '/pcaccessfree/offline.html'
+    '/pcaccessfree/offline.htm'
 ];
 
 self.addEventListener('install', (evt) => {
