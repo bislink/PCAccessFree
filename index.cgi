@@ -17,7 +17,7 @@ $path =~ s!\\!\/!g;
 
 my $users_userpass_dir = '';
 my @path = ''; @path = split(/\//, $path);
-$users_userpass_dir = "$path[0]/$path[1]/	$path[2]/PCAccessFree2018";		# This is mostly C:/Users OR C:/inetpub. Either way, it is not publicly accessible to store user/pass files, temporarily.
+$users_userpass_dir = "$path[0]/$path[1]/$path[2]/PCAccessFree2018";		# This is mostly C:/Users OR C:/inetpub. Either way, it is not publicly accessible to store user/pass files, temporarily.
 
 my %sys;
 
@@ -38,7 +38,7 @@ my %sys;
 	
 	author => "hosting\@a1z.us",
 	website => "https://www.a1z.us",
-	bugs_url => "https://edge.a1z.us/bugzilla/describecomponents.cgi?product=AccessYourPC",	
+	bugs_url => "https://edge.a1z.us/b/bugs/describecomponents.cgi?product=AccessYourPC",	
 	
 	cookie_name => 'user',
 	dir_error => qq``,
@@ -531,7 +531,7 @@ sub any
 		
 			print qq{
 				<tr>
-					<td class='links'> <a href="http://$ENV{'SERVER_NAME'}/$url1/$_"> $_</a> </td> 
+					<td class='links'> <a href="//$ENV{'SERVER_NAME'}:$ENV{SERVER_PORT}$url1/$_"> $_</a> </td> 
 					<td><span class="badge badge-pill badge-info">$fDate{'size'}</span></td> 
 					<td><a href='$ENV{'SCRIPT_NAME'}?action=edit&file=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Edit</span></a> </td> 
 					<td><a href='$ENV{'SCRIPT_NAME'}?action=rename&f=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Ren</span></a> </td> 				
@@ -779,11 +779,13 @@ sub url
 	$url = "$_[0]";
 
 	# windows 7-3-18-1133
-	$url =~ s!C:!!g; 
-	if ($url ne '' and  $ENV{OS} =~ /Windows/i ) 
+	#$url =~ s!C:!!g; 
+	if ($url ne '' and $ENV{OS} =~ /Windows/i ) 
 	{ 
-		$url =~ s!/inetpub/wwwroot!!i; 		# OK
-		$url =~ s!\\inetpub\\wwwroot!!i; 
+		$url =~ s!C:/inetpub/wwwroot!!i; 		# OK
+		$url =~ s!C:/\\inetpub\\wwwroot!!i; 
+
+		$url =~ s!$sys{web_root}!!;
 	}
 	
 	return($url);

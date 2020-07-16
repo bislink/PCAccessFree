@@ -152,6 +152,19 @@ for (sort keys %fun )
 			$sys{"suggest$_"} = qq{ ($ENV{SERVER_PORT}) }; 
 		}
 	}
+	elsif ( $_ =~ /web_root/ ) 
+	{
+		if ( $fun{$_} eq '' ) 
+			{ 
+				$fun{$_} = "$ENV{DOCUMENT_ROOT}";  
+				$sys{title_tip} = "From ENV "; 
+			}
+			else 
+			{
+				$sys{title_tip} = "Please change value";
+				$sys{"suggest$_"} = qq{ ($ENV{DOCUMENT_ROOT}) }; 
+			}
+	}
 	else 
 	{ 
 		$sys{title_tip} = qq{Please change value }; 
@@ -224,7 +237,30 @@ post '/change' => sub {
 	);
 };
 
+# env 
+get '/env' => sub {
+	my $c = shift;
 
+	my $out = '';
+	$out .= qq{};
+	
+	if (%ENV) {
+
+		for (keys %ENV) {
+			$out .= qq{<tr> <td>$_</td> <td>$ENV{"$_"}</td> </tr>\n};
+		}
+		$out .= qq{};
+
+	}
+
+	$c->stash(out => qq{$out});
+	$c->render(
+		'env',
+		h1 => qq{$sys{script_name}}, 
+		csjs => "$sys{csjs_url}",
+		result => qq{},
+	);
+};
 
 
 1;
