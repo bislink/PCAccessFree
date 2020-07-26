@@ -13,9 +13,9 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
 
 	<!-- public/index.css -->
-	<link rel="stylesheet" href="<%= url_for 'index.css' %>">
+	<link rel="stylesheet" href="<%= url_for '/index.css' %>">
 
-    <link rel="manifest" href="<%= url_for 'manifest.json' %>">
+    <link rel="manifest" href="<%= url_for '/manifest.json' %>">
 
 </head>
 
@@ -42,7 +42,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
 <!-- public/index.js -->
-<script src="<%= url_for 'index.js' %>"></script>
+<script src="<%= url_for '/index.js' %>"></script>
 		
 <script>
 
@@ -60,9 +60,9 @@
     // register service worker
     if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-    navigator.serviceWorker.register("<%= url_for 'service-worker.js' %>")
+    navigator.serviceWorker.register("<%= url_for '/service-worker.js' %>")
     .then((reg) => {
-    console.log('Service worker registered.', reg);
+    console.log('Service worker, PCAccessFree, registered.', reg);
     });
     });
     }

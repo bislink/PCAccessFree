@@ -1293,7 +1293,7 @@ sub header1
 
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
 	
-	<link rel="stylesheet" href="public/index.css">
+	<link rel="stylesheet" href="/pcaccessfree/index.css">
 
 	<link rel="manifest" href="/pcaccessfree/manifest.json"
 
@@ -1345,7 +1345,7 @@ sub footer
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
-		<script src="public/index.js"></script>
+		<script src="/pcaccessfree/index.js"></script>
 		
 		<script>
 		
