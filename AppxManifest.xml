@@ -9,8 +9,8 @@
     <Logo>images/logo.png</Logo>
   </Properties>
   <Prerequisites>
-    <OSMinVersion>10.0</OSMinVersion>
-    <OSMaxVersionTested>10.0</OSMaxVersionTested>
+    <OSMinVersion>6.2.1</OSMinVersion>
+    <OSMaxVersionTested>6.2.1</OSMaxVersionTested>
   </Prerequisites>
   <Resources>
     <Resource Language="en-us" />
