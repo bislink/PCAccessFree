@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="A1z.PcAccessFree" 
-            Version="0.4.1.0" 
-            Publisher="CN=A1Z, O=A1zHosting, L=Dallas, S=Texas, C=USA" />
+  <Identity Name="33631SudheerMurthy.pc2server" 
+            Version="0.5.3.0" 
+            Publisher="CN=4B5ED03C-0A39-45A1-B7A7-157D3FCEC0D4" />
   <Properties>
-    <DisplayName>PC Access Free</DisplayName>
+    <DisplayName>pc2server</DisplayName>
     <PublisherDisplayName>Sudheer Murthy</PublisherDisplayName>
     <Logo>images/logo.png</Logo>
   </Properties>
   <Prerequisites>
-    <OSMinVersion>6.2.1</OSMinVersion>
-    <OSMaxVersionTested>6.2.1</OSMaxVersionTested>
+    <OSMinVersion>10.0.0.0</OSMinVersion>
+    <OSMaxVersionTested>10.0.0.0</OSMaxVersionTested>
   </Prerequisites>
   <Resources>
     <Resource Language="en-us" />
   </Resources>
   <Applications>
     <Application Id="PcAccessFree" StartPage="index.htm">
-      <VisualElements DisplayName="PcAccessFree" Description="Convert your Windows PC into a File Server"
+      <VisualElements DisplayName="pc2server" Description="Convert your Windows PC into a File Server"
            Logo="images/logo.png" SmallLogo="images/logo.png"  
            ForegroundText="dark" BackgroundColor="#FFFFFF">
          <SplashScreen Image="images/splash.png" />
