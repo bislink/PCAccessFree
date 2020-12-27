@@ -2,7 +2,7 @@
   "name": "PC Access Free",
   "short_name": "PCAF",
   "start_url": "/pcaccessfree/index.cgi",
-  "scope": "/pcaccessfree",
+  "scope": "/pcaccessfree/",
   "description": "Access your pc from anywhere, anytime",
   "display": "standalone",
   "theme_color": "black",

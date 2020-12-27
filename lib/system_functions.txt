@@ -1,13 +1,13 @@
 enable_server_info=0
 password_dir=C:/Users/msn/PCAF202007150937
 user_pref_home_dir=C:/Users/msn/public/PCAccessFree
-cookie_domain=envy.a1z.us
+cookie_domain=envy.bislinks.com
 web_root=C:/Users/msn/public
 enable_browser_info=1
 enable_date_folder=1
 cookie_expiry=+3M
 script_web_dir=C:/Users/msn/public/PCAccessFree
 enable_cookie_secure=1
-css_js_url=//msn.envy.a1z.us:8913/
+css_js_url=//envy.bislinks.com:8913/
 server_port=8913
-web_root_url=//msn.envy.a1z.us:8913
+web_root_url=//msn.envy.bislinks.com:8913

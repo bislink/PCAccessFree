@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="33631SudheerMurthy.pc2server" 
-            Version="0.5.3.0" 
-            Publisher="CN=4B5ED03C-0A39-45A1-B7A7-157D3FCEC0D4" />
-  <Properties>
-    <DisplayName>pc2server</DisplayName>
-    <PublisherDisplayName>Sudheer Murthy</PublisherDisplayName>
-    <Logo>images/logo.png</Logo>
-  </Properties>
-  <Prerequisites>
-    <OSMinVersion>10.0.17763.0</OSMinVersion>
-    <OSMaxVersionTested>10.0.17763.0</OSMaxVersionTested>
-  </Prerequisites>
-  <Resources>
-    <Resource Language="en-us" />
-  </Resources>
-  <Applications>
-    <Application Id="PcAccessFree" StartPage="index.htm">
-      <VisualElements DisplayName="pc2server" Description="Convert your Windows PC into a File Server"
-           Logo="images/logo.png" SmallLogo="images/logo.png"  
-           ForegroundText="dark" BackgroundColor="#FFFFFF">
-         <SplashScreen Image="images/splash.png" />
-      </VisualElements>
-    </Application>
-  </Applications>
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10">
+	<Identity Name="33631SudheerMurthy.pc2server" 
+		Version="0.5.3.0" 
+		Publisher="CN=4B5ED03C-0A39-45A1-B7A7-157D3FCEC0D4" />
+	<Properties>
+		<PublisherDisplayName>Sudheer Murthy</PublisherDisplayName>
+		<Logo>images/logo.png</Logo>
+	</Properties>
+	<Prerequisites>
+		<OSMinVersion>10.0.0.0</OSMinVersion>
+		<OSMaxVersionTested>10.0.0.0</OSMaxVersionTested>
+	</Prerequisites>
+	<Resources>
+		<Resource Language="en-us" />
+	</Resources>
+	<Applications>
+		<Application Id="33631SudheerMurthy.pc2server_gc82c1psz56kw" StartPage="index.htm">
+			<VisualElements DisplayName="pc2server" Description="Convert your Windows PC into a File Server"
+				Logo="images/logo.png" SmallLogo="images/logo.png"  
+				ForegroundText="dark" BackgroundColor="#FFFFFF">
+				<SplashScreen Image="images/splash.png" />
+			</VisualElements>
+		</Application>
+	</Applications>
 </Package>
