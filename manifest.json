@@ -1,20 +1,21 @@
 {
   "name": "PC Access Free",
   "short_name": "PCAFwin",
-  "start_url": "/pcaccessfree/index.htm",
-  "scope": "/pcaccessfree/",
+  "start_url": "/github/pcaccessfree/index.htm",
+  "scope": "/github/pcaccessfree/",
   "description": "Access your pc from anywhere, anytime",
   "display": "standalone",
   "theme_color": "black",
   "background_color": "white",
   "icons": [
     {
-      "src": "/pcaccessfree/public/icon/icon_192x192.png",
+      "src": "public/icon/icon_192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
-      "src": "/pcaccessfree/public/icon/icon_512x512.png",
+      "src": "public/icon/icon_512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }

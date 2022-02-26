@@ -1,14 +1,14 @@
-#!/usr/bin/perl 
-#C:/Users/user03/public/OneFile/index.cgi 
+#!/usr/bin/perl
+#C:/Users/user03/public/OneFile/index.cgi
 
-use strict; 
-use CGI qw/:standard/; 
+use strict;
+use CGI qw/:standard/;
 use CGI::Cookie;
 use Cwd qw();
 use File::Basename qw();
 
 #use warnings;
-use CGI::Carp qw/fatalsToBrowser/; 
+use CGI::Carp qw/fatalsToBrowser/;
 
 my $cwd = Cwd::abs_path();
 
@@ -23,38 +23,38 @@ my %sys;
 
 %sys = (
 
-# system URLS 
+# system URLS
 
 	script_url => "//$ENV{'SERVER_NAME'}:$ENV{SERVER_PORT}/$ENV{'SCRIPT_NAME'}",
 	PCAccessMainUrl => "//$ENV{'SERVER_NAME'}$ENV{'SCRIPT_NAME'}",
 	PCAccessAdminUrl => "admin.cgi",
 
-	
+
 	PCAccessSetupUrl => "setup.cgi",
-	script_name => "PC Access Free",	
-	script_powershell => "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",	
+	script_name => "PC Access Free",
+	script_powershell => "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
 	script_users_folder => "$users_userpass_dir",
 	script_dir => "$path",
-	
+
 	author => "hosting\@a1z.us",
 	website => "https://www.a1z.us",
-	bugs_url => "https://edge.a1z.us/b/bugs/describecomponents.cgi?product=AccessYourPC",	
-	
+	bugs_url => "https://edge.a1z.us/b/bugs/describecomponents.cgi?product=AccessYourPC",
+
 	cookie_name => 'user',
 	dir_error => qq``,
 
-# cookies 
+# cookies
 
 );
 
-# Add more function variables and values in %sys 
-if ( -e -f "$path/lib/system_functions.txt" ) 
+# Add more function variables and values in %sys
+if ( -e -f "$path/lib/system_functions.txt" )
 {
 	open(SysFun, "$path/lib/system_functions.txt") or die $!;
 	my @sf = <SysFun>;
 	close SysFun;
-	
-	while ( my $function = <@sf> ) 
+
+	while ( my $function = <@sf> )
 	{
 		chomp $function;
 		my ( $left, $right ) = split(/\=/, $function, 2);
@@ -62,34 +62,34 @@ if ( -e -f "$path/lib/system_functions.txt" )
 	}
 }
 
-# reset pass directory to the one set by user 
-$sys{script_users_folder} = $sys{password_dir}; 
+# reset pass directory to the one set by user
+$sys{script_users_folder} = $sys{password_dir};
 
-#Date 
+#Date
 my $date = '';
 if ( $sys{enable_date_folder} )
 {
-	$date = `"$sys{script_powershell}" Get-Date -UFormat "%Y-%m-%d-%a-%H-%M-%S%Z"`; 
+	$date = `"$sys{script_powershell}" Get-Date -UFormat "%Y-%m-%d-%a-%H-%M-%S%Z"`;
 }
-else 
+else
 {
 	$date = "new-folder-$$";
 }
 chomp $date;
 
 
-# Language 
+# Language
 
 my %lang;
 
 my $default_language = '';
 
-if ( -e -f "$sys{script_dir}/lang/default-language.txt" ) 
+if ( -e -f "$sys{script_dir}/lang/default-language.txt" )
 {
 	open( LANG, "$sys{script_dir}/lang/default-language.txt") or die $!;
 	$default_language = <LANG>;
 	close LANG;
-	chomp $default_language; 
+	chomp $default_language;
 }
 else
 {
@@ -103,9 +103,9 @@ if ( -e -f "$sys{script_dir}/lang/$default_language.txt" )
 	open(DL, "$sys{script_dir}/lang/$default_language.txt" ) or die $!;
 	my @dl = <DL>;
 	close DL;
-	
+
 	##while ( my $item = <@dl> )                # gets only first word!!
-	foreach my $item (@dl)                   
+	foreach my $item (@dl)
 	{
 		chomp $item;
 		my ( $left_item, $right_value ) = split(/\=/, $item, 2);
@@ -118,36 +118,36 @@ else
 	$sys{lang_file_error} = "Could not open language file $default_language";
 }
 
-my $q = new CGI; 
+my $q = new CGI;
 
 #print $q->header( -charset => "utf-8");
 
 # get cookie
 my %cookies = (''); %cookies = fetch CGI::Cookie;
-my $getUserCookie = ''; 
-if ( %cookies ) 
-{ 
-	#$getUserCookie = $cookies{user}->value; 
+my $getUserCookie = '';
+if ( %cookies )
+{
+	#$getUserCookie = $cookies{user}->value;
 	if ( $cookies{user} ) { $getUserCookie = $cookies{user}->value; }
-} 
-else { 
-#&header1( cookie_status => 'set'); 
-$getUserCookie = ''; 
+}
+else {
+#&header1( cookie_status => 'set');
+$getUserCookie = '';
 }
 
 
-use vars qw($a $b $c $d $e $f $g $h $i $f1 $action $path $j @j $title $url @url $total $i $folders $files @folders 
-	@files @file $file $editfile @t $t @file2rename $file2rename $onebefore $firstOne $fileDate $con %fDate 
+use vars qw($a $b $c $d $e $f $g $h $i $f1 $action $path $j @j $title $url @url $total $i $folders $files @folders
+	@files @file $file $editfile @t $t @file2rename $file2rename $onebefore $firstOne $fileDate $con %fDate
 	$fa_temp1 $fa_temp2 $img @H $oneLess $prevDir $imgUrl $myURL @prevDir
-	$safeChars $upDir $upFile $upHandle $url1 @G $f2nFile $f2nExt 
+	$safeChars $upDir $upFile $upHandle $url1 @G $f2nFile $f2nExt
 	$user $pass $u $p $curDir $file2create $folder2create @curDir $lastItem
 	$Key $Cipher $ENCR $DECR
 	@Last $last %u);
 
-sub sys_vars 
+sub sys_vars
 {
 
-#common for any server	
+#common for any server
 	$a = "C:/inetpub/wwwroot";
 
 #other servers
@@ -155,13 +155,13 @@ sub sys_vars
 
 # important vars used everywhere
 	$myURL = "//$ENV{'SERVER_NAME'}$ENV{'SCRIPT_NAME'}";		#
-	
+
 # probably the most imp var; used in any
 	$f1 = $q->param('f1');
-	
+
 # used in else, auth, authform
 
-	$user = "$sys{script_user}"; 
+	$user = "$sys{script_user}";
 	$pass = "$sys{script_password}";
 	$u = $q->param('user');	#68
 	$p = $q->param('pass');
@@ -170,13 +170,13 @@ sub sys_vars
 
 $action = $q->param('action');		# this has to be here, otherwise first will not show results.  so $action has to be outside in order for subs to show results.
 
-if ($q->param) 
-{ 
+if ($q->param)
+{
 
-	&sys_vars; 
+	&sys_vars;
 
 	if ( $getUserCookie or ($u ne '' and $p ne '') ) #
-	{ 
+	{
 		if 	  ($action eq "first")          { &first; }           # nope. # if ($u eq $user && $p eq $pass){ else { &authForm; } }
 		elsif ($action eq "list")           { &list; }
 		elsif ($action eq "edit")           { &edit; }
@@ -188,10 +188,10 @@ if ($q->param)
 		elsif ($action eq "createFile")     { &createFile; }
 		elsif ($action eq "createFolder")	{ &createFolder; }
 		elsif ($action eq "loginForm")	    { &authForm; }
-		elsif ($action eq "registerForm")	{ \&registerForm; }		# '&reg' in &register is considered utf-8 code when transfered from pc to pc  
+		elsif ($action eq "registerForm")	{ \&registerForm; }		# '&reg' in &register is considered utf-8 code when transfered from pc to pc
 		elsif ($action eq "login")          { &auth; }
-		elsif ($action eq "register")       { \&register; }	
-		elsif ($action eq "CHMOD")          { &CMform; }		
+		elsif ($action eq "register")       { \&register; }
+		elsif ($action eq "CHMOD")          { &CMform; }
 		elsif ($action eq "doCM")           { &doCM; }			    # done 4:19 PM 9/11/2009
 		elsif ($action eq "duplicate")      { &duplicateForm; }
 		elsif ($action eq "doDuplicate")    { &doDuplicate; }	    # done 4:56 PM 9/11/2009
@@ -199,24 +199,24 @@ if ($q->param)
 		elsif ($action eq "doDelete")       { &doDelete; }			# Done 5:12 PM 9/11/2009
 		elsif ($action eq "logout")         { &logout(); }
 	}
-	else 
-	{ 
-		&authForm( title => "$lang{'session_expired'}", cookie_status => "get", body_cont => "$lang{too_many_session_expired} '$ENV{SERVER_NAME}'" ); 
-	} 
-	
+	else
+	{
+		&authForm( title => "$lang{'session_expired'}", cookie_status => "get", body_cont => "$lang{too_many_session_expired} '$ENV{SERVER_NAME}'" );
+	}
+
 }	#end if param
-else 
-{ 
-	&authForm( cookie_status => "get" ); 
-}							
+else
+{
+	&authForm( cookie_status => "get" );
+}
 #end if/else
 
-# FORM 
+# FORM
 
-sub form 
+sub form
 {
 	&sys_vars;
-	
+
 	&header1("CMS by Bislinks");
 
 	print "
@@ -236,7 +236,7 @@ sub form
 	";			#<input type=text value=\"$f\">
 }
 
-sub first 
+sub first
 {
 	# this is necessary to get the script started with primary/root folder as provided by user.  For now, it gets it from sub form
 	&sys_vars;
@@ -250,10 +250,10 @@ sub first
 	&footer;
 } 						#sub first
 
-sub list 
+sub list
 {
-	&sys_vars; 
-	&header1( title => "Online File/Folder CMS by Bislinks");	
+	&sys_vars;
+	&header1( title => "Online File/Folder CMS by Bislinks");
 
 	&any("$f1");
 	&footer;
@@ -261,27 +261,27 @@ sub list
 
 
 
-# MAIN SUB 
+# MAIN SUB
 
-sub any 
-{	
+sub any
+{
 	&sys_vars; 					#
-	
-	$g = qq~$_[0]~;			#  
-	
-	# change name according to where in the dir tree the use is in 
+
+	$g = qq~$_[0]~;			#
+
+	# change name according to where in the dir tree the use is in
 	$sys{NameOrViewInBrowser} = '';
 	if ( $g =~ /inetpub\/wwwroot/ ) { $sys{NameOrViewInBrowser} = "View In Browser"; }
 	else { $sys{NameOrViewInBrowser} = "Name"; }
 
 	$url1 = &url("$g");
 
-	if ( opendir(DIR, "$g") ) 
+	if ( opendir(DIR, "$g") )
 	{
 		@G = readdir(DIR); 		# @G is used extensively in this sub for showing files and folders # does not work if moved to vars
 		close DIR;
 	}
-	else 
+	else
 	{
 		print &dir_error("188");		# yes output 188
 	}
@@ -289,7 +289,7 @@ sub any
 	$total = scalar(@G); $total = $total - 2; # reduce . and .. #Symlinks are not shown in $total but are of course counted into it
 
 	for (@G) #
-	{ 
+	{
 		push(@folders, $_) if (-d "$g/$_"); $folders = scalar(@folders);
 		push(@files, $_) if (-f "$g/$_"); $files = scalar(@files);
 	}
@@ -302,33 +302,23 @@ sub any
 	$oneLess = $#H - 1; 				    #print "oneLess=$oneLess"; #test ok
 	$prevDir = join('/', @H[0..$oneLess]);	#
 
-	
+
 	# FOLDERS
-	
-	
+
+
 	my $upDir = ''; $upDir = "$prevDir";
 	if ( $upDir !~ /\// ) { $upDir .= qq`/`; }
-	
+
 	print qq{
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- pc browser free -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8434162582137179"
-     data-ad-slot="3296453589"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+<!-- ad  -->
 	};
-	
+
 	print qq{<br/><table id='A' class="table table-responsive">};
 
 	# header/welcome/ad
 	print qq`
 	<tr>
-		<td colspan="8"> 
+		<td colspan="8">
 			<table class="table table-responsive">
 				<tr>
 					<td class="ads-or-message">
@@ -341,7 +331,7 @@ sub any
 							$getUserCookie
 						</button>
 					</td>
-					
+
 					<td>
 						<a href="$ENV{SCRIPT_NAME}?action=logout" title="Logout">$lang{logout}</a>
 					</td>
@@ -349,9 +339,9 @@ sub any
 			</table>
 		</td>
 	</tr>
-	`; 
-	
-	print "<tr> <td>"; 
+	`;
+
+	print "<tr> <td>";
 
 #UP DOWN A1
 
@@ -359,10 +349,10 @@ sub any
 
 	print qq{</td> <td colspan='7'>
 
-		<table id='A1' class="table table-responsive row">
+		<table id='A1' class="table table-responsive">
 			<tr class="col-sm-4">
-			
-				<td>					
+
+				<td>
 					<form action='$ENV{'SCRIPT_NAME'}' method='post' accept-charset='utf-8' enctype='multipart/form-data'>
 						<input type='hidden' value='list' name='action'>
 						<input name='f1' value="$sys{user_pref_home_dir}" type='hidden'>
@@ -370,7 +360,7 @@ sub any
 						<input type='submit' value='HomeDir'>
 					</form>
 				</td>
-			</tr><tr class="col-sm-4">
+
 				<td>
 						<form action='$ENV{'SCRIPT_NAME'}' method='post' accept-charset='utf-8' enctype='multipart/form-data'>
 							<input type='hidden' value='list' name='action'>
@@ -381,7 +371,7 @@ sub any
 							print qq{<input type='submit' value="UP: $upDir">
 						</form>
 				</td>
-			</tr><tr class="col-sm-4">
+
 				<td>
 					<form action='$ENV{'SCRIPT_NAME'}' method='post' accept-charset='utf-8' enctype='multipart/form-data'>
 						<input type='hidden' value='list' name='action'>
@@ -389,25 +379,25 @@ sub any
 						<input name='g' type='hidden' value='$g'>
 						<input type='submit' value="Down:">
 						<select name='f1'>
-					}; 												# 
+					}; 												#
 						foreach (sort @G) 						#
-						{ 
-							print qq{<option value="$g/$_">$_</option>\n} if (-d "$g/$_") && ($_ =~ /[a-zA-Z0-9]/); 
-						} 											#   
+						{
+							print qq{<option value="$g/$_">$_</option>\n} if (-d "$g/$_") && ($_ =~ /[a-zA-Z0-9]/);
+						} 											#
 						print qq{</select>
 					</form>
 				</td>
 			</tr>
-		</table>	
+		</table>
 	};
-		
-#colspan 2
-	
-	print "</td></tr><tr> <td>";  print "</td> <td colspan=7>"; 
 
-=head1 Top Form disabled 
-# TOP FORMS 
-		print qq{<table id='A2_fileForms'  class="table table-responsive">
+#colspan 2
+
+	print "</td></tr><tr> <td>";  print "</td> <td colspan=7>";
+
+=head1 Top Form disabled
+# TOP FORMS
+		print qq{<table id='A2_fileForms' class="table table-responsive">
 		<tr>};
 			print "<td>"; &fileForm("$g");
 			print "</td> </tr><tr> <td>"; &folderForm("$g");
@@ -418,37 +408,37 @@ sub any
 =cut
 
 	print "</td></tr>
-	<tr> <td>";  
-	
-# FOLDERS current folder 
+	<tr> <td>";
+
+# FOLDERS current folder
 
 #colspan 3
 
-	print qq{ 
-	</td> 
-	<td colspan='7'> 
-	}; # 
-	
-	#  	
-	
+	print qq{
+	</td>
+	<td colspan='7'>
+	}; #
+
+	#
+
 		print qq{<table id='A3_foldersOperation' class="table table-responsive">};
-		
+
 			# Folders Header
 		print qq{
-		<tr> 
-		<td class="td-spacer" colspan="8"> 
-			<span class='cur-folder'>$H[$#H]</span> &nbsp; 
+		<tr>
+		<td class="td-spacer" colspan="8">
+			<span class='cur-folder'>$H[$#H]</span> &nbsp;
 			<button type="button" class="btn btn-outline-secondary folders-btn">Folders &nbsp; <span class="badge badge-secondary">$folders</span></button>
-		</td> 
+		</td>
 		</tr>
-		
+
 		<tr>
 			<th>$sys{NameOrViewInBrowser}</th>
 			<th>Change To</th>
 			<th>Ren</th>
 			<th>Copy</th>
 			<th>Del</th>
-		</tr>	
+		</tr>
 		};
 
 		foreach (sort @G)	# display folders and operations on them <i class="fas fa-folder-open"></i>
@@ -458,10 +448,10 @@ sub any
 
 			print qq{
 			<tr>
-				<td class='links'> 
-					<a href="http://$ENV{'SERVER_NAME'}/$url1/$_" title="$_">$_</a> 
-				</td> 
-				<td> 
+				<td class='links'>
+					<a href="http://$ENV{'SERVER_NAME'}/$url1/$_" title="$_">$_</a>
+				</td>
+				<td>
 					<form action='$ENV{'SCRIPT_NAME'}' method='post' accept-charset='utf-8' enctype='multipart/form-data'>
 						<input type=hidden value=list name=action>
 						<input type=hidden name=user value='$u'>
@@ -469,35 +459,35 @@ sub any
 						<input name=f1 type=hidden value="$g/$_">
 						<button type="submit" class="badge badge-pill badge-secondary">Go</button>
 					</form>
-				</td> 
-				<td> 
-					<a href='$ENV{'SCRIPT_NAME'}?action=rename&f=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Ren</span></a> 
-				</td> 
-				<td> 
-					<a href='$ENV{'SCRIPT_NAME'}?action=duplicate&f=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Copy</span></a> 
-				</td> 
-				<td> 
-					<a href='$ENV{'SCRIPT_NAME'}?action=delete&f=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Del</span></a> 
-				</td> 
-			</tr>} if (-d "$g/$_") && ($_ =~ /[a-zA-Z0-9]/); 
+				</td>
+				<td>
+					<a href='$ENV{'SCRIPT_NAME'}?action=rename&f=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Ren</span></a>
+				</td>
+				<td>
+					<a href='$ENV{'SCRIPT_NAME'}?action=duplicate&f=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Copy</span></a>
+				</td>
+				<td>
+					<a href='$ENV{'SCRIPT_NAME'}?action=delete&f=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Del</span></a>
+				</td>
+			</tr>} if (-d "$g/$_") && ($_ =~ /[a-zA-Z0-9]/);
 		}
 
-	print "</table></td></tr><tr> <td>";   
-	
+	print "</table></td></tr><tr> <td>";
+
 #colspan 4
 
 	print qq{ </td> <td colspan=7>};
 
 		print qq{<table id='foldersOperation' class="table table-responsive">};
-		
+
 		# Files Header
 		print qq{
-		
+
 		<tr> <td colspan="8">
 		<span class='cur-folder'>$H[$#H]</span>
 		<button type="button" class="btn btn-outline-secondary files-btn">Files &nbsp; <span class="badge badge-secondary">$files</span> </button>
 		</td> </tr>
-		
+
 		<tr>
 			<th>$sys{NameOrViewInBrowser}</th>
 			<th>Size</th>
@@ -505,19 +495,19 @@ sub any
 			<th>Ren</th>
 			<th>dup</th>
 			<th>Del</th>
-		</tr>	
+		</tr>
 		};
 
 		foreach (sort @G) 								# list files
-		{ 
+		{
 			#file creation and modification date
-			$con = (-C "$g/$_"); 
-			$fDate{'sec'} = $con * 86400; 
-			$fDate{'min'} = $con * 1440; 
-			$fDate{'hr'}  = $con * 24; 
-			$fDate{'day'} = $con; 
-			$fDate{'wk'}  = $con / 7; 
-			$fDate{'yr'}  = $con / 365; 
+			$con = (-C "$g/$_");
+			$fDate{'sec'} = $con * 86400;
+			$fDate{'min'} = $con * 1440;
+			$fDate{'hr'}  = $con * 24;
+			$fDate{'day'} = $con;
+			$fDate{'wk'}  = $con / 7;
+			$fDate{'yr'}  = $con / 365;
 			$fa_temp1 = $^T - int((-M "$g/$_") * 86400);
 			$fa_temp2 = $^T - int((-C "$g/$_") * 86400);
 			$fDate{'mod'}  = localtime($fa_temp1);
@@ -528,25 +518,25 @@ sub any
 			$files = scalar(@G);
 
 		# FILES
-		
+
 			print qq{
 				<tr>
-					<td class='links'> <a href="//$ENV{'SERVER_NAME'}:$ENV{SERVER_PORT}$url1/$_"> $_</a> </td> 
-					<td><span class="badge badge-pill badge-info">$fDate{'size'}</span></td> 
-					<td><a href='$ENV{'SCRIPT_NAME'}?action=edit&file=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Edit</span></a> </td> 
-					<td><a href='$ENV{'SCRIPT_NAME'}?action=rename&f=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Ren</span></a> </td> 				
-					<td> <a href='$ENV{'SCRIPT_NAME'}?action=duplicate&f=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Copy</span></a> </td> 
-					<td> <a href='$ENV{'SCRIPT_NAME'}?action=delete&f=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Del</span></a> </td> 
+					<td class='links'> <a href="//$ENV{'SERVER_NAME'}:$ENV{SERVER_PORT}$url1/$_"> $_</a> </td>
+					<td><span class="badge badge-pill badge-info">$fDate{'size'}</span></td>
+					<td><a href='$ENV{'SCRIPT_NAME'}?action=edit&file=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Edit</span></a> </td>
+					<td><a href='$ENV{'SCRIPT_NAME'}?action=rename&f=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Ren</span></a> </td>
+					<td> <a href='$ENV{'SCRIPT_NAME'}?action=duplicate&f=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Copy</span></a> </td>
+					<td> <a href='$ENV{'SCRIPT_NAME'}?action=delete&f=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Del</span></a> </td>
 				</tr>
-			} if (-f "$g/$_"); 
-		}	
+			} if (-f "$g/$_");
+		}
 		#
-		
-#colspan 5
-# bottom forms 
 
-	print "</table> </td> </tr> <tr> <td>";  
-		print "</td> <td colspan=7>"; 
+#colspan 5
+# bottom forms
+
+	print "</table> </td> </tr> <tr> <td>";
+		print "</td> <td colspan=7>";
 		print qq{<table id='bottomFileForms'  class="table table-responsive">
 			<tr>};
 		print "<td>"; &fileForm("$g");
@@ -562,9 +552,9 @@ sub any
 		print qq{
 		<table id='ComingSoonPro' class="table table-responsive">
 			<tr>
-				<td> 
+				<td>
 					Logged in as $getUserCookie. <a href='$ENV{SCRIPT_NAME}?action=logout' title='Logout'>Logout</a> \|
-					<a href='$ENV{'SCRIPT_NAME'}'>$sys{script_name}</a> 
+					<a href='$ENV{'SCRIPT_NAME'}'>$sys{script_name}</a>
 					<!--
 					<a href=$ENV{'SCRIPT_NAME'}?action=getURL&curDir=$g>Get File from a URL</a>
 					Create Multiple: <a href=$ENV{'SCRIPT_NAME'}?action=multipleFile&curDir=$g>Files</a>
@@ -578,14 +568,14 @@ sub any
 		</table>
 		}; 						#add more links here
 
-	print "</td></tr></table>";			
+	print "</td></tr></table>";
 	#End Main Table
-}								
+}
 # end any
 
 
 
-sub edit 
+sub edit
 {
 
 	&header1( title => "EDIT");
@@ -596,59 +586,59 @@ sub edit
 	# create current dir by removing the last item in $file which also contains the dir path
 	@curDir = (split/\//, $file, $#curDir);
 	$oneLess = $#curDir - 1;
-	$curDir = join('/', @curDir[0..$oneLess]); 
+	$curDir = join('/', @curDir[0..$oneLess]);
 
 	$url1 = &url("$file");
 
 	open (FILE, "$file") or print qq{<div class="alert alert-danger">Unable to open file. Error#577. $!</div>};
-	@file = <FILE>;	
-	close FILE; 
+	@file = <FILE>;
+	close FILE;
 
 	print qq{
-		<form action="$ENV{'SCRIPT_NAME'}" accept-charset=utf-8 enctype='multipart/form-data'> 
+		<form action="$ENV{'SCRIPT_NAME'}" accept-charset=utf-8 enctype='multipart/form-data'>
 			<input type=hidden name=action value=write>
 			<input type=hidden name=file value=$file>
 			<input type=hidden name=user value=$u>
 			<div class="form-group">
 				<label for="editfile">Editing : $curDir[$#curDir]</label>
-				<textarea class="form-control" name=editfile id="editfile">};   # do not move } down 
+				<textarea class="form-control" name=editfile id="editfile">};   # do not move } down
 				foreach (@file) { $_ =~ s/\</\</g; $_ =~ s/\>/\>/g; print "$_"; }	# escape all '<' and '>'
 				print qq{</textarea>
 			</div>
 			<div><button type="submit" class="btn btn-primary">MODIFY/UPDATE</button></div>
 		</form>
 	};
-	
+
 	&any("$curDir");
-	
+
 	&footer;
 
 }
 
-sub write 
+sub write
 {
 &sys_vars;
 
 my $error = '';
 
-&header1( title => "write"); 
+&header1( title => "write");
 #&form;
 $curDir = $q->param('curDir');
 $file = $q->param('file');
 
 # create current dir by eliminating the last item in $file which also contains the dir path
-@curDir = (split/\//, $file, $#curDir); 
-$oneLess = $#curDir - 1; 
-$curDir = join('/', @curDir[0..$oneLess]); 
+@curDir = (split/\//, $file, $#curDir);
+$oneLess = $#curDir - 1;
+$curDir = join('/', @curDir[0..$oneLess]);
 
 $editfile = $q->param('editfile');
-chomp($editfile); 
-my @editfile = split(/\n/, $editfile); 
+chomp($editfile);
+my @editfile = split(/\n/, $editfile);
 
 open (FILE, ">$file") or $error = "$!";
-#print FILE "$editfile"; 
+#print FILE "$editfile";
 for (@editfile) { print FILE qq~$_~; } 				# Sat Feb 21 10:43:47 2015
-close FILE;									#Sat Feb 21 10:42:26 2015 
+close FILE;									#Sat Feb 21 10:42:26 2015
 #unless (-x $file) { system `chmod 0755 $file`; }
 if ( $error ) { print qq{<div class="alert alert-danger" role="alert">Error editing $file. Error#544. $error</div>}; }
 else { print qq{<div class="alert alert-success" role="alert">Successfully wrote to $file</div>}; }
@@ -667,7 +657,7 @@ $file = $q->param('f');
 @file2rename = (split/\//, $file, $#file2rename);
 $onebefore = $#file2rename - 1;
 $firstOne = join('/', @file2rename[0..$onebefore]);
-print "<center> You have chosen to rename \"$file.\"  <br> 
+print "<center> You have chosen to rename \"$file.\"  <br>
 	<form action=\"$ENV{'SCRIPT_NAME'}\" method=post accept-charset=utf-8 enctype='multipart/form-data'>
 <input type=hidden name=user value=$u>
 
@@ -737,41 +727,41 @@ sub upload
 
 &header1( title => "Upload");
 
-$CGI::POST_MAX = 1024 * 5000; 
-$safeChars = "a-zA-Z0-9_.-"; 
-$upDir = $q->param('upDir'); 
+$CGI::POST_MAX = 1024 * 5000;
+$safeChars = "a-zA-Z0-9_.-";
+$upDir = $q->param('upDir');
 $upFile = $q->param('upFile');
 $upFile =~ tr/ /_/; #had added an extra my here and it was not uploading at all spent two hours to figure this out
-$upFile =~ s/[^$safeChars]//g; 
-if ( $upFile =~ /^([$safeChars]+)$/ ) { $upFile = $1; } else { print "$upFile contains invalid characters"; } 
-$upHandle = $q->upload("upFile"); 
-open ( UPLOADFILE, ">$upDir/$upFile" ) or print "Error#4_$0_478_$$"; 
-binmode UPLOADFILE; 
-while ( <$upHandle> ) {  print UPLOADFILE; } 
+$upFile =~ s/[^$safeChars]//g;
+if ( $upFile =~ /^([$safeChars]+)$/ ) { $upFile = $1; } else { print "$upFile contains invalid characters"; }
+$upHandle = $q->upload("upFile");
+open ( UPLOADFILE, ">$upDir/$upFile" ) or print "Error#4_$0_478_$$";
+binmode UPLOADFILE;
+while ( <$upHandle> ) {  print UPLOADFILE; }
 print UPLOADFILE;
-#close UPLOADFILE; 
+#close UPLOADFILE;
 
-# create thumbnail of uploaded file if it is an image. 
-if ("$upDir/$upFile" =~ /.jpg|.JPG|.gif|.GIF/) 
-	{ 
+# create thumbnail of uploaded file if it is an image.
+if ("$upDir/$upFile" =~ /.jpg|.JPG|.gif|.GIF/)
+	{
 	#unless (-e "$upDir/$upFile" or "$upDir/t.$upFile") { print "$upFile already exists";} #still overwriting
-	$url1 = &url("$upDir"); 
-	system ('convert', '-geometry', "100 x 100", "$upDir/$upFile", "$upDir/t.$upFile"); 
-	print "<center> $upFile uploaded successfully <br> <a href=\"http://$ENV{'SERVER_NAME'}$url1/$upFile\"> <img src=\"http://$ENV{'SERVER_NAME'}$url1/t.$upFile\" border=0 alt=\"Click to see Big\"> </a>" if (-e "$upDir/$upFile"); 
+	$url1 = &url("$upDir");
+	system ('convert', '-geometry', "100 x 100", "$upDir/$upFile", "$upDir/t.$upFile");
+	print "<center> $upFile uploaded successfully <br> <a href=\"http://$ENV{'SERVER_NAME'}$url1/$upFile\"> <img src=\"http://$ENV{'SERVER_NAME'}$url1/t.$upFile\" border=0 alt=\"Click to see Big\"> </a>" if (-e "$upDir/$upFile");
 	}
 elsif (-T "$upDir/$upFile")
 	{
-	$url1 = &url("$upDir"); 
+	$url1 = &url("$upDir");
 	print "<center> $upFile uploaded successfully.  <a href=\"http://$ENV{'SERVER_NAME'}$url1/$upFile\">$upFile</a> ";
 	}
 elsif (-e "$upDir/$upFile")
 	{
-	$url1 = &url("$upDir"); 
+	$url1 = &url("$upDir");
 	print "<center> $upFile uploaded successfully.  <a href=\"http://$ENV{'SERVER_NAME'}$url1/$upFile\">$upFile</a> ";
 	}
 else { print "Upload failed"; }
 
-&any("$upDir"); # Perfect 
+&any("$upDir"); # Perfect
 }
 
 sub url
@@ -779,15 +769,15 @@ sub url
 	$url = "$_[0]";
 
 	# windows 7-3-18-1133
-	#$url =~ s!C:!!g; 
-	if ($url ne '' and $ENV{OS} =~ /Windows/i ) 
-	{ 
+	#$url =~ s!C:!!g;
+	if ($url ne '' and $ENV{OS} =~ /Windows/i )
+	{
 		$url =~ s!C:/inetpub/wwwroot!!i; 		# OK
-		$url =~ s!C:/\\inetpub\\wwwroot!!i; 
+		$url =~ s!C:/\\inetpub\\wwwroot!!i;
 
 		$url =~ s!$sys{web_root}!!;
 	}
-	
+
 	return($url);
 }
 
@@ -798,15 +788,15 @@ sub numFolders					# Get total number of folders only under the current folder d
 	{
 		@G = readdir(DIR);
 		close DIR;
-		
-		for (@G) 
-			{ 
+
+		for (@G)
+			{
 				push(@folders, "$_[0]/$_") if (-d "$_[0]/$_") and ("$_[0]/$_" =~ /[a-zA-Z0-9]/);
 				$folders = scalar(@folders);
 				return $folders;
 			}
 	}
-	else 
+	else
 	{
 		# no output 668
 	}
@@ -814,19 +804,19 @@ sub numFolders					# Get total number of folders only under the current folder d
 
 sub numFiles				# total number of files under current folder displayed
 {
-	if ( opendir(DIR, "$_[0]") ) 
+	if ( opendir(DIR, "$_[0]") )
 	{
 		@G = readdir(DIR);
-		for (@G) 
-		{ 
+		for (@G)
+		{
 			push(@files, "$_[0]/$_") if (-f "$_[0]/$_") and ("$_[0]/$_" =~ /[a-zA-Z0-9]/);
 			$files = scalar(@files);
 			return($files);
 		}
 	}
-	else 
+	else
 	{
-		# no output 687 
+		# no output 687
 	}
 }
 
@@ -857,7 +847,7 @@ print qq{
 
 }
 
-# Create a folder form 
+# Create a folder form
 sub folderForm
 {
 
@@ -885,55 +875,55 @@ print qq{
 
 sub authForm
 {
-	# mostly common for every sub 
+	# mostly common for every sub
 	my %in = (
-		title => "$sys{script_name}",               # default title 
+		title => "$sys{script_name}",               # default title
 		cookie_status => "get",
 		cookie_value => "",
 		#cookie_get => $cookies{'user'}->value,      #
 		@_,
 	);
-	
+
 	#
 	&sys_vars;
-	
-	# header1 includes cgi_header	
+
+	# header1 includes cgi_header
 	# html : until </head><body>
-	
-	if ( $in{get_cookie} ) 
+
+	if ( $in{get_cookie} )
 	{
 		chomp $in{get_cookie};
-		
+
 		# open user.t and load/open user's default folder
 		my $u = '';
 		my @u = '';
-		if ( -e -f "$sys{script_users_folder}/$in{get_cookie}.t" ) 
+		if ( -e -f "$sys{script_users_folder}/$in{get_cookie}.t" )
 		{
 			open(U, "$sys{script_users_folder}/$in{get_cookie}.t" ) or die "$sys{script_users_folder}/$in{get_cookie}.t";
 			$u = <U>;
 			close U;
-			
+
 			chomp $u;
 			@u = split(/\|/, $u);
-			
+
 			&header1( title => "Already Logged In", cookie_status => "get" );
 			&any("$u[2]" );
 			&footer();
 		}
-		else 
+		else
 		{
 			&header1(title => "Cannot find/get $in{get_cookie}", cookie_status => "get");
 			##&authForm();
 			print qq{
-				
+
 				<h2>Cannot find/load user/cookie '$in{get_cookie}'</h2>
-				
+
 				<p>If you are not "$in{get_cookie}," please <a href="$ENV{SCRIPT_NAME}?action=logout">logout &amp; login again</a></p>
-				
+
 				<p>If that does not work, try deleting the "user/$in{get_cookie}" cookie from browser history and restarting your browser</p>
-				
+
 				<p>This is caused by a "browser cookie" that has not expired and needs to be removed</p>
-				
+
 				<div class="spacer"></div>
 			};
 			&footer();
@@ -941,15 +931,15 @@ sub authForm
 	}
 	else
 	{
-	
+
 		&header1( title => "$in{title}",  cookie_status => "$in{cookie_status}", cookie_value => "$in{cookie_value}" );
 
 		print qq{
-		
+
 			<h2>$lang{login}</h2>
-			
+
 			<div class="spacer"></div>
-		
+
 			<form name=auth method=post action='$sys{script_url}' accept-charset='utf-8' enctype='multipart/form-data'>
 				<input type=hidden name=action value=auth>
 				<div class="form-group">
@@ -962,39 +952,39 @@ sub authForm
 				</div>
 				<button type=submit value='LOGIN' class="btn btn-primary">Login</button>
 			</form>
-		
+
 			<div class="spacer"></div>
-			
+
 			<div class="cookie">
 				$in{get_cookie}
 			</div>
-			
+
 			<div class="spacer">$in{body_cont}</div>
-		
+
 		};
 
 		&footer();
-	
+
 	}
 }
 
-sub auth 
+sub auth
 {
 	&sys_vars;
 
-	if ($u ne '' and $p ne '') 
-	{ 
-			if (open (USER, "$sys{script_users_folder}/$u.t") )	 
+	if ($u ne '' and $p ne '')
+	{
+			if (open (USER, "$sys{script_users_folder}/$u.t") )
 			{
 				$u{'file'} = <USER>;
 				chomp($u{file});
-				
+
 				( $u{'name'}, $u{'pass'}, $u{'dir'}, $u{'email'}, $u{the_rest} ) = ( split/\|/, $u{'file'} );
-				
-				( $u{'start_date'}, $u{'end_date'}, $u{'signup_ip'}, $u{'membership_level'}, $u{'membership_status'} ) = ( split/\|/, $u{the_rest}); 
-				
-				
-				if ( $u eq $u{name} and $p eq $u{pass} ) 
+
+				( $u{'start_date'}, $u{'end_date'}, $u{'signup_ip'}, $u{'membership_level'}, $u{'membership_status'} ) = ( split/\|/, $u{the_rest});
+
+
+				if ( $u eq $u{name} and $p eq $u{pass} )
 				{
 					if ( $getUserCookie eq $u{name} )
 					{
@@ -1003,27 +993,27 @@ sub auth
 						&any("$u{dir}");
 					}
 					else
-					{												
+					{
 						##&cgi_header(  );
 						&header1( title => "$sys{script_name}", cookie_status => "set", cookie_value => "$u{name}");
-						&any("$u{'dir'}"); 
-					
+						&any("$u{'dir'}");
+
 					}
 				}
-				else 
+				else
 				{
 					&authForm( title => "$lang{check_credentials}");
 				}
 
 			}
-			else 
+			else
 			{
 				&authForm( message => "$u not found on this server" );
 			}
 	}
-	else 
-	{ 
-		&authForm( message => "Username/Password cannot be empty" ); 
+	else
+	{
+		&authForm( message => "Username/Password cannot be empty" );
 	}
 
 	&footer;
@@ -1037,12 +1027,12 @@ sub createFile
 $curDir = $q->param('curDir');
 $file2create = $q->param('file2create');
 print "<center> $u, creating $file2create in $curDir <br> ";
-if (-e "$curDir/$file2create") 
-	{ print "Oops.  \"$file2create\" already exists.  <br> Please choose another file name to create."; 
+if (-e "$curDir/$file2create")
+	{ print "Oops.  \"$file2create\" already exists.  <br> Please choose another file name to create.";
 	&any("$curDir");
 	}
-else 
-	{ open (FILE, ">$curDir/$file2create") or print "Error#8_$0_627_$$"; 
+else
+	{ open (FILE, ">$curDir/$file2create") or print "Error#8_$0_627_$$";
 	print " <br> $file2create created successfully
 	To edit the file <a href='$ENV{'SCRIPT_NAME'}?action=edit&file=$curDir/$file2create'>Click Here</a>
 	";
@@ -1059,20 +1049,20 @@ sub createFolder
 	&header1( title => "Create Folder");
 
 	$curDir = $q->param('curDir'); chomp $curDir;
-	$folder2create = $q->param('folder2create'); chomp $folder2create; 
+	$folder2create = $q->param('folder2create'); chomp $folder2create;
 
-	if (-e -d "$curDir/$folder2create") 
-	{ 
-		print qq{<div class="alert alert-danger"> "$folder2create" already exists. Please choose another name </div>};	
-			
+	if (-e -d "$curDir/$folder2create")
+	{
+		print qq{<div class="alert alert-danger"> "$folder2create" already exists. Please choose another name </div>};
+
 		&any("$curDir");
 	}
-	else 
+	else
 	{
-		`"$sys{script_powershell}" New-Item -Path "$curDir/$folder2create" -ItemType "directory" -Force`; 
-	
+		`"$sys{script_powershell}" New-Item -Path "$curDir/$folder2create" -ItemType "directory" -Force`;
+
 		print qq{<div class="alert alert-success">'$folder2create' was created successfully </div>};
-	
+
 		&any("$curDir");
 	}
 
@@ -1082,10 +1072,10 @@ sub createFolder
 
 sub alphaNumImg
 {
-foreach (@_) 
-	{ 
+foreach (@_)
+	{
 	#			path							first part		last part
-	print "<img src=\"//bislinks.com/i/img/cms/";  print $_;  print "15.jpg\" height=10 border=0><br>"; 
+	print "<img src=\"//bislinks.com/i/img/cms/";  print $_;  print "15.jpg\" height=10 border=0><br>";
 	}
 }
 
@@ -1101,7 +1091,7 @@ $url1 = &url("$file");
 &header1( title => "Change Mode of $file2rename[$#file2rename]");
 
 $firstOne = join('/', @file2rename[0..$onebefore]);
-print "<center> You have chosen to chmod \"$url1\"  <br> 
+print "<center> You have chosen to chmod \"$url1\"  <br>
 
 	<form action=\"$ENV{'SCRIPT_NAME'}\" method=post accept-charset=utf-8 enctype='multipart/form-data'>
 	<input type=hidden name=user value=$u>
@@ -1112,7 +1102,7 @@ print "<center> You have chosen to chmod \"$url1\"  <br>
 	<input name=CMvalue type=radio value=0744>Owner R W X
 	<input name=CMvalue type=radio value=0754>Group R  X
 	<input name=CMvalue type=radio value=0755>World R  X
-<br> 
+<br>
 	<input type=submit value=\"Change File Mode of $file2rename[$#file2rename]\">
 	</form>
 	</center>
@@ -1162,7 +1152,7 @@ $url1 = &url("$file");
 &header1( title => "Make a copy of $file2rename[$#file2rename]");
 
 $firstOne = join('/', @file2rename[0..$onebefore]);
-print "<center> You have chosen to copy \"$url1\"  <br> 
+print "<center> You have chosen to copy \"$url1\"  <br>
 
 	<form action=\"$ENV{'SCRIPT_NAME'}\" method=post accept-charset=utf-8 enctype='multipart/form-data'>
 	<input type=hidden name=user value=$u>
@@ -1171,7 +1161,7 @@ print "<center> You have chosen to copy \"$url1\"  <br>
 	<input type=hidden name=CopyFolder value=\"$firstOne\">
 	<input type=text name=CopyFile value=\"$file2rename[$#file2rename]\">
 
-<br> 
+<br>
 	<input type=submit value=\"Copy $file2rename[$#file2rename] to above new file\">
 	</form>
 	</center>
@@ -1185,8 +1175,8 @@ sub doDuplicate
 {
 &sys_vars;
 
-$file = $q->param('file');						
-@file2rename = (split/\//, $file, $#file2rename);		# 
+$file = $q->param('file');
+@file2rename = (split/\//, $file, $#file2rename);		#
 $onebefore = $#file2rename - 1;
 
 $url1 = &url("$file");
@@ -1228,7 +1218,7 @@ print qq{<h3>You have chosen to delete "$url1." Are You Sure?</h3>
 	<input type=hidden name=deleteFolder value=\"$firstOne\">
 	<input type=hidden name=deleteFile value="$file2rename[$#file2rename]">
 
-<br> 
+<br>
 	<input type=submit value="YES I AM SURE, DELETE $file2rename[$#file2rename]">
 	</form>
 	};											## had to remove the extra forward slash in $firstOne in order to get proper folder path in up:
@@ -1240,8 +1230,8 @@ print qq{<h3>You have chosen to delete "$url1." Are You Sure?</h3>
 sub doDelete
 {
 &sys_vars;
-$file = $q->param('file');						
-@file2rename = (split/\//, $file, $#file2rename);		# 
+$file = $q->param('file');
+@file2rename = (split/\//, $file, $#file2rename);		#
 $onebefore = $#file2rename - 1;
 
 $url1 = &url("$file");
@@ -1266,162 +1256,180 @@ print "<h2> successfully deleted $u{'file'} </h2> ";
 
 sub header1
 {
-	my %in = 
+	my %in =
 	(
 		title => "$sys{script_name}",
 		cookie_status => "",
 		cookie_value => "",
 		@_,
 	);
-	
-	$title = "$_[0]"; #shows the script path which i dont want 
+
+	$title = "$_[0]"; #shows the script path which i dont want
 	@t = (split/\//, $title, $#t);
-	
+
 	&cgi_header( cookie_status => "$in{cookie_status}", cookie_value => "$in{cookie_value}");
 
 	print qq{<!doctype html>
 <html lang="en">
 <head>
-
-	<title>$in{title} - PC-Access Free</title>
-
 	<meta charset="utf-8">
+	<title>$in{title} - PC-Access Free</title>
 	<meta name="theme-color" content="black">
 	<meta name="keywords" content="windows xp, windows 7, windows 8.1, windows 10, windows server 2012, file manager, blogs, hosted by a1z.us">
 	<meta name="description" content="Windows file Manager by a1z.us">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
-	
-	<link rel="stylesheet" href="/pcaccessfree/index.css">
+	<link rel="stylesheet" href="public/node_modules/bootstrap/dist/css/bootstrap.min.css" crossorigin="anonymous">
+	<link rel="stylesheet" href="index.css">
+	<link rel="apple-touch-icon" href="public/favicon.ico">
+	<link rel="manifest" href="manifest.json">
 
-	<link rel="manifest" href="/pcaccessfree/manifest.json"
+	<style>
+	.inv { display: none; }
+	</style>
 
 </head>
 
 <body>
 
-<h1>
+<h1 class="inv">
 	$sys{script_name}
 </h1>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#">PCAccessFree</a>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="admin.cgi">Admin</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
 
 };
 
 }
 
-sub footer 
+sub footer
 {
 	my $out = '';
-	
+
 	my $server_info = ''; $server_info = &server_info();
-	
+
 	my $browser_info = ''; $browser_info = &browser_info();
-	
+
 	print qq~
-	
+
 		<div class="spacer">
 			$lang{help_us_improve} <a href="$sys{bugs_url}" title="$lang{help_us_improve}">$lang{bugs} $lang{here}</a>
 		</div>
-		
+
 		<div class="spacer">
-			&copy; &nbsp; &nbsp; 
-			<button 
+			&copy; &nbsp; &nbsp;
+			<button
 				type="button" class="btn btn-sm btn-info" data-html="true" data-toggle="popover" title="Server Info"
-				data-content='$server_info' 
+				data-content='$server_info'
 			>
 				$ENV{'COMPUTERNAME'}/$ENV{'SERVER_NAME'}
 			</button>
 		</div>
-		
+
 		<div class="spacer dev-error">
-			$sys{lang_file_error}   
+			$sys{lang_file_error}
 		</div>
-		
+
 		<div class="spacer browser">
 			$browser_info
 		</div>
-		
-		<script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
-		<script src="/pcaccessfree/index.js"></script>
-		
+		<script src="public/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+		<script src="index.js"></script>
+
 		<script>
-		
-			\$(function () {
-				\$('[data-toggle="popover"]').popover()
+			var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="popover"]'))
+			var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+				return new bootstrap.Popover(popoverTriggerEl)
 			});
-			
-			\$(function () {
-				\$('[data-toggle="tooltip"]').tooltip()
-			});
-			
+
 		</script>
 
 		  <script>
     // register service worker
     if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-    navigator.serviceWorker.register("/pcaccessfree/service-worker.js")
+    navigator.serviceWorker.register("service-worker.js")
     .then((reg) => {
-    console.log('Service worker registered.', reg);
+    console.log('Service worker for PCAccessFree registered.', reg);
     });
     });
     }
   </script>
-		
+
 </body>
-		
+
 </html>
 
 ~;
 }
 
 
-sub dir_error 
+sub dir_error
 {
 	 my $dir = shift;
-	 
+
 	 return qq`
 	 <div class="error">
 		<p>
-			Unable to open dir, error #$dir. 
-			<a href="//$ENV{SERVER_NAME}/$ENV{SCRIPT_NAME}"></a> 
+			Unable to open dir, error #$dir.
+			<a href="//$ENV{SERVER_NAME}/$ENV{SCRIPT_NAME}"></a>
 			Click or touch &nbsp; <span class="highlight">UP: C:/</span> &nbsp; below to go to your home directory.
 		</p>
 	 </div>`;
 }
 
 
-sub logout 
+sub logout
 {
-	# authform 
-	&authForm( title => "Logout", cookie_status => "delete" );		# includes cgi_header 
+	# authform
+	&authForm( title => "Logout", cookie_status => "delete" );		# includes cgi_header
 }
 
 
 sub cgi_header
 {
 
-=head1 cgi_header 
+=head1 cgi_header
 	Can be used to set, get, or delete a cookie.
-=head1 Usage 
-	header1 includes this sub! So, usage would be 
+=head1 Usage
+	header1 includes this sub! So, usage would be
 	&header1( .... );
 =cut
 
 	my %in = (
 		cookie_value => "",
 		cookie_status => "get",
-		@_,		
+		@_,
 	);
-	
+
 	my %coo = '';
-	
-	if ( $in{cookie_status} eq 'set') 
+
+	if ( $in{cookie_status} eq 'set')
 	{
-		
+
 		$coo{set} = new CGI::Cookie
 		(
 			-name    =>  "$sys{cookie_name}",
@@ -1431,8 +1439,8 @@ sub cgi_header
 			-path    =>  "$sys{cookie_path}",
 			-secure  =>  $sys{cookie_secure}
 		);
-	
-		print header( -charset => "utf-8", -cookie => $coo{set} ); 
+
+		print header( -charset => "utf-8", -cookie => $coo{set} );
 
 	}
 	elsif ( $in{cookie_status} eq 'delete' )
@@ -1446,79 +1454,79 @@ sub cgi_header
 			-path    =>  "$sys{cookie_path}",
 			-secure  =>  $sys{cookie_secure}
 		);
-	
+
 		print header( -charset => "utf-8", -cookie => $coo{delete} );
 	}
-	else 
+	else
 	{
-		print header( -charset => "utf-8"); 
+		print header( -charset => "utf-8");
 	}
 }
 
 # browser info via popover
-sub browser_info 
+sub browser_info
 {
 	my %in = (
 		ad_html => qq{},
 		@_,
 	);
-	 
+
 	my $out = '';
-	
+
 	$out .= qq{<table class="table table-responsive browser-info">};
 	for (sort keys %ENV)
 	{
-		if ( $_ =~ /(http_|gate|remote)/i ) 
-		{ 
+		if ( $_ =~ /(http_|gate|remote)/i )
+		{
 			$out .= qq{<tr> <td>$_</td> <td>$ENV{$_}</td> </tr>} if ( $_ and $ENV{$_} );
 		}
 	}
-	$out .= qq{</table>}; 
-	
-	if( $sys{enable_browser_info} ) 
+	$out .= qq{</table>};
+
+	if( $sys{enable_browser_info} )
 	{
-		return qq{<button type="button" class="btn btn-sm btn-info" data-toggle="popover" title="Browser Info" data-html="true" data-content='$out'>Browser Info</button>}; 
+		return qq{<button type="button" class="btn btn-sm btn-info" data-toggle="popover" title="Browser Info" data-html="true" data-content='$out'>Browser Info</button>};
 	}
-	else 
+	else
 	{
 		return qq{Your IP: $ENV{REMOTE_ADDR} };
 	}
-	
+
 }
 
-sub server_info 
+sub server_info
 {
 	my %in;
-	
+
 	my $out = '';
-	
+
 	%in = (
 		info => '',
 		@_,
 	);
-	
+
 	$out .= qq{<table class="table table-responsiv browser-info">};
-	
-	for (keys %ENV ) { 
+
+	for (keys %ENV ) {
 		$_ =~ s!\'! !g;
 		$ENV{$_} =~ s!\'! !g;
-		$out .= qq{<tr> <td>$_</td> <td>$ENV{"$_"}</td> </tr>} if ( $_ and $ENV{$_} and $_ =~ /server/i ); 
+		$out .= qq{<tr> <td>$_</td> <td>$ENV{"$_"}</td> </tr>} if ( $_ and $ENV{$_} and $_ =~ /server/i );
 	}
-	
+
 	$out .= qq{
-			<tr> <td>Proc</td>    <td> $ENV{'PROCESSOR_ARCHITECTURE'}</td> </tr>		
+			<tr> <td>Proc</td>    <td> $ENV{'PROCESSOR_ARCHITECTURE'}</td> </tr>
 	};
-	
+
 	$out .= qq{</table>};
-	
-	if( $sys{enable_server_info} ) 
+
+	if( $sys{enable_server_info} )
 	{
-		return qq{$out}; 
+		return qq{$out};
 	}
-	else 
+	else
 	{
 		return qq{$lang{server_info_disabled} <a href="$sys{PCAccessAdminUrl}" title="$lang{script_name}">$sys{script_name} Admin</a> };
-	} 
+	}
 }
 
 

@@ -35,7 +35,7 @@ table td {
 	padding:0.3em;
 }
 
-th { 
+th {
 background-color:white;
 color:lightgreen;
 }
@@ -109,15 +109,15 @@ color:lightgreen;
 }
 
 .submit {
-	
+
 	/* didnt work in Edge */
-	
-    padding:2px 4px; 
-    background:white; 
+
+    padding:2px 4px;
+    background:white;
     border:0 none;
     cursor:pointer;
     -webkit-border-radius: 1px;
-    border-radius: 1px; 
+    border-radius: 1px;
 }
 
 .error {
@@ -149,3 +149,5 @@ input[type=textarea] {
 .td-spacer {
 	padding:0.5em 0 1em 0;
 }
+
+.inv { display: none; }

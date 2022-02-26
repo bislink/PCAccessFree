@@ -1,0 +1,36 @@
+{
+  "name": "pcaccessfree",
+  "version": "1.0.0",
+  "description": "PC Access Free",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bislink/PCAccessFree.git"
+  },
+  "keywords": [
+    "pc",
+    "access",
+    "free",
+    "worldwide",
+    "anywhere",
+    "your",
+    "pc",
+    "perl",
+    "bootstrap"
+  ],
+  "author": "github@bislinks.com",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/bislink/PCAccessFree/issues"
+  },
+  "homepage": "https://github.com/bislink/PCAccessFree#readme",
+  "dependencies": {
+    "@popperjs/core": "^2.11.2",
+    "bootstrap": "^5.1.3",
+    "jquery": "^3.6.0",
+    "slideout": "^1.0.1"
+  }
+}
