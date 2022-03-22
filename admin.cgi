@@ -271,6 +271,69 @@ get '/env' => sub {
 };
 # end env
 
+get '/search' => sub {
+	my $c = shift;
+	$c->render('search/welcome', h1 => "Search");
+};
+# end search
+
+
+# Result
+
+post '/search' => sub {
+	my $c = shift;
+	#
+	my @out;
+	# search term
+	my $searchterm = $c->param('searchterm');
+	$searchterm =~ s!(\$|\#|\@|\&|\*|\(|\)|\%|\^|\!)!!g;
+	my $searchresult = '';
+	# result
+	my $searchdir = $dir;
+	$searchdir =~ s!\/github\/PCAccessFree!!;
+	# hide some basic/imp info from hackers
+	my $dir4web = $searchdir;
+	$dir4web =~ s!C:/Users/sumu/public!!;
+	#
+	if ( -d "$searchdir" ) {
+		if ( opendir(my $sd, $searchdir) ) {
+			# find a match
+			while (my $file = readdir $sd) {
+				#
+				#next if $file =~ /^.$/;
+	      #next if $file =~ /^..$/;
+				# find match
+				if ($file =~ /$searchterm/i) {
+					# Does not work for some reason i dono
+					$searchresult .= qq{ <a href="/found?name=$file" title="match found">$file</a> };
+					# works
+					push( @out, qq{<a href="/found?name=$file&dir=$dir4web" title="match found">$file</a>} );
+				} else {
+					$searchresult = qq{<div class="alert alert-warning">No results found for "$searchterm" in "$searchdir" </div>};
+				}
+			}
+			closedir $sd;
+			# end while
+		} else {
+			$searchresult = qq{<div class="alert alert-danger">Unable to open directory $searchdir </div>};
+		}
+	} else {
+		$searchresult = qq{<div class="alert alert-danger">Search Directory is inaccessible or not found </div> };
+	}
+
+	for (@out) { $searchresult .= qq{$_ }; }
+
+	# render
+	$c->render(
+		'search/result',
+		searchterm => $searchterm,
+		searchdir => "$searchdir",
+		searchresult => qq{$searchresult}
+	);
+	# end render
+};
+# end search result
+
 app->start();
 
 

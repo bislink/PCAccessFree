@@ -1,0 +1,8 @@
+% layout 'default';
+% title 'Search ';
+<article><h2>Search</h2>
+  <form class="d-flex" action="<%= url_for 'search' %>" method="post">
+    <input class="form-control me-2" type="search" name="searchterm" placeholder="search_term" aria-label="form_earch">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+  </form>
+</article>

@@ -1,0 +1,9 @@
+% layout 'search';
+% title ' Result ';
+
+<article class="container searchresult">
+  <h2>Search results for <span class="badge bg-secondary"><%= $searchterm %></span></h2>
+  <%== $searchresult %>
+</article>
+
+<article class="container"><h5><%= current_route %></h5></article>

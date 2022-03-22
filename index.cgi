@@ -866,7 +866,7 @@ print qq{
 		</tr><tr>
 			<td>
 			<input type=hidden name=action value=\"createFolder\">
-			<input class="form-control" type=submit value=\"Create Folder\">
+			<input class="form-control" type=submit value=\"$lang{form_create_folder}\">
 			</td>
 		</tr>
 	</table>
@@ -946,11 +946,11 @@ sub authForm
 				<input type=hidden name=action value=auth>
 				<div class="form-group">
 					<label for="user">Username</label>
-					<input class="form-control" name=user id="user" type=text aria-describedby="user name" placeholder="Enter your user name">
+					<input class="form-control" name=user id="user" type=text aria-describedby="user name" placeholder="$lang{enter_username}">
 				</div>
 				<div class="form-group">
 				<label for="pass">Password</label>
-					<input class="form-control" name=pass type=password id="pass" aria-describedby="password" placeholder="Enter password">
+					<input class="form-control" name=pass type=password id="pass" aria-describedby="password" placeholder="$lang{enter_password}">
 				</div>
 				<button type=submit value='LOGIN' class="btn btn-primary">Login</button>
 			</form>
@@ -1315,9 +1315,9 @@ sub header1
           </ul>
         </li>
       </ul>
-      <form class="d-flex" action="admin.cgi/search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+      <form class="d-flex" action="admin.cgi/search" method="post">
+        <input class="form-control me-2" type="search" name="searchterm" placeholder="$lang{form_search_term}" aria-label="$lang{form_earch}">
+        <button class="btn btn-outline-success" type="submit">$lang{form_search}</button>
       </form>
     </div>
   </div>
