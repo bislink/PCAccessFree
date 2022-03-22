@@ -1,0 +1,15 @@
+% my $session = session->{user};
+% if ( $session ) {
+  Protected
+  <div>
+  Welcome back <%= session->{user} %>
+  </div>
+
+% } else {
+  <div>
+  Session expired.  <a href="<%= url_for '/' %>" title="Login again">Login again</a>  <%= $session %>
+  </div>
+% }
+
+
+<%= session->{id} %>

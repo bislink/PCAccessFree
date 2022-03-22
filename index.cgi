@@ -36,12 +36,13 @@ my %sys;
 	script_users_folder => "$users_userpass_dir",
 	script_dir => "$path",
 
-	author => "hosting\@a1z.us",
+	author => "github\@bislinks.com",
 	website => "https://www.a1z.us",
-	bugs_url => "https://edge.a1z.us/b/bugs/describecomponents.cgi?product=AccessYourPC",
+	bugs_url => "https://github.com/bislink/PCAccessFree/issues",
 
 	cookie_name => 'user',
 	dir_error => qq``,
+	tableclasses => "table table-responsive table-hover",
 
 # cookies
 
@@ -313,17 +314,17 @@ sub any
 <!-- ad  -->
 	};
 
-	print qq{<br/><table id='A' class="table table-responsive">};
+	print qq{<br/><table id='A' class="table $sys{tableclasses}">};
 
 	# header/welcome/ad
 	print qq`
 	<tr>
 		<td colspan="8">
-			<table class="table table-responsive">
+			<table class="table $sys{tableclasses}">
 				<tr>
 					<td class="ads-or-message">
-<button type="button" class="btn btn-secondary btn-sm cur-folder">$H[$#H]
-							<span class="badge badge-pill badge-primary">$total</span> <span class="sr-only">Total including folders and files</span>
+						<button type="button" class="btn btn-secondary btn-sm cur-folder">$H[$#H]
+							<span class="badge bg-primary">$total</span> <span class="sr-only">Total including folders and files</span>
 						</button>
 					</td>
 					<td class="welcome-back">
@@ -349,7 +350,7 @@ sub any
 
 	print qq{</td> <td colspan='7'>
 
-		<table id='A1' class="table table-responsive">
+		<table id='A1' class="table $sys{tableclasses}">
 			<tr class="col-sm-4">
 
 				<td>
@@ -397,7 +398,7 @@ sub any
 
 =head1 Top Form disabled
 # TOP FORMS
-		print qq{<table id='A2_fileForms' class="table table-responsive">
+		print qq{<table id='A2_fileForms' class="table $sys{tableclasses}">
 		<tr>};
 			print "<td>"; &fileForm("$g");
 			print "</td> </tr><tr> <td>"; &folderForm("$g");
@@ -421,14 +422,14 @@ sub any
 
 	#
 
-		print qq{<table id='A3_foldersOperation' class="table table-responsive">};
+		print qq{<table id='A3_foldersOperation' class="table $sys{tableclasses}">};
 
 			# Folders Header
 		print qq{
 		<tr>
 		<td class="td-spacer" colspan="8">
 			<span class='cur-folder'>$H[$#H]</span> &nbsp;
-			<button type="button" class="btn btn-outline-secondary folders-btn">Folders &nbsp; <span class="badge badge-secondary">$folders</span></button>
+			<button type="button" class="btn btn-primary folders-btn">Folders &nbsp; <span class="badge bg-secondary">$folders</span></button>
 		</td>
 		</tr>
 
@@ -457,17 +458,17 @@ sub any
 						<input type=hidden name=user value='$u'>
 						<input name=g type=hidden value='$g'>
 						<input name=f1 type=hidden value="$g/$_">
-						<button type="submit" class="badge badge-pill badge-secondary">Go</button>
+						<button type="submit" class="badge bg-secondary">Go</button>
 					</form>
 				</td>
 				<td>
-					<a href='$ENV{'SCRIPT_NAME'}?action=rename&f=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Ren</span></a>
+					<a href='$ENV{'SCRIPT_NAME'}?action=rename&f=$g/$_&user=$u'><span class="badge bg-secondary">Ren</span></a>
 				</td>
 				<td>
-					<a href='$ENV{'SCRIPT_NAME'}?action=duplicate&f=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Copy</span></a>
+					<a href='$ENV{'SCRIPT_NAME'}?action=duplicate&f=$g/$_&user=$u'><span class="badge bg-secondary">Copy</span></a>
 				</td>
 				<td>
-					<a href='$ENV{'SCRIPT_NAME'}?action=delete&f=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Del</span></a>
+					<a href='$ENV{'SCRIPT_NAME'}?action=delete&f=$g/$_&user=$u'><span class="badge bg-secondary">Del</span></a>
 				</td>
 			</tr>} if (-d "$g/$_") && ($_ =~ /[a-zA-Z0-9]/);
 		}
@@ -478,14 +479,14 @@ sub any
 
 	print qq{ </td> <td colspan=7>};
 
-		print qq{<table id='foldersOperation' class="table table-responsive">};
+		print qq{<table id='foldersOperation' class="table $sys{tableclasses}">};
 
 		# Files Header
 		print qq{
 
 		<tr> <td colspan="8">
 		<span class='cur-folder'>$H[$#H]</span>
-		<button type="button" class="btn btn-outline-secondary files-btn">Files &nbsp; <span class="badge badge-secondary">$files</span> </button>
+		<button type="button" class="btn btn-primary files-btn">Files &nbsp; <span class="badge bg-secondary">$files</span> </button>
 		</td> </tr>
 
 		<tr>
@@ -522,11 +523,11 @@ sub any
 			print qq{
 				<tr>
 					<td class='links'> <a href="//$ENV{'SERVER_NAME'}:$ENV{SERVER_PORT}$url1/$_"> $_</a> </td>
-					<td><span class="badge badge-pill badge-info">$fDate{'size'}</span></td>
-					<td><a href='$ENV{'SCRIPT_NAME'}?action=edit&file=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Edit</span></a> </td>
-					<td><a href='$ENV{'SCRIPT_NAME'}?action=rename&f=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Ren</span></a> </td>
-					<td> <a href='$ENV{'SCRIPT_NAME'}?action=duplicate&f=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Copy</span></a> </td>
-					<td> <a href='$ENV{'SCRIPT_NAME'}?action=delete&f=$g/$_&user=$u'><span class="badge badge-pill badge-secondary">Del</span></a> </td>
+					<td><span class="badge bg-info">$fDate{'size'}</span></td>
+					<td><a href='$ENV{'SCRIPT_NAME'}?action=edit&file=$g/$_&user=$u'><span class="badge bg-secondary">Edit</span></a> </td>
+					<td><a href='$ENV{'SCRIPT_NAME'}?action=rename&f=$g/$_&user=$u'><span class="badge bg-secondary">Ren</span></a> </td>
+					<td> <a href='$ENV{'SCRIPT_NAME'}?action=duplicate&f=$g/$_&user=$u'><span class="badge bg-secondary">Copy</span></a> </td>
+					<td> <a href='$ENV{'SCRIPT_NAME'}?action=delete&f=$g/$_&user=$u'><span class="badge bg-secondary">Del</span></a> </td>
 				</tr>
 			} if (-f "$g/$_");
 		}
@@ -537,7 +538,7 @@ sub any
 
 	print "</table> </td> </tr> <tr> <td>";
 		print "</td> <td colspan=7>";
-		print qq{<table id='bottomFileForms'  class="table table-responsive">
+		print qq{<table id='bottomFileForms'  class="table $sys{tableclasses}">
 			<tr>};
 		print "<td>"; &fileForm("$g");
 		print "</td> </tr> <tr> <td> "; &folderForm("$g");
@@ -550,7 +551,7 @@ sub any
 	print "</td><td colspan=7>";
 
 		print qq{
-		<table id='ComingSoonPro' class="table table-responsive">
+		<table id='ComingSoonPro' class="table $sys{tableclasses}">
 			<tr>
 				<td>
 					Logged in as $getUserCookie. <a href='$ENV{SCRIPT_NAME}?action=logout' title='Logout'>Logout</a> \|
@@ -706,7 +707,7 @@ sub upload_form 						# upload_form is used in both top and bottom of sub any
 {
 print qq{
 <form action="$ENV{'SCRIPT_NAME'}" method=post enctype="multipart/form-data">
-<table class="table table-responsive"><tr><td>
+<table class="table $sys{tableclasses}"><tr><td>
 <input type=hidden name=upDir value=\"$_[0]\">
 <input type=hidden name=user value=$u>
 <label for="upFile">Upload Item</label>
@@ -826,7 +827,7 @@ sub fileForm
 
 print qq{
 <form action=\"$sys{script_url}\" method='post' accept-charset='utf-8' enctype='multipart/form-data'>
-	<table class='table table-responsive'>
+	<table class='table $sys{tableclasses}'>
 		<tr>
 			<td>
 				<input type=hidden name=user value=$u>
@@ -853,7 +854,7 @@ sub folderForm
 
 print qq{
 <form action=\"$sys{script_url}\" method='post' enctype=\"multipart/form-data\" >
-	<table class='table table-responsive'>
+	<table class="table $sys{tableclasses}">
 		<tr>
 			<td>
 			<input type=hidden name=user value=$u>
@@ -1124,7 +1125,7 @@ $u{'CMvalue'} = $q->param('CMvalue');				# in this sub, i have exclusively used 
 $u{'folder'} = $q->param('CMfolder');
 $u{'file'} = $q->param('CMfile');
 
-if ($u{'CMvalue'} eq "0744") { $u{'human_CMvalue'} = "<table valign=top align=center cellspacing=1 cellpadding=1 bgcolor=lightblue> <th bgcolor=white> Owner </th> <th bgcolor=white> Group </th> <th bgcolor=white> World </th> <tr bgcolor=white> <td> R </td> <td> R </td> <td> R </td> </tr>   <tr bgcolor=white> <td> W </td> <td>  </td> <td>  </td> </tr>    <tr bgcolor=white> <td> X </td> <td>  </td> <td>  </td> </tr></table> "; }
+if ($u{'CMvalue'} eq "0744") { $u{'human_CMvalue'} = "<table valign=top align=center cellspacing=1 cellpadding=1 bgcolor=lightblue> <th> Owner </th> <th> Group </th> <th> World </th> <tr> <td> R </td> <td> R </td> <td> R </td> </tr>   <tr> <td> W </td> <td>  </td> <td>  </td> </tr>    <tr> <td> X </td> <td>  </td> <td>  </td> </tr></table> "; }
 elsif ($u{'CMvalue'} eq "0754") { $u{'human_CMvalue'} = "Group R X"; }
 elsif ($u{'CMvalue'} eq "0755") { $u{'human_CMvalue'} = "World R X"; }
 
@@ -1273,28 +1274,23 @@ sub header1
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>$in{title} - PC-Access Free</title>
+	<title>$in{title} - PC Access Free</title>
 	<meta name="theme-color" content="black">
 	<meta name="keywords" content="windows xp, windows 7, windows 8.1, windows 10, windows server 2012, file manager, blogs, hosted by a1z.us">
-	<meta name="description" content="Windows file Manager by a1z.us">
+	<meta name="description" content="Windows file/content Manager">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-
 	<link rel="stylesheet" href="public/node_modules/bootstrap/dist/css/bootstrap.min.css" crossorigin="anonymous">
-	<link rel="stylesheet" href="index.css">
+	<link rel="stylesheet" href="public/pcaf.index.css">
 	<link rel="apple-touch-icon" href="public/favicon.ico">
-	<link rel="manifest" href="manifest.json">
-
+	<link rel="manifest" href="public/manifest.json">
 	<style>
 	.inv { display: none; }
 	</style>
-
 </head>
 
 <body>
 
-<h1 class="inv">
-	$sys{script_name}
-</h1>
+<h1 class="inv">$sys{script_name}</h1>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
@@ -1305,13 +1301,20 @@ sub header1
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="admin.cgi">Admin</a>
         </li>
+				<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            More
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <li><a class="dropdown-item" href="public/favicon.ico">favicon</a></li>
+            <li><a class="dropdown-item" href="public/icon/icon_192x192.png">Icon</a></li>
+            <li><a class="dropdown-item" href="setup.cgi">Setup</a></li>
+          </ul>
+        </li>
       </ul>
-      <form class="d-flex">
+      <form class="d-flex" action="admin.cgi/search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
@@ -1357,10 +1360,10 @@ sub footer
 
 		<script src="public/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
-		<script src="index.js"></script>
+		<script src="public/index.js"></script>
 
 		<script>
-			var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="popover"]'))
+			var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
 			var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
 				return new bootstrap.Popover(popoverTriggerEl)
 			});
@@ -1371,9 +1374,9 @@ sub footer
     // register service worker
     if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-    navigator.serviceWorker.register("service-worker.js")
+    navigator.serviceWorker.register("public/service-worker.js")
     .then((reg) => {
-    console.log('Service worker for PCAccessFree registered.', reg);
+    console.log('Service worker for PCAccessFree-v0.5.6 registered.', reg);
     });
     });
     }
@@ -1473,7 +1476,7 @@ sub browser_info
 
 	my $out = '';
 
-	$out .= qq{<table class="table table-responsive browser-info">};
+	$out .= qq{<table class="table $sys{tableclasses} browser-info">};
 	for (sort keys %ENV)
 	{
 		if ( $_ =~ /(http_|gate|remote)/i )
@@ -1505,7 +1508,7 @@ sub server_info
 		@_,
 	);
 
-	$out .= qq{<table class="table table-responsiv browser-info">};
+	$out .= qq{<table class="table $sys{tableclasses} browser-info">};
 
 	for (keys %ENV ) {
 		$_ =~ s!\'! !g;

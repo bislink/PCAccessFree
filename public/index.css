@@ -6,13 +6,7 @@ body {
 	top:2em;
 }
 
-a:link {
-	text-decoration:none;
-}
 
-a:hover {
-	text-decoration:underline;
-}
 
 h1 {
 	color:lightgreen;

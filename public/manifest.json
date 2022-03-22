@@ -1,20 +1,20 @@
 {
   "name": "PC Access Free",
   "short_name": "PCAF",
-  "start_url": "/pcaccessfree/index.cgi",
-  "scope": "/pcaccessfree/",
+  "start_url": "/github/PCAccessFree/index.cgi",
+  "scope": "/github/PCAccessFree/",
   "description": "Access your pc from anywhere, anytime",
   "display": "standalone",
   "theme_color": "black",
   "background_color": "white",
   "icons": [
     {
-      "src": "/pcaccessfree/public/icon/icon_192x192.png",
+      "src": "/github/pcaccessfree/public/icon/icon_192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/pcaccessfree/public/icon/icon_512x512.png",
+      "src": "/github/pcaccessfree/public/icon/icon_512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
