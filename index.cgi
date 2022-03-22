@@ -1,4 +1,5 @@
-#!/usr/bin/perl
+#!C:/Strawberry/perl/bin/perl.exe
+
 #C:/Users/user03/public/OneFile/index.cgi
 
 use strict;
@@ -6,14 +7,17 @@ use CGI qw/:standard/;
 use CGI::Cookie;
 use Cwd qw();
 use File::Basename qw();
-
-#use warnings;
-use CGI::Carp qw/fatalsToBrowser/;
-
-my $cwd = Cwd::abs_path();
-
 my ($name, $path, $suffix) = File::Basename::fileparse($0);
 $path =~ s!\\!\/!g;
+my $cwd = Cwd::abs_path();
+$cwd =~ s!\\!\/!g;
+#use lib "".$cwd."/lib";
+##push(@INC, "C:/Users/sumu/public/github/PCAccessFree/lib");
+use lib ("C:/Users/sumu/public/github/PCAccessFree/lib");
+use Helper;
+my $epoch = Dates::general( type => 'name', name => 'epoch1' );
+# disable this if in production ( if you use port forwarding)
+use CGI::Carp qw/fatalsToBrowser/;
 
 my $users_userpass_dir = '';
 my @path = ''; @path = split(/\//, $path);
@@ -28,7 +32,6 @@ my %sys;
 	script_url => "//$ENV{'SERVER_NAME'}:$ENV{SERVER_PORT}/$ENV{'SCRIPT_NAME'}",
 	PCAccessMainUrl => "//$ENV{'SERVER_NAME'}$ENV{'SCRIPT_NAME'}",
 	PCAccessAdminUrl => "admin.cgi",
-
 
 	PCAccessSetupUrl => "setup.cgi",
 	script_name => "PC Access Free",
@@ -51,11 +54,9 @@ my %sys;
 # Add more function variables and values in %sys
 if ( -e -f "$path/lib/system_functions.txt" )
 {
-	open(SysFun, "$path/lib/system_functions.txt") or die $!;
-	my @sf = <SysFun>;
-	close SysFun;
+	open(SysFun, "$path/lib/system_functions.txt") or $sys{error} .= qq{<div class="alert alert-warning">$!</div>};
 
-	while ( my $function = <@sf> )
+	while ( my $function = <SysFun> )
 	{
 		chomp $function;
 		my ( $left, $right ) = split(/\=/, $function, 2);
@@ -225,7 +226,7 @@ sub form
 
 <a href=$ENV{'SCRIPT_NAME'}?action=first&f=$f>$f</a>
 
-	<form action='$ENV{'SCRIPT_NAME'}' method=post  accept-charset='utf-8' enctype='multipart/form-data'>
+	<form action='$ENV{'SCRIPT_NAME'}' method=post accept-charset='utf-8' enctype='multipart/form-data'>
 	<input type=hidden name=action value=first>
 <input type=hidden name=user value=$u>
 	<select name=\"f\">
@@ -324,7 +325,7 @@ sub any
 				<tr>
 					<td class="ads-or-message">
 						<button type="button" class="btn btn-secondary btn-sm cur-folder">$H[$#H]
-							<span class="badge bg-primary">$total</span> <span class="sr-only">Total including folders and files</span>
+							<span class="badge bg-primary">$total</span>
 						</button>
 					</td>
 					<td class="welcome-back">
@@ -1330,9 +1331,17 @@ sub footer
 {
 	my $out = '';
 
-	my $server_info = ''; $server_info = &server_info();
+	my $server_info = '';
+	$server_info = &Server::server_info(
+		enable_server_info => $sys{enable_server_info},
+		server_info_disabled => $sys{server_info_disabled},
+		PCAccessAdminUrl => $sys{PCAccessAdminUrl},
+		script_name => $sys{script_name},
+		tableclasses => $sys{tableclasses}
+	);
 
-	my $browser_info = ''; $browser_info = &browser_info();
+	my $browser_info = '';
+	$browser_info = &browser_info();
 
 	print qq~
 
@@ -1343,8 +1352,8 @@ sub footer
 		<div class="spacer">
 			&copy; &nbsp; &nbsp;
 			<button
-				type="button" class="btn btn-sm btn-info" data-html="true" data-bs-toggle="popover" data-bs-trigger="focus" title="Server Info"
-				data-content='$server_info'
+				type="button" class="btn btn-sm btn-info" data-bs-html="true" data-bs-toggle="popover" data-bs-trigger="focus" title="Server Info"
+				data-bs-content='$server_info'
 			>
 				$ENV{'COMPUTERNAME'}/$ENV{'SERVER_NAME'}
 			</button>
@@ -1488,7 +1497,7 @@ sub browser_info
 
 	if( $sys{enable_browser_info} )
 	{
-		return qq{<button type="button" class="btn btn-sm btn-info" data-bs-toggle="popover" data-bs-trigger="focus" title="Browser Info" data-html="true" data-content='$out'>Browser Info</button>};
+		return qq{<button type="button" class="btn btn-sm btn-info" data-bs-toggle="popover" data-bs-trigger="focus" title="Browser Info" data-bs-html="true" data-bs-contentt='$out'>Browser Info</button>};
 	}
 	else
 	{
@@ -1497,40 +1506,7 @@ sub browser_info
 
 }
 
-sub server_info
-{
-	my %in;
-
-	my $out = '';
-
-	%in = (
-		info => '',
-		@_,
-	);
-
-	$out .= qq{<table class="table $sys{tableclasses} browser-info">};
-
-	for (keys %ENV ) {
-		$_ =~ s!\'! !g;
-		$ENV{$_} =~ s!\'! !g;
-		$out .= qq{<tr> <td>$_</td> <td>$ENV{"$_"}</td> </tr>} if ( $_ and $ENV{$_} and $_ =~ /server/i );
-	}
-
-	$out .= qq{
-			<tr> <td>Proc</td>    <td> $ENV{'PROCESSOR_ARCHITECTURE'}</td> </tr>
-	};
-
-	$out .= qq{</table>};
-
-	if( $sys{enable_server_info} )
-	{
-		return qq{$out};
-	}
-	else
-	{
-		return qq{$lang{server_info_disabled} <a href="$sys{PCAccessAdminUrl}" title="$lang{script_name}">$sys{script_name} Admin</a> };
-	}
-}
+#Server::server_info();
 
 
 
