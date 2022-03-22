@@ -42,7 +42,7 @@ my %sys;
 
 	cookie_name => 'user',
 	dir_error => qq``,
-	tableclasses => "table table-responsive table-hover",
+	tableclasses => "table",
 
 # cookies
 
@@ -1343,7 +1343,7 @@ sub footer
 		<div class="spacer">
 			&copy; &nbsp; &nbsp;
 			<button
-				type="button" class="btn btn-sm btn-info" data-html="true" data-toggle="popover" title="Server Info"
+				type="button" class="btn btn-sm btn-info" data-html="true" data-bs-toggle="popover" data-bs-trigger="focus" title="Server Info"
 				data-content='$server_info'
 			>
 				$ENV{'COMPUTERNAME'}/$ENV{'SERVER_NAME'}
@@ -1488,7 +1488,7 @@ sub browser_info
 
 	if( $sys{enable_browser_info} )
 	{
-		return qq{<button type="button" class="btn btn-sm btn-info" data-toggle="popover" title="Browser Info" data-html="true" data-content='$out'>Browser Info</button>};
+		return qq{<button type="button" class="btn btn-sm btn-info" data-bs-toggle="popover" data-bs-trigger="focus" title="Browser Info" data-html="true" data-content='$out'>Browser Info</button>};
 	}
 	else
 	{
