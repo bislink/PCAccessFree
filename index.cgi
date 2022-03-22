@@ -30,7 +30,7 @@ my %sys;
 # system URLS
 
 	script_url => "//$ENV{'SERVER_NAME'}:$ENV{SERVER_PORT}/$ENV{'SCRIPT_NAME'}",
-	PCAccessMainUrl => "//$ENV{'SERVER_NAME'}$ENV{'SCRIPT_NAME'}",
+	PCAccessMainUrl => "//$ENV{'SERVER_NAME'}$ENV{'SCRIPT_NAME'}:$ENV{SCRIPT_PORT}",
 	PCAccessAdminUrl => "admin.cgi",
 
 	PCAccessSetupUrl => "setup.cgi",
@@ -88,7 +88,7 @@ my $default_language = '';
 
 if ( -e -f "$sys{script_dir}/lang/default-language.txt" )
 {
-	open( LANG, "$sys{script_dir}/lang/default-language.txt") or die $!;
+	open( LANG, "$sys{script_dir}/lang/default-language.txt") or $sys{error} .= qq{ <div class="alert alert-warning">$!</div> };
 	$default_language = <LANG>;
 	close LANG;
 	chomp $default_language;

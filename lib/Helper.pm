@@ -1,8 +1,9 @@
 #!C:/Strawberry/perl/bin/perl.exe
 #C:/Users/sumu/public/github/PCAccessFree/lib/Dates.pm
 
-=head1 CGI Helper
-
+=head1 CGI helper packages
+  Uses CGI 4.54 exclusively
+  Reverse compatible with perl versions 5.14 and less (assumed). Incompatible with Mojolicious.
 =cut
 
 =head2 Dates
