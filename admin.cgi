@@ -199,7 +199,7 @@ $form .= qq{
 	$sys{error}
 };
 
-get '/' => sub {
+get '/nologin' => sub {
 my $c = shift;
 	$c->render(
 		'index',
@@ -253,6 +253,19 @@ post '/change' => sub {
 	);
 };
 # end post change
+
+get '/' => sub {
+	my $c = shift;
+	my $out = '';
+	$c->render(
+		'welcome',
+		h1 => qq{ $sys{script_name} },
+		csjs => "/$sys{csjs_url}",
+		dir => "",
+		out => qq{$out}
+	);
+};
+
 
 # env
 get '/env' => sub {

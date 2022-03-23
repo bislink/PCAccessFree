@@ -9,7 +9,7 @@
     <meta name="description" content="Windows file Manager by a1z.us">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="manifest" href="/pcaccessfree/manifest.json" />
+    <link rel="manifest" href="/github/pcaccessfree/manifest.json" />
 
     <style>
 
@@ -65,15 +65,15 @@ h2 {
 }
 
 .submit {
-	
+
 	/* didnt work in Edge */
-	
-    padding:2px 4px; 
-    background:white; 
+
+    padding:2px 4px;
+    background:white;
     border:0 none;
     cursor:pointer;
     -webkit-border-radius: 1px;
-    border-radius: 1px; 
+    border-radius: 1px;
 }
 
 .error {
@@ -114,7 +114,7 @@ input[type=textarea] {
 	padding:0.4em 0 0.5em 0;
 	}
 	nav ul {
-	
+
 	}
 	nav ul li {
 	list-style-type:none;
@@ -158,7 +158,7 @@ input[type=textarea] {
 		float:right;
 		clear:right;
 	}
-	
+
 	.folders-btn {
 		float:right;
 		clear:right;
@@ -186,8 +186,8 @@ input[type=textarea] {
     <nav>
         <ul>
             <li><a href='index.htm'>Home</a></li>
-            <li><a href="index.cgi">Login</a></li>
-            <li class="last"><a href="admin.cgi">Admin</a></li>
+            <li><a href="index.cgi" title="Perl/CGI Admin">CGI</a></li>
+            <li class="last"><a href="admin.cgi" title="Perl/Mojolicious Admin">Mojo</a></li>
         </ul>
     </nav>
     <header>
@@ -204,9 +204,9 @@ input[type=textarea] {
         &copy; <a href="https://www.a1z.us" title="a1z hosting, design, &amp; development">a1z</a> <span id="copy-rights"></span>
     </footer>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="public/node_modules/jquery/dist/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="public/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="public/index.js" crossorigin="anonymous"></script>
 
     <script>
 
@@ -214,8 +214,8 @@ input[type=textarea] {
 
 // All cookies
 	var all_cookies = document.cookie;
-	
-	// first cookie 
+
+	// first cookie
 	var decodedCookie = decodeURIComponent(document.cookie);
 	var ca = decodedCookie.split(';');
 	var pca_cookie = ca[0];
@@ -223,63 +223,63 @@ input[type=textarea] {
 
         var allCookies = new Array();
         allCookies = all_cookies.split(',');
-	
-	//set cookie 
+
+	//set cookie
 	if (pca_cookie != "") {
-		//		
+		//
 	}
-	else { 
+	else {
 		document.cookie = "pcaccessfree=PCAccess Free; path=/; ";
 	}
-	
-	
+
+
 	var out = '';
 
 	out += '<table>';
-	
+
 	var pcaDiv = document.getElementById('pcaccess-assistant');
-	
+
 	var host = window.location.host;            // with port
-	var hostname = window.location.hostname;   // without port 
+	var hostname = window.location.hostname;   // without port
 	var port = window.location.port;
 	var pathname = window.location.pathname;
 	var protocol = window.location.protocol;
-		
+
 	var path = new Array();
 	path = pathname.split('/');
-	 
-	
+
+
 // populate
 	//
-	out += '<tr> <td>Refresh</td><td><a href="' +protocol+ '//' +host+ '' +pathname+ '">This Page</a></td></tr>'; 
+	out += '<tr> <td>Refresh</td><td><a href="' +protocol+ '//' +host+ '' +pathname+ '">This Page</a></td></tr>';
 	//
 	out += '<tr> <td>Protocol</td><td>' +protocol+ '</td></tr>';
-	//host 
+	//host
 	out += '<tr> <td>Host</td><td>' +host+ '</td></tr>';
 	//
 	out += '<tr> <td>Hostname</td><td>' +hostname+ '</td></tr>';
-	// port 
+	// port
 	out += '<tr> <td>Port</td><td>' +port+ '</td></tr>';
-	// pathname 
+	// pathname
 	out += '<tr> <td>PCAccess Dir.</td><td>' +path[1]+ '</td></tr>';
-	
-// cookie 
+
+// cookie
 	//
 	out += '<tr> <td>PCA Cookie Name</td><td>' +pca[0]+ '</td></tr>';
 	//
 	out += '<tr> <td>PCA Cookie Value</td><td>' +pca[1]+ '</td></tr>';
 	//
 	out += '<tr> <td>All Cookies</td><td>' +allCookies+ '</td></tr>';
-	
-	
-	
+
+
+
 	out += '</table>';
-	
+
 // Final output
 	// pcaccess-assistant
 	pcaDiv.innerHTML = out;
 	// rights
-	document.getElementById('copy-rights').innerHTML = '&amp; ' +hostname; 
+	document.getElementById('copy-rights').innerHTML = '&amp; ' +hostname;
         //
         function sponsors() { return '<a href="https://www.a2z.blue" title="A2z">A2Z.blue</a> &divide; <a href="https://www.a1z.us">A1Z.us</a>'; }
 	document.getElementById('sponsors').innerHTML = sponsors();
@@ -289,11 +289,11 @@ input[type=textarea] {
     <script>
 
         $(function () {
-            $('[data-toggle="popover"]').popover()
+            $('[data-bs-toggle="popover"]').popover()
         });
 
         $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
+            $('[data-bs-toggle="tooltip"]').tooltip()
         });
 
     </script>
@@ -302,7 +302,7 @@ input[type=textarea] {
         // register service worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register("/pcaccessfree/service-worker.js")
+                navigator.serviceWorker.register("/github/pcaccessfree/service-worker.js")
                     .then((reg) => {
                         console.log('Service worker registered.', reg);
                     });
@@ -312,4 +312,3 @@ input[type=textarea] {
 
 </body>
 </html>
-
