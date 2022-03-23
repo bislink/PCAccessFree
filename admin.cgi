@@ -345,7 +345,7 @@ post '/search' => sub {
 
 get '/login' => sub {
 	my $c = shift;
-	$c->render('admin/index', h1 => "Login");
+	$c->render('login/index', h1 => "Login");
 };
 # end login form
 
@@ -365,15 +365,18 @@ post '/admin' => sub {
 	# end if session user
 	else
 	{
-		return $self->render unless $self->users->check($user, $pass);
-
-		# Add to session
-		$self->session(user => $user);
-		$self->flash(message => 'Thanks for logging in.');
+		#return $self->render unless $self->users->check($user, $pass);
+		if ( $self->users->check($user, $pass) ) {
+			# Add to session
+			$self->session(user => $user);
+			$self->flash(message => 'Thanks for logging in.');
+			$self->render('admin/welcome', h1 => "Welcome back");
+		} else {
+			$self->render('login/index', h1 => "");
+		}
 		#########$self->redirect_to('/admin');
 	}
 	# end else session user
-	$self->render('admin/welcome', h1 => "Welcome back");
 };
 # end post login
 
@@ -390,7 +393,7 @@ get '/admin' => sub {
 	# end if session user
 	else
 	{
-		$self->render('/login');
+		$self->render('/login/index', h1 => "Login");
 	}
 };
 # end get /admin
@@ -468,7 +471,12 @@ post '/admin/lang/save/:lang' => sub {
 	}
 };
 
-
+get '/logout' => sub {
+	my $c = shift;
+	$c->session(expires => 1);
+	$c->render('login/logout', h1 => "Logout successful");
+};
+# end logout
 
 app->start();
 
