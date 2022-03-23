@@ -14,6 +14,8 @@ $dir =~ s!\/lib!!;
 #use lib "".$dir."/lib";
 
 use lib 'C:/Users/sumu/public/github/PCAccessFree/lib';
+use Users;
+helper users => sub { state $users = Users->new(); };
 
 # system
 my %sys;
@@ -286,7 +288,7 @@ post '/search' => sub {
 	my @out;
 	# search term
 	my $searchterm = $c->param('searchterm');
-	$searchterm =~ s!(\$|\#|\@|\&|\*|\(|\)|\%|\^|\!)!!g;
+	$searchterm =~ s!(\$|\#|\@|\&|\*|\(|\)|\%|\^|\!)!!g; # add more later.
 	my $searchresult = '';
 	# result
 	my $searchdir = $dir;
@@ -333,6 +335,70 @@ post '/search' => sub {
 	# end render
 };
 # end search result
+
+get '/login' => sub {
+	my $c = shift;
+	$c->render('admin/index', h1 => "Login");
+};
+# end login form
+
+post '/admin' => sub {
+	my $self = shift;
+	my $session = $self->session;
+
+	my $session_user = $self->session('user');
+
+	my $user = $self->param('user') || '';
+	my $pass = $self->param('pass') || '';
+
+	if ( $session_user )
+	{
+		$self->render('/admin/welcome', h1 => 'Welcome');
+	}
+	# end if session user
+	else
+	{
+		return $self->render unless $self->users->check($user, $pass);
+
+		# Add to session
+		$self->session(user => $user);
+		$self->flash(message => 'Thanks for logging in.');
+		#########$self->redirect_to('/admin');
+	}
+	# end else session user
+	$self->render('admin/welcome', h1 => "Welcome back");
+};
+# end post login
+
+
+get '/admin' => sub {
+	my $self = shift;
+
+	my $session_user = $self->session('user');
+
+	if ( $session_user )
+	{
+		$self->render('/admin/welcome', h1 => "Welcome back $session_user");
+	}
+	# end if session user
+	else
+	{
+		$self->render('/login');
+	}
+};
+# end get /admin
+
+# admin/settings
+get '/admin/settings' => sub {
+	my $self = shift;
+	my $session_user = $self->session('user');
+	if ($session_user) {
+		$self->render('/admin/settings', h1 => "PC Access Free - App Settings");
+	} else {
+		$self->render('/login')
+	}
+};
+
 
 app->start();
 
