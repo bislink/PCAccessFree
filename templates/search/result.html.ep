@@ -1,8 +1,8 @@
-% layout 'search';
+% layout 'default';
 % title ' Result ';
 
 <article class="container searchresult">
-  <h2 class="display-6">Search results for <span class="badge bg-secondary"><%= $searchterm %></span></h2>
+  <h2>Search results for <span class="badge bg-secondary"><%= $searchterm %></span></h2>
   <%== $searchresult %>
   % if ( stash 'searchresult' ) {
     %# no error
@@ -10,5 +10,3 @@
     <%== $error %>
   % }
 </article>
-
-<article class="conatiner"><h5><%= current_route %></h5></article>

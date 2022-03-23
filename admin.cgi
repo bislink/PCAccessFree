@@ -330,7 +330,7 @@ post '/search' => sub {
 					# Does not work for some reason i dono
 					#$searchresult .= qq{ <a href="/found?name=$file" title="match found">$file</a> };
 					# works
-					push( @out, qq{<a href="search/found?name=$file&dir=$dir4web" title="found match $file">$file</a>} );
+					push( @out, qq{<a href="$dir4web/$file&dir=$dir4web" title="found match $file">$file</a>} );
 					# error
 					$error = qq{<div class="alert alert-default">Results found for "$searchterm" in "$searchdir" </div>};
 				} else {
@@ -355,7 +355,8 @@ post '/search' => sub {
 		searchterm => $searchterm,
 		searchdir => "$searchdir",
 		searchresult => qq{$searchresult},
-		error => $error
+		error => $error,
+		h1 => "Results for search"
 	);
 	# end render
 };

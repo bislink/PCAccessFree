@@ -19,7 +19,7 @@
           </ul>
         </li>
       </ul>
-      <form class="d-flex" action="admin.cgi/search" method="post">
+      <form class="d-flex" action="<%= url_for '/search' %>" method="post">
         <input class="form-control me-2" type="search" name="searchterm" placeholder="Enter search term" aria-label="">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
