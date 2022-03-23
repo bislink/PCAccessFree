@@ -310,6 +310,7 @@ post '/search' => sub {
 	my $searchterm = $c->param('searchterm');
 	$searchterm =~ s!(\$|\#|\@|\&|\*|\(|\)|\%|\^|\!)!!g; # add more later.
 	my $searchresult = '';
+	my $error = '';
 	# result
 	my $searchdir = $dir;
 	$searchdir =~ s!\/github\/PCAccessFree!!;
@@ -327,11 +328,14 @@ post '/search' => sub {
 				# find match
 				if ($file =~ /$searchterm/i) {
 					# Does not work for some reason i dono
-					$searchresult .= qq{ <a href="/found?name=$file" title="match found">$file</a> };
+					#$searchresult .= qq{ <a href="/found?name=$file" title="match found">$file</a> };
 					# works
-					push( @out, qq{<a href="/found?name=$file&dir=$dir4web" title="match found">$file</a>} );
+					push( @out, qq{<a href="search/found?name=$file&dir=$dir4web" title="found match $file">$file</a>} );
+					# error
+					$error = qq{<div class="alert alert-default">Results found for "$searchterm" in "$searchdir" </div>};
 				} else {
-					$searchresult = qq{<div class="alert alert-warning">No results found for "$searchterm" in "$searchdir" </div>};
+					# will show up only if no content in searchresult. See logic in result.*.ep
+					$error = qq{<div class="alert alert-warning">No results found for "$searchterm" in "$searchdir" </div>};
 				}
 			}
 			closedir $sd;
@@ -350,11 +354,17 @@ post '/search' => sub {
 		'search/result',
 		searchterm => $searchterm,
 		searchdir => "$searchdir",
-		searchresult => qq{$searchresult}
+		searchresult => qq{$searchresult},
+		error => $error
 	);
 	# end render
 };
 # end search result
+
+
+=head2 Login
+	Login
+=cut
 
 get '/login' => sub {
 	my $c = shift;
