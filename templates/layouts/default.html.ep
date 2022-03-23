@@ -10,7 +10,7 @@
 	<meta name="description" content="Windows file Manager - PC Access Free">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+	<link rel="stylesheet" href="<%= url_for '/node_modules/bootstrap/dist/css/bootstrap.min.css' %>" crossorigin="anonymous">
 
 	<!-- public/index.css -->
 	<link rel="stylesheet" href="<%= url_for '/index.css' %>">
@@ -21,35 +21,49 @@
 
 <body>
 
-<h1>
-	<%== $h1 %>
-</h1>
+% if ( stash 'h1' ) {
+	<h1 class="inv"><%== $h1 %></h1>
+% }
+
+% if ( session->{user} ) {
+	%= include 'admin/nav';
+% } else {
+	%= include 'nav';
+% }
 
 <main>
-    
+
     <%== content %>
-    
+
     <div id="pcaccess-assistant"></div>
-    
+
+		% if ( session->{user} ) {
+			<article class="footer"><h2>Welcome back</h2>
+		  	<%= session->{user} %>
+			</article>
+		% } else {
+			<h2>Session Expired</h2>
+			<a href="<%= url_for '/login' %>" title="Login">Login again</a>
+		% }
+
 </main>
 
 <footer>
 	&copy; <a href="https://www.a1z.us" title="a1z hosting, design, &amp; development">a1z</a> <span id="copy-rights"></span>
 </footer>
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<script src="<%= url_for '/node_modules/jquery/dist/jquery.min.js' %>" crossorigin="anonymous"></script>
+<script src="<%= url_for '/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js' %>" crossorigin="anonymous"></script>
 
 <!-- public/index.js -->
 <script src="<%= url_for '/index.js' %>"></script>
-		
+
 <script>
 
 	$(function () {
 		$('[data-toggle="popover"]').popover()
 	});
-	
+
 	$(function () {
 		$('[data-toggle="tooltip"]').tooltip()
 	});
@@ -67,7 +81,7 @@
     });
     }
   </script>
-		
+
 </body>
-		
+
 </html>

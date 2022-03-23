@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#">PCAccessFree</a>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="admin.cgi">Admin</a>
+        </li>
+				<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            More
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <li><a class="dropdown-item" href="public/favicon.ico">favicon</a></li>
+            <li><a class="dropdown-item" href="public/icon/icon_192x192.png">Icon</a></li>
+            <li><a class="dropdown-item" href="setup.cgi">Setup</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="d-flex" action="admin.cgi/search" method="post">
+        <input class="form-control me-2" type="search" name="searchterm" placeholder="ಪದ ಅಥವಾ ಫೈಲ್ ಹೆಸರು ನಮೂದಿಸಿ" aria-label="">
+        <button class="btn btn-outline-success" type="submit">ಶೋಧಿಸು</button>
+      </form>
+    </div>
+  </div>
+</nav>

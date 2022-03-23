@@ -14,8 +14,15 @@ $dir =~ s!\/lib!!;
 #use lib "".$dir."/lib";
 
 use lib 'C:/Users/sumu/public/github/PCAccessFree/lib';
+
 use Users;
 helper users => sub { state $users = Users->new(); };
+
+use Languages;
+helper lang => sub { state $lang = Lang->new(); };
+
+use Syst;
+helper syst => sub { state $syst = Syst->new(); };
 
 # system
 my %sys;
@@ -392,12 +399,75 @@ get '/admin' => sub {
 get '/admin/settings' => sub {
 	my $self = shift;
 	my $session_user = $self->session('user');
+	my $out = $self->syst->settings( file => "$dir/lib/system_functions.txt");
 	if ($session_user) {
-		$self->render('/admin/settings', h1 => "PC Access Free - App Settings");
+		$self->render(
+			'/admin/settings',
+			h1 => "PC Access Free - App Settings",
+			out => $out
+		);
 	} else {
 		$self->render('/login')
 	}
 };
+# end
+
+
+post '/admin/savesettings' => sub {
+	my $self = shift;
+	my $out = '';	#
+	my $tofile = '';
+	my @names = $self->syst->settings_names_array( file => "$dir/lib/system_functions.txt");
+	$out .= qq{<table class="table">};
+	for (sort @names) {
+		$tofile .= qq{$_=} . $self->param("$_"). qq{\n};
+		$out .= qq{<tr> <td>$_</td> <td>} . $self->param("$_") . q{</td> </tr>};
+	}
+	$out .= qq{</table> <textarea class="form-control">$tofile</textarea>};
+	# write to file
+	if ( open( my $sysfile, ">", "$dir/lib/system_functions.txt") ) {
+		print $sysfile "$tofile";
+	}
+	#close $sysfile;
+	#
+	$self->render('admin/savesettings', h1 => "", out => $out);
+};
+# end post settings
+
+# admin/settings
+get '/admin/lang/show/:lang' => sub {
+	my $self = shift;
+	my $lang = $self->param('lang');
+	my $session_user = $self->session('user');
+	my $out = $self->lang->english( file => "$dir/lang/$lang.txt");
+	if ($session_user) {
+		$self->render(
+			'/admin/settings',
+			h1 => "PC Access Free - Lang Settings",
+			out => $out
+		);
+	} else {
+		$self->render('/login')
+	}
+};
+
+# admin/settings
+post '/admin/lang/save/:lang' => sub {
+	my $self = shift;
+	my $lang = $self->param('lang');
+	my $session_user = $self->session('user');
+	my $out = $self->lang->english( file => "$dir/lib/system_functions.txt");
+	if ($session_user) {
+		$self->render(
+			'/admin/settings',
+			h1 => "PC Access Free - App Settings",
+			out => $out
+		);
+	} else {
+		$self->render('/login')
+	}
+};
+
 
 
 app->start();
