@@ -38,11 +38,11 @@
     <div id="pcaccess-assistant"></div>
 
 		% if ( session->{user} ) {
-			<article class="footer"><h2>Welcome back</h2>
+			<article class="footer"><h6>Logged in as </h6>
 		  	<%= session->{user} %>
 			</article>
 		% } else {
-			<h2>Session Expired</h2>
+			<h2>You are logged out or your session expired</h2>
 			<a href="<%= url_for '/login' %>" title="Login">Login again</a>
 		% }
 

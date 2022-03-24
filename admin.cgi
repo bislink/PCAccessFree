@@ -495,12 +495,28 @@ post '/admin/lang/save/:lang' => sub {
 	}
 };
 
+
+=head2 Logout
+=cut
+
 get '/logout' => sub {
 	my $c = shift;
 	$c->session(expires => 1);
 	$c->render('login/logout', h1 => "Logout successful");
 };
 # end logout
+
+
+=head2 Profile
+=cut
+
+get '/admin/profile/:user' => sub {
+	my $c = shift;
+	my $user = $c->param('user');
+	my $out = '';
+	$c->render('admin/profile/welcome', h1 => "Profile", user => "$user", out => $out);
+};
+
 
 app->start();
 
