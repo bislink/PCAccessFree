@@ -1,3 +1,5 @@
+language_name=English, United States
+language_description=English, United States
 translation_tips_01=How to translate? Translate the meaning of a sentence or phrase into your language. Occasionally, you will need to just translate single words.
 translation_tips_02=How to save language files? Save the file as language-country.txt: Use abbreviated language and country codes. E.g., en-us.txt for English - United States of America. Do not use capital letters. Save as .txt file.
 translation_tips_03=Where do I get two-letter abbreviated language and country codes? URL:https://docs.oracle.com/cd/E13214_01/wli/docs92/xref/xqisocodes.html

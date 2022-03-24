@@ -9,11 +9,13 @@ Created using Perl/Mojolicious, Bootstrap, JavaScript, and SQL programming langu
 
 ### Search/open 'Turn Windows features on or off'
 
+```
 Select all .NET frameworks
 Select all features in Internet Information Services
 Select Internet Information Services Hostable Web Core
 Click OK
-Wait for installation to complete, restart if asked to.
+Wait for installation to complete, restart your PC if asked to
+```
 
 ## Perl
 
@@ -23,14 +25,19 @@ https://strawberryperl.com/download/5.32.1.1/strawberry-perl-5.32.1.1-64bit.msi
 
 ### Open PowerShell as Administrator and run the following command.
 
+```
 cpan CPAN CGI DateTime DBI DBIx::Class Cpanel::JSON::XS EV IO::Socket::Socks Net::DNS::Native Role::Tiny Future::AsyncAwait Mojolicious
+```
 
 ### After the completion of the above command test with
 
+```
 mojo version
+```
 
 ## Setup Perl handler mapping in IIS
 
+```
 Search/open IIS as Administrator
 Expand Sites
 Select Default Web Site
@@ -47,6 +54,7 @@ Mapping Tab: Invoke handler only if request is mapped to: File
 Verbs Tab: All verbs
 Access Tab: Execute
 click OK multiple times - Yes to all
+```
 
 ## Git
 
@@ -58,15 +66,15 @@ https://github.com/git-for-windows/git/releases/download/v2.35.1.windows.2/Git-2
 
 ### Download/install app from any of the following public repositories
 
-#### In PowerShell with administrative privileges, run
+#### In PowerShell with administrative privileges, run one of the following commands
 
-1. cd C:/inetpub/wwwroot
+* cd C:/inetpub/wwwroot
 
-2. git clone https://github.com/bislink/PCAccessFree.git
-or
-git clone https://bislinks.visualstudio.com/PCAccessFree
-of
-git clone https://gitlab.com/bislink/pc-access-free.git
+* git clone https://github.com/bislink/PCAccessFree.git
+
+* git clone https://bislinks.visualstudio.com/PCAccessFree
+
+* git clone https://gitlab.com/bislink/pc-access-free.git
 
 
 ## Test/Run App
@@ -79,6 +87,7 @@ http://localhost/PCAccessFree/admin.cgi/nologin
 
 ##### Alternatively, you can save the following lines as they are in 'C:/inetpub/wwwroot/lib' as 'system_functions.txt'
 
+```
 cookie_domain=localhost
 cookie_expiry=+3M
 css_js_url=//localhost/
@@ -93,24 +102,31 @@ server_port=80
 user_pref_home_dir=C:/inetpub/wwwroot/PCAccessFree
 web_root=C:/inetpub/wwwroot
 web_root_url=//localhost
+```
 
 ### After saving the changes,
 
 #### Open File Explorer and create directory
 
+```
 C:/inetpub/PCAF22
+```
 
-#### create a file named 'username.t' in 'C:/inetpub/PCAF22'
+#### create a file named `username.t` in `C:/inetpub/PCAF22`
 
 ##### Add a single line in the following format and save it:
 
+```
 username|pas2W0rd|C:/inetpub/wwwroot|http://localhost
+```
 
-###### Make sure you do not save file with .txt extension but with .t extension.
+###### Make sure you do not save file with `.txt` extension but with `.t` extension.
 
-### open the following url in another tab:
+### open the following url in a new tab in your favorite browser:
 
+```
 http://localhost/PCAccessFree/index.cgi
+```
 
 #### Loging with the credentials you just created.
 

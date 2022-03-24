@@ -62,9 +62,8 @@ my %fun;
 
 if ( -e -f "$sys{script_dir}/lib/system_functions.txt" )
 {
-	open(SysFun, "$sys{script_dir}/lib/system_functions.txt") or die $!;
-	my @sf = <SysFun>;
-	close SysFun;
+	open(my $SysFun, "$sys{script_dir}/lib/system_functions.txt") or $sys{error} = qq{<div class="alert alert-warning">$!</div>};
+	my @sf = <$SysFun>;
 
 	while ( my $function = <@sf> )
 	{
@@ -72,10 +71,15 @@ if ( -e -f "$sys{script_dir}/lib/system_functions.txt" )
 		my ( $left, $right ) = split(/\=/, $function, 2);
 		$fun{"$left"} = "$right";
 	}
+	close $SysFun;
 }
 else
 {
-	$sys{error} = qq{Unable to open system_functions. 	$sys{zero} $sys{script_dir} };
+	$sys{error} = qq{<div class="alert alert-warning">File system_functions does not exist. Creating one</div>};
+
+	open( my $sysfun, ">$sys{script_dir}/lib/system_functions.txt" ) or $sys{error} .= qq{<div class="alert alert-danger">$!</div>};
+	print $sysfun qq{cookie_domain=localhost\ncookie_expiry=+3M\ncss_js_url=//localhost/\nenable_browser_info=1\nenable_cookie_secure=1\nenable_date_folder=1\nenable_server_info=1\nlanguage=en-us\npassword_dir=C:/inetpub/PCAF22\nscript_web_dir=C:/inetpub/wwwroot/PCAccessFree\nserver_port=80\nuser_pref_home_dir=C:/inetpub/wwwroot/PCAccessFree\nweb_root=C:/inetpub/wwwroot\nweb_root_url=//localhost\n};
+	close $sysfun;
 }
 
 # Form

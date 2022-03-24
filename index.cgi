@@ -54,14 +54,19 @@ my %sys;
 # Add more function variables and values in %sys
 if ( -e -f "$path/lib/system_functions.txt" )
 {
-	open(SysFun, "$path/lib/system_functions.txt") or $sys{error} .= qq{<div class="alert alert-warning">$!</div>};
+	open(my $SysFun, "$path/lib/system_functions.txt") or $sys{error} .= qq{<div class="alert alert-warning">$!</div>};
 
-	while ( my $function = <SysFun> )
+	while ( my $function = <$SysFun> )
 	{
 		chomp $function;
 		my ( $left, $right ) = split(/\=/, $function, 2);
 		$sys{"$left"} = "$right";
 	}
+	close $SysFun;
+} else {
+	open( my $sysfun, ">$path/lib/system_functions.txt" ) or $sys{error} .= qq{<div class="alert alert-danger">$!</div>};
+	print $sysfun qq{cookie_domain=localhost\ncookie_expiry=+3M\ncss_js_url=//localhost/\nenable_browser_info=1\nenable_cookie_secure=1\nenable_date_folder=1\nenable_server_info=1\nlanguage=en-us\npassword_dir=C:/inetpub/PCAF22\nscript_web_dir=C:/inetpub/wwwroot/PCAccessFree\nserver_port=80\nuser_pref_home_dir=C:/inetpub/wwwroot/PCAccessFree\nweb_root=C:/inetpub/wwwroot\nweb_root_url=//localhost\n};
+	close $sysfun;
 }
 
 # reset pass directory to the one set by user
