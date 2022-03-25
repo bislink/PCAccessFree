@@ -1,0 +1,5 @@
+% layout 'default';
+
+<article class="container"><h2>Saved settings</h2>
+  <%== $out %>
+</article>

@@ -1,0 +1,10 @@
+% my $dir = ''; $dir = app->home->to_abs(); $dir =~ s!\\!\/!g;
+% my (%lang, %error) = Lang::get_language( dir => $dir );
+% layout 'default';
+% title 'Enable/disable functions';
+<article class="container"><h2><%== $lang{enable_disable_functions} %></h2>
+	<form action="<%= url_for '/change' %>" method="post">
+	<%== $form %>
+	<button type="submit" class="badge badge-pill badge-secondary">Go</button>
+	</form>
+</article>

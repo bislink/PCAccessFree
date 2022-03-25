@@ -1,6 +1,20 @@
-% 
+%
 % layout 'default';
 % title 'Changes Saved';
+
 <article class="container"><h2>Changes Saved</h2>
 	<%== $result %>
 </article>
+
+<article class="container"><h2>Created default username/password file</h2>
+	<%== $pass_dir %>
+</article>
+
+<article class="container"><h2>Set default language </h2>
+	<%== $defa_lang %>
+</article>
+
+<br/>
+<br/>
+<br/>
+<br/>

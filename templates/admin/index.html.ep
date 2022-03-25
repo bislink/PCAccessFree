@@ -1,0 +1,21 @@
+% layout 'default';
+% title ' Login to PC Access Free';
+
+% if ( session->{user} ) {
+  You are already logged in. Go to <a href="<%= url_for '/admin' %>" title="Dashboard">Dashboard</a>
+% } else {
+
+  <form name=auth method=post action="<%= url_for '/admin' %>" accept-charset='utf-8' enctype='multipart/form-data'>
+    <input type=hidden name=action value=auth>
+      <div class="form-group">
+  					<label for="user">Username</label>
+  					<input class="form-control" name=user id="user" type=text aria-describedby="user name" placeholder="Enter your username">
+  				</div>
+  				<div class="form-group">
+  				<label for="pass">Password</label>
+  					<input class="form-control" name=pass type=password id="pass" aria-describedby="password" placeholder="Enter your password">
+  				</div>
+  				<button type=submit value='LOGIN' class="btn btn-primary">Login</button>
+  </form>
+
+% }

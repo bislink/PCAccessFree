@@ -26,13 +26,34 @@ https://strawberryperl.com/download/5.32.1.1/strawberry-perl-5.32.1.1-64bit.msi
 ### Open PowerShell as Administrator and run the following command.
 
 ```
-cpan CPAN CGI DateTime DBI DBIx::Class Cpanel::JSON::XS EV IO::Socket::Socks Net::DNS::Native Role::Tiny Future::AsyncAwait Mojolicious
+cpan CPAN CGI DateTime DBI DBIx::Class Cpanel::JSON::XS EV IO::Socket::Socks Role::Tiny Future::AsyncAwait Mojolicious
 ```
 
-### After the completion of the above command test with
+### After the completion of the above command, test with
 
 ```
 mojo version
+```
+
+which should yield an output similar to
+
+```
+PS C:\inetpub\wwwroot\PCAccessFree> mojo version
+CORE
+  Perl        (v5.32.1, MSWin32)
+  Mojolicious (9.22, Waffle)
+
+OPTIONAL
+  Cpanel::JSON::XS 4.09+   (4.25)
+  EV 4.32+                 (4.33)
+  IO::Socket::Socks 0.64+  (0.74)
+  IO::Socket::SSL 2.009+   (2.069)
+  Net::DNS::Native 0.15+   (n/a)
+  Role::Tiny 2.000001+     (2.002004)
+  Future::AsyncAwait 0.52+ (0.54)
+
+You might want to update your Mojolicious to 9.23!
+PS C:\inetpub\wwwroot\PCAccessFree>
 ```
 
 ## Setup Perl handler mapping in IIS

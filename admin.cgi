@@ -30,8 +30,9 @@ use Mojo::File qw(curfile);
 my $dir = ''; $dir = curfile->dirname;
 $dir =~ s!\/lib!!;
 ##use lib "".$dir."/lib";
-# libraries
-use lib ("C:/inetpub/wwwroot/PCAccessFree/lib", "C:/Users/sumu/public/github/PCAccessFree/lib");
+# libraries: Windows does not allow variables
+use lib ("lib", "./lib", "C:/inetpub/wwwroot/PCAccessFree/lib", "C:/inetpub/wwwroot/pc-access-free/lib", "C:/Users/sumu/public/github/PCAccessFree/lib");
+##use lib qw(lib ./lib, $dir/lib);
 
 =head2 Helpers
 	Mojo Lite Helpers
@@ -166,7 +167,7 @@ else
 =cut
 
 my $form = '';
-$form .= qq{<form action="$ENV{SCRIPT_NAME}/change" method="post">};
+$form .= qq{<form action="/github/PCAccessFree/nologin.cgi/change" method="post">};
 for (sort keys %fun )
 {
 	chomp;
@@ -608,6 +609,7 @@ get '/logout' => sub {
 
 
 =head2 Profile
+
 =cut
 
 get '/admin/profile/:user' => sub {

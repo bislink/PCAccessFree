@@ -1,0 +1,6 @@
+% my $dir = ''; $dir = app->home->to_abs(); $dir =~ s!\\!\/!g;
+% my (%lang, %error) = Lang::get_language( dir => $dir );
+% layout 'default';
+% title ' Edit a language file ';
+
+<%== $out %>

@@ -1,0 +1,27 @@
+% layout 'default';
+% title 'Login - ';
+%# $r->any('/')->to('login#index')->name('index');
+%## my $url; $url = url_for '/admin';
+
+<article id="content" class="row">
+
+<div class="col-sm-6" id="loginForm">
+
+%= form_for admin => (method => 'post' ) => begin
+  % if (param 'user') {
+    <div class="alert alert-warning">Wrong Ussername or password or both.  Please try again!</div>
+  % }
+  <div class="form-group">
+    <label for="Username">Username</label>
+  %= text_field 'user', id => 'Username', name => 'user', class => 'form-control';
+  </div><div class="form-group">
+    <label for="Password">Password</label>
+  %= password_field 'pass', id => 'Password', name => 'pass', class => 'form-control';
+  </div>
+  %= submit_button 'Login'
+% end
+
+</div>
+
+
+</article>

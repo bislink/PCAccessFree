@@ -29,6 +29,9 @@
 	%= include 'nav';
 % }
 
+<br/>
+<br/>
+<br/>
 <main class="container">
 
     <%== content %>

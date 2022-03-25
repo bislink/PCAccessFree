@@ -34,3 +34,4 @@ change_settings_nologin=ಲಾಗಿನ್ ಆಗದೆಯೇ ಸೆಟ್ಟಿ
 enable_disable_functions=ಫಂಕ್ಷನ್ ಗಳನ್ನು ಕ್ರಿಯಾತ್ಮಕಗೊಳಿಸು/ನಿಷ್ಕ್ರಿಯಗೊಳಿಸು
 loggedin_as=ಈ ರೂಪದಲ್ಲಿ ಲಾಗ್ ಇನ್ ಆಗಿದೆ
 login_again=ಮತ್ತೆ ಲಾಗ್ ಇನ್ ಮಾಡಿ
+dashboard=ಡ್ಯಾಶ್ ಬೋರ್ಡ್

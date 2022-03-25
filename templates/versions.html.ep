@@ -37,8 +37,8 @@
       %== `$powershell (Get-CimInstance Win32_OperatingSystem).version`;
     </div>
     <div class="col-sm">
-      Chocolatey:
-      %== `$powershell chocolatey --version`;
+      %# Chocolatey:
+      %#== `$powershell chocolatey --version`;
     </div>
 </div>
 

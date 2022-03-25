@@ -34,3 +34,4 @@ logged_out_session_expired=You have logged out or your session has expired
 enable_disable_functions=Enable/Disable functions
 loggedin_as=Logged in as
 login_again=Log in again
+dashboard=dashboard

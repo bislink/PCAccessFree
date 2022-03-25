@@ -1,0 +1,9 @@
+% layout 'default';
+% title 'Settings - ';
+
+<h2>Settings</h2>
+
+<form action="<%= url_for '/admin/savesettings' %>" method="post">
+  <%== $out %>
+  <div class="mb-3"><input type="submit" value="Save"></div>
+</form>

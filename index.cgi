@@ -1,6 +1,17 @@
 #!C:/Strawberry/perl/bin/perl.exe
 
-#C:/Users/user03/public/OneFile/index.cgi
+=head1 PC Access Free
+	CGI Version for Windows
+=head2 File
+	index.cgi
+=head3 Path
+	C:/inetpub/wwwroot/PCAccessFree
+	or
+	C:/inetpub/wwwroot/pc-access-free
+	or
+	C:/Users/Username
+=head3
+=cut
 
 use strict;
 use CGI qw/:standard/;
@@ -13,7 +24,7 @@ my $cwd = Cwd::abs_path();
 $cwd =~ s!\\!\/!g;
 ##use lib "".$dir."/lib";
 # libraries
-use lib ("C:/inetpub/wwwroot/PCAccessFree/lib", "C:/Users/sumu/public/github/PCAccessFree/lib");
+use lib ("lib", "./lib", "C:/inetpub/wwwroot/PCAccessFree/lib", "C:/inetpub/wwwroot/pc-access-free/lib", "C:/Users/sumu/public/github/PCAccessFree/lib");
 use Helper;
 my $epoch = Dates::general( type => 'name', name => 'epoch1' );
 # disable this if in production ( if you use port forwarding)
