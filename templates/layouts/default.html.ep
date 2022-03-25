@@ -1,12 +1,13 @@
+%# default.html.ep
+% my $dir = ''; $dir = app->home->to_abs(); $dir =~ s!\\!\/!g;
+% my (%lang, %error) = Lang::get_language( dir => $dir );
 <!doctype html>
 <html lang="en">
 <head>
-
-	<title><%= title %> - PC-Access Free</title>
-
 	<meta charset="utf-8">
-    <meta name="theme-color" content="black">
-	<meta name="keywords" content="windows xp, windows 7, windows 8.1, windows 10, windows server 2012, file manager, blogs, hosted by a1z.us, pc access free">
+	<title><%= title %> - PC-Access Free</title>
+  <meta name="theme-color" content="black">
+	<meta name="keywords" content="windows xp, windows 7, windows 8.1, windows 10, windows server 2012, file manager, blogs, hosted by pcaf.a2z.blue, pc access free">
 	<meta name="description" content="Windows file Manager - PC Access Free">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -15,7 +16,7 @@
 	<!-- public/index.css -->
 	<link rel="stylesheet" href="<%= url_for '/index.css' %>">
 
-    <link rel="manifest" href="<%= url_for '/manifest.json' %>">
+  <link rel="manifest" href="<%= url_for '/manifest.json' %>">
 
 </head>
 
@@ -31,7 +32,7 @@
 	%= include 'nav';
 % }
 
-<main>
+<main class="panel">
 
     <%== content %>
 
@@ -42,14 +43,14 @@
 		  	<%= session->{user} %>
 			</article>
 		% } else {
-			<h2>You are logged out or your session expired</h2>
+			<h6><%== $lang{logged_out_session_expired} %></h6>
 			<a href="<%= url_for '/login' %>" title="Login">Login again</a>
 		% }
 
 </main>
 
 <footer>
-	&copy; <a href="https://www.a1z.us" title="a1z hosting, design, &amp; development">a1z</a> <span id="copy-rights"></span>
+	&copy; <a href="https://pcaf.a2z.blue" title="a1z hosting, design, &amp; development">a1z</a> <span id="copy-rights"></span>
 </footer>
 
 <script src="<%= url_for '/node_modules/jquery/dist/jquery.min.js' %>" crossorigin="anonymous"></script>

@@ -66,7 +66,7 @@ https://github.com/git-for-windows/git/releases/download/v2.35.1.windows.2/Git-2
 
 ### Download/install app from any of the following public repositories
 
-#### In PowerShell with administrative privileges, run one of the following commands
+#### In PowerShell, with administrative privileges, run one of the following commands
 
 * cd C:/inetpub/wwwroot
 

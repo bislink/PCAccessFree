@@ -11,9 +11,9 @@ my ($name, $path, $suffix) = File::Basename::fileparse($0);
 $path =~ s!\\!\/!g;
 my $cwd = Cwd::abs_path();
 $cwd =~ s!\\!\/!g;
-#use lib "".$cwd."/lib";
-##push(@INC, "C:/Users/sumu/public/github/PCAccessFree/lib");
-use lib ("C:/Users/sumu/public/github/PCAccessFree/lib");
+##use lib "".$dir."/lib";
+# libraries
+use lib ("C:/inetpub/wwwroot/PCAccessFree/lib", "C:/Users/sumu/public/github/PCAccessFree/lib");
 use Helper;
 my $epoch = Dates::general( type => 'name', name => 'epoch1' );
 # disable this if in production ( if you use port forwarding)
@@ -93,9 +93,9 @@ my $default_language = '';
 
 if ( -e -f "$sys{script_dir}/lang/default-language.txt" )
 {
-	open( LANG, "$sys{script_dir}/lang/default-language.txt") or $sys{error} .= qq{ <div class="alert alert-warning">$!</div> };
-	$default_language = <LANG>;
-	close LANG;
+	open( my $LANG, "$sys{script_dir}/lang/default-language.txt") or $sys{error} .= qq{ <div class="alert alert-warning">$!</div> };
+	$default_language = <$LANG>;
+	close $LANG;
 	chomp $default_language;
 }
 else
@@ -107,9 +107,9 @@ $default_language =~ s!\s+!!g;
 
 if ( -e -f "$sys{script_dir}/lang/$default_language.txt" )
 {
-	open(DL, "$sys{script_dir}/lang/$default_language.txt" ) or die $!;
-	my @dl = <DL>;
-	close DL;
+	open(my $DL, "$sys{script_dir}/lang/$default_language.txt" ) or die $!;
+	my @dl = <$DL>;
+	close $DL;
 
 	##while ( my $item = <@dl> )                # gets only first word!!
 	foreach my $item (@dl)

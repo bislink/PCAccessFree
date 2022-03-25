@@ -36,7 +36,65 @@ sub english {
   return $out;
 
 }
+# end
 
+
+=head2 Get User Language
+
+=cut
+
+sub get_language {
+
+  my %in = (
+    dir => '',
+    @_,
+  );
+
+  my $default_language = '';
+
+  my %lang = (
+    error => ''
+  );
+
+  if ( -e -f "$in{dir}/lang/default-language.txt" )
+  {
+  	open( my $LANG, "$in{dir}/lang/default-language.txt") or $lang{error} = qq{ <div class="alert alert-warning">#61 $!</div> };
+  	$default_language = <$LANG>;
+  	close $LANG;
+  	chomp $default_language;
+  }
+  else
+  {
+  	$default_language = 'en-us';
+  }
+
+  #$default_language =~ s!\s+!!g;
+  chomp $default_language;
+
+  if ( -e -f "$in{dir}/lang/$default_language.txt" )
+  {
+  	open(my $DL, "<:encoding(utf-8)", "$in{dir}/lang/$default_language.txt" ) or $lang{error} = qq{<div class="alert alert-warning">#76 $!</div>};
+  	my @dl = <$DL>;
+  	#close $DL;
+
+  	##while ( my $item = <@dl> )                # gets only first word!!
+  	foreach my $item (@dl)
+  	{
+  		chomp $item;
+  		my ( $left_item, $right_value ) = split(/\=/, $item, 2);
+
+  		$lang{"$left_item"} = qq{$right_value};
+  	}
+  }
+  else
+  {
+  	$lang{error} = qq{<div class="alert alert-danger">Could not open language file "$default_language" $in{dir} </div> };
+  }
+
+  return %lang;
+}
+
+# end get user language
 
 
 1;

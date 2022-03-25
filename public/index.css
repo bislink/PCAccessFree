@@ -1,9 +1,9 @@
 /* public/index.css */
 
 body {
-	margin:0 0 0 1em;
-	padding:0 2em 2em 0em;
-	top:2em;
+	margin: 0;
+	padding: 0;
+	top: 0;
 }
 
 
@@ -84,7 +84,7 @@ input[type=textarea] {
 
 /* index.htm */
 
-	nav {
+	nav#second {
 	margin:1em 0 2em 0;
 	width:auto;
 	height:3em;
@@ -92,10 +92,10 @@ input[type=textarea] {
 	background-repeat:x-repeat, y-repeat;
 	padding:0.4em 0 0.5em 0;
 	}
-	nav ul {
+	nav#second ul {
 
 	}
-	nav ul li {
+	nav#second ul li {
 	list-style-type:none;
 	position:relative;
 	float:left;
@@ -103,11 +103,11 @@ input[type=textarea] {
 	padding:0 1em 0 1em;
 	border-right:1px gray dotted;
 	}
-	nav ul li a {
+	nav#second ul li a {
 	padding:0;
 	text-decoration:none;
 	}
-	nav ul li a:hover {
+	nav#second ul li a:hover {
 	text-decoration:underline;
 	color:red;
 	}

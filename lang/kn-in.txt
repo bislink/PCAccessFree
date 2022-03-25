@@ -29,3 +29,6 @@ form_search=ಶೋಧಿಸು
 form_search_term=ಪದ ಅಥವಾ ಫೈಲ್ ಹೆಸರು ನಮೂದಿಸಿ
 form_create_folder=ಫೋಲ್ಡರ್ ರಚಿಸಿ
 welcome=ಸ್ವಾಗತ
+logged_out_session_expired=ನೀವು ಲಾಗ್ ಔಟ್ ಆಗಿದ್ದೀರಿ ಅಥವಾ ನಿಮ್ಮ ಸೆಷನ್ ಅವಧಿಮೀರಿದೆ
+change_settings_nologin=ಲಾಗಿನ್ ಆಗದೆಯೇ ಸೆಟ್ಟಿಂಗ್ ಗಳನ್ನು ಬದಲಿಸಿ
+enable_disable_functions=ಫಂಕ್ಷನ್ ಗಳನ್ನು ಕ್ರಿಯಾತ್ಮಕಗೊಳಿಸು/ನಿಷ್ಕ್ರಿಯಗೊಳಿಸು

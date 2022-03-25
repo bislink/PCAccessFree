@@ -1,6 +1,7 @@
-% 
+% my $dir = ''; $dir = app->home->to_abs(); $dir =~ s!\\!\/!g;
+% my (%lang, %error) = Lang::get_language( dir => $dir );
 % layout 'default';
 % title 'Enable/disable functions';
-<article class="container"><h2>Enable/Disable functions</h2>
+<article class="container"><h2><%== $lang{enable_disable_functions} %></h2>
 	<%== $form %>
 </article>

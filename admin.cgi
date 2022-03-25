@@ -11,9 +11,13 @@ use Mojolicious::Lite;
 use Mojo::File qw(curfile);
 my $dir = ''; $dir = curfile->dirname;
 $dir =~ s!\/lib!!;
-#use lib "".$dir."/lib";
+##use lib "".$dir."/lib";
+# libraries
+use lib ("C:/inetpub/wwwroot/PCAccessFree/lib", "C:/Users/sumu/public/github/PCAccessFree/lib");
 
-use lib 'C:/Users/sumu/public/github/PCAccessFree/lib';
+=head2 Helpers
+	Mojo Lite Helpers
+=cut
 
 use Users;
 helper users => sub { state $users = Users->new(); };
@@ -24,7 +28,11 @@ helper lang => sub { state $lang = Lang->new(); };
 use Syst;
 helper syst => sub { state $syst = Syst->new(); };
 
-# system
+
+=head2 System Stuff
+
+=cut
+
 my %sys;
 %sys = (
 	script_name => "PCAccessFree",
@@ -202,17 +210,29 @@ $form .= qq{</form>};
 $form .= qq{
 	$sys{error}
 };
+# end system stuff
+
+
+
+=head2 Show settings in /nologin
+
+=cut
 
 get '/nologin' => sub {
-my $c = shift;
+	my $c = shift;
+	my %lang = Lang::get_language( dir => "$sys{script_dir}" );
 	$c->render(
 		'index',
 		h1 => qq{ $sys{script_name} },
 		csjs => "/$sys{csjs_url}",
-		dir => "",
+		dir => "$sys{script_dir}",
 		form => qq{$form}
 	);
 };
+# end no login
+
+=head2 Save Settings posted from /nologin
+=cut
 
 post '/change' => sub {
 
