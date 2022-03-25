@@ -1,6 +1,7 @@
 %# default.html.ep
 % my $dir = ''; $dir = app->home->to_abs(); $dir =~ s!\\!\/!g;
 % my (%lang, %error) = Lang::get_language( dir => $dir );
+% my $powershell = app->config->{powershell};
 <!doctype html>
 <html lang="en" class="h-100">
 <head>
@@ -38,7 +39,7 @@
 
 <footer class="footer mt-auto py-3 bg-light footer">
 	<div class="row">
-		<div class="col-sm"> &copy; <a href="https://pcaf.a2z.blue" title="PCAF">PC Access Free</a> <span id="copy-rights"></span> </div>
+		<div class="col-sm"> &copy; <a href="https://pcaf.bislinks.com" title="PCAF">PC Access Free</a> <span id="copy-rights"></span> </div>
 		<div class="col-sm">
 			% if ( session->{user} ) {
 				<article class="footer"><h6><%== $lang{loggedin_as} %></h6>
@@ -46,15 +47,17 @@
 				</article>
 			% } else {
 				<h6><%== $lang{logged_out_session_expired} %></h6>
-				<a href="<%= url_for '/login' %>" title="Login">Login again</a>
+				<a href="<%= url_for '/login' %>" title="<%== $lang{login_again} %>"><%== $lang{login_again} %></a>
 			% }
 		</div>
 		<div class="col-sm">
-			%= app->config->{version}
-			% my $powershell = app->config->{powershell};
-			%== `$powershell git --version`;
+			Version:
+			%== app->config->{version};
 		</div>
+
 	</div>
+
+
 </footer>
 
 <script src="<%= url_for '/node_modules/jquery/dist/jquery.min.js' %>" crossorigin="anonymous"></script>

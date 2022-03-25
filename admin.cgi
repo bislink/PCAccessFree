@@ -307,7 +307,7 @@ get '/nologin' => sub {
 # end no login
 
 =head2 post /nologin
-	Save Settings posted from /nologin 
+	Save Settings posted from /nologin
 =cut
 
 post '/change' => sub {
@@ -616,6 +616,20 @@ get '/admin/profile/:user' => sub {
 	my $out = '';
 	$c->render('admin/profile/welcome', h1 => "Profile", user => "$user", out => $out);
 };
+
+
+=head2 Versions
+	Version identifiers for installed software/package on your system
+=cut
+
+get '/versions' => sub {
+	my $c = shift;
+	$c->render('versions', h1 => "Versions ");
+};
+# enc versions
+
+
+
 
 
 app->start();
