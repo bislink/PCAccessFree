@@ -1,0 +1,8 @@
+---
+secrets:
+  - qwieurqpwoiuuaalkjhfk87549jhkshf
+  - asuytrewqagfad87654311254asdfmnj
+libd: <%= app->home->child('lib') %>
+langd: <%= app->home->child('lang') %>
+powershell: 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe'
+version: '#0.7.1 '

@@ -68,7 +68,6 @@ sub get_language {
   	$default_language = 'en-us';
   }
 
-  #$default_language =~ s!\s+!!g;
   chomp $default_language;
 
   if ( -e -f "$in{dir}/lang/$default_language.txt" )

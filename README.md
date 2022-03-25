@@ -106,10 +106,10 @@ web_root_url=//localhost
 
 ### After saving the changes,
 
-#### Open File Explorer and create directory
+#### Open File Explorer and create directory `PCAF22` in `C:/inetpub`
 
 ```
-C:/inetpub/PCAF22
+cd C:/inetpub; mkdir PCAF22
 ```
 
 #### create a file named `username.t` in `C:/inetpub/PCAF22`
@@ -129,5 +129,18 @@ http://localhost/PCAccessFree/index.cgi
 ```
 
 #### Loging with the credentials you just created.
+
+## nodejs/npm
+
+Please download/install https://nodejs.org/dist/v16.14.2/node-v16.14.2-x64.msi
+
+## jquery/bootstrap
+
+### On a powershell with administrative privileges, run
+
+```
+cd C:/inetpub/wwwroot
+npm install @popperjs/core jquery bootstrap
+```
 
 ## Have fun using PCAccessFree!

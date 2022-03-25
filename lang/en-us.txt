@@ -31,4 +31,5 @@ form_search=Search
 form_search_term=Enter a word or filename to search
 form_create_folder=Create Folder
 logged_out_session_expired=You have logged out or your session has expired
-enable_disable_functions=
+enable_disable_functions=Enable/Disable functions
+loggedin_as=Logged in as 

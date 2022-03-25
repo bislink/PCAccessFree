@@ -1,7 +1,25 @@
 #!C:\\Strawberry\\perl\\bin\\perl5.26.1.exe
 
-=head1 admin
-admin.cgi
+=head1 PCAccessFree
+	admin.cgi
+	created especially for Windows operating systems.
+	PCAccessFree brings your windows pc to your browser.
+		Shows all files right inn your favorite browser.
+		Easily open all files contained in IIS/public directoreies
+		Add users to windows system.
+		Store notes
+		create/maintain a personal blog
+		A complete content management system written in Perl/Mojolicious for Windows.
+	Tested in windows 11, windows 10, and partially in windows 2016
+=head2 Open Source
+	Source code is shared on 4 different open source providers
+		Git Hub
+			where I maintain all bugs
+		Git Lab
+		Windows
+		Own instance of Git Lab
+			where I maintain notes to self but visible to public
+
 =cut
 
 use strict;
@@ -17,26 +35,68 @@ use lib ("C:/inetpub/wwwroot/PCAccessFree/lib", "C:/Users/sumu/public/github/PCA
 
 =head2 Helpers
 	Mojo Lite Helpers
+	CGI helper packages
+	Database helpers
+=cut
+
+=head2 Users
+	10.6.5-MariaDB on my laptop.
+		See lib/Database for creating/importing tables in SQL.
+		Used for PCAF users, notes, and blog
 =cut
 
 use Users;
 helper users => sub { state $users = Users->new(); };
 
+=head2 Languages/Locales
+	Default is us-en
+	Also see POD for Languages
+=head3 English/US
+	lang/en-us.txt
+	Basis for translation into all other languages.
+=head3 Kannada
+	Translation
+		Doing it myself. Looking pretty good.
+=head3 Tamil
+
+=head2 Telugu
+
+=head3 Hindi
+
+=head3 South Korean
+
+=head3 Spanish
+
+=cut
+
+=head2 use Languages
+	Essential Class
+=cut
+
 use Languages;
+
+=head2 helper lang
+	Will not work, see #2 in git.byzland.com
+	But Lang::method does work, used quite extensively throughout all templates
+=cut
+
 helper lang => sub { state $lang = Lang->new(); };
+
+=head2 Use Syst
+=cut
 
 use Syst;
 helper syst => sub { state $syst = Syst->new(); };
 
-
-=head2 System Stuff
-
+=head2 sys Hash
+	The hash %sys carries important name/value pairs like app dir, etc.
+	Future plan: move to lib
 =cut
 
 my %sys;
 %sys = (
 	script_name => "PCAccessFree",
-	password_dir_name => "PCAF_UP_041",
+	password_dir_name => "PCAF072",
 );
 
 # error
@@ -65,7 +125,19 @@ else
 	$sys{password_dir} = "$sys{password_dir_name}";
 	$sys{csjs_url} = "/";
 }
-#functions
+
+=head2 plugin NotYAMLConfig
+=cut
+
+plugin 'NotYAMLConfig' => { file => "$sys{script_dir}/pcaccessfree.yml" };
+
+my $config = plugin 'NotYAMLConfig' => { file => "$sys{script_dir}/pcaccessfree.yml" };
+
+
+=head2 %fun Hash
+
+=cut
+
 my %fun;
 
 if ( -e -f "$sys{script_dir}/lib/system_functions.txt" )
@@ -90,7 +162,9 @@ else
 	close $sysfun;
 }
 
-# Form
+=head2 Form for /nologin
+=cut
+
 my $form = '';
 $form .= qq{<form action="$ENV{SCRIPT_NAME}/change" method="post">};
 for (sort keys %fun )
@@ -210,12 +284,13 @@ $form .= qq{</form>};
 $form .= qq{
 	$sys{error}
 };
+# end form
 # end system stuff
 
 
-
-=head2 Show settings in /nologin
-
+=head2 get /nologin
+	Show settings for user to change/update without logging in
+	This is here for backwards compatibility ( was front page in versions prior to around 050?)
 =cut
 
 get '/nologin' => sub {
@@ -231,7 +306,8 @@ get '/nologin' => sub {
 };
 # end no login
 
-=head2 Save Settings posted from /nologin
+=head2 post /nologin
+	Save Settings posted from /nologin 
 =cut
 
 post '/change' => sub {
