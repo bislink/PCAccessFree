@@ -266,7 +266,9 @@ post '/change' => sub {
     error => ''
   );
 
-	my %in;
+	my %in = (
+    powershell => $c->config->{powershell},
+  );
 
 	for (sort keys %fun ) {
 
@@ -302,11 +304,25 @@ if (-e -f "$result{password_dir}/pcaccessfree.t") {
   # do nothing
   $result{error_pw} = qq{<div class="alert alert-warning">File 'pcaccessfree.t' already exists 303</div> };
 } else {
+
+  # create dir first
+  if (-d "$result{password_dir}" ) {
+    #
+  } else {
+    `"$in{powershell}" New-Item -Path "$result{password_dir}" -ItemType "directory" -Force`;
+  }
   open( my $UP, ">$result{password_dir}/pcaccessfree.t" ) or $result{error} = qq{<div class="alert alert-danger">299</div>};
   print $UP "pcaccessfree\|pcsfr2203\|C:/inetpub/wwwroot/PCAccessFree";
   close $UP;
-  
-  $result{error_pw} = qq{<div class="alert alert-success">File 'pcaccessfree.t' was created 308</div> };
+
+  # verify if dir/file was really created
+  if (-d "$result{password_dir}" and -e "$result{password_dir}/pcaccessfree.t") {
+    # do nothing
+    $result{error_pw} = qq{<div class="alert alert-success">File 'pcaccessfree.t' created. 320</div> };
+  } else {
+    $result{error_pw} = qq{<div class="alert alert-warning">Error creating file 'pcaccessfree.t' 322</div> };
+  }
+
 }
 # end create default user pass file
 

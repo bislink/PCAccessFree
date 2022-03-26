@@ -1,6 +1,10 @@
 %# nav, general, nologin
 % my $dir = ''; $dir = app->home->to_abs(); $dir =~ s!\\!\/!g;
 % my (%lang, %error) = Lang::get_language( dir => $dir );
+% my $nologin = ''; if ( $dir =~ /wwwroot/ )  { $nologin = "/pcaccessfree/nologin.cgi"; }
+% elsif ( $dir =~ /users/i and $dir =~ /github/i ) { $nologin = app->config->{nologin}; }
+% else { $nologin = "nologin.cgi"; }
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container-fluid">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,14 +15,14 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item"><a class="nav-link disabled" href="#"><%= current_route %></a></li>
         <li class="nav-item"><a class="nav-link" href="index.cgi" title="PCAccessFree CGI Home">PCAF(CGI)</a></li>
-        <li class="nav-item"><a class="nav-link" href="<%= url_for '/' %>">Admin</a></li>
-        <li class="nav-item"><a class="nav-link" href="<%= app->config->{nologin} %>" title="<%= $lang{change_settings_nologin} %>">NoLogin</a></li>
+        <li class="nav-item"><a class="nav-link" href="<%= url_for '/' %>">NoLogin</a></li>
+        <!--li class="nav-item"><a class="nav-link" href="<%= $nologin %>" title="<%= $lang{change_settings_nologin} %>">NoLogin</a></li-->
 				<li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             More
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="<%= app->config->{nologin} %>" title="<%= $lang{change_settings_nologin} %>">Settings nologin </a></li>
+            <li><a class="dropdown-item" href="<%= $nologin %>" title="<%= $lang{change_settings_nologin} %>">NoLogin</a></li>
             <li><a class="dropdown-item" href="public/icon/icon_192x192.png"></a></li>
           </ul>
         </li>
