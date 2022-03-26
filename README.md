@@ -3,7 +3,7 @@
 Convert your personal computer (Windows 7, 8, 10, 11) into a file server, Windows File Manager,
 Content Management System, et cetera.
 
-Created using Perl/Mojolicious, Bootstrap, JavaScript, and SQL programming languages.
+Created using Perl (CGI, Mojolicious, DBI), Bootstrap, JavaScript, and SQL programming languages.
 
 ## Internet Information Services
 
@@ -102,7 +102,7 @@ https://github.com/git-for-windows/git/releases/download/v2.35.1.windows.2/Git-2
 
 ### Open your favorite browser and open the following URL in a new tab:
 
-http://localhost/PCAccessFree/admin.cgi/nologin
+http://localhost/PCAccessFree/nologin.cgi
 
 #### Set/enable features
 
@@ -130,7 +130,8 @@ web_root_url=//localhost
 #### Open File Explorer and create directory `PCAF22` in `C:/inetpub`
 
 ```
-cd C:/inetpub; mkdir PCAF22
+cd C:/inetpub;
+mkdir PCAF22
 ```
 
 #### create a file named `username.t` in `C:/inetpub/PCAF22`
