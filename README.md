@@ -26,7 +26,7 @@ https://strawberryperl.com/download/5.32.1.1/strawberry-perl-5.32.1.1-64bit.msi
 ### Open PowerShell as Administrator and run the following command.
 
 ```
-cpan CPAN CGI DateTime DBI DBIx::Class Cpanel::JSON::XS EV IO::Socket::Socks Role::Tiny Future::AsyncAwait Mojolicious
+cpan CPAN CGI DateTime DBI DBIx::Class Cpanel::JSON::XS EV IO::Socket::Socks Role::Tiny Future::AsyncAwait Log::Log4perl Mojolicious  Mojolicious::Plugin::RemoteAddr
 ```
 
 ### After the completion of the above command, test with
@@ -35,7 +35,7 @@ cpan CPAN CGI DateTime DBI DBIx::Class Cpanel::JSON::XS EV IO::Socket::Socks Rol
 mojo version
 ```
 
-which should yield an output similar to
+which should produce an output similar to the following
 
 ```
 PS C:\inetpub\wwwroot\PCAccessFree> mojo version
@@ -77,6 +77,68 @@ Access Tab: Execute
 click OK multiple times - Yes to all
 ```
 
+### Video
+
+https://youtu.be/hsmAqw08-aQ
+
+
+
+## Import SSL Certificate
+
+### Assuming, you have downloaded free.pca.bislinks.com `.pfx` file to `C:/Users/USER/Documents`
+
+```
+Open IIS as Administrator
+Under Connections, Click on your main IIS Server Connection, usually your computer name
+In the middle pane, double click "Server Certificates"
+Under Actions, click 'import'
+In the 'import certificate' dialogue, under 'certificate file .pfx,' select location `c:/Users/USERNAME/Documents`
+and select .pfx file you just downloaded
+```
+
+### Video
+
+https://youtu.be/QMqcQB_aGDg
+
+
+
+## Add HTTPS
+
+```
+Open IIS as Administrator
+Under connections, selet your site
+Under Actions, click bindings
+Under Actions, click bindings
+Under Site Bindings, click add
+Under Type, select https
+Under IP Address, Select "All Unassigned"
+Under Port, leave it as 443 or assign a custom port above 10000, e.g., 21202 or 20443 or 30443 or 40443
+Under SSL Certificates, Select free.pca.bislinks.com
+Check "Disalbe HTTP/2" in order to disable http2
+Clcik OK to save
+Click close to close Site Bindings.
+
+```
+
+
+## Disable http2 in IIS
+
+### For SSL sites only
+
+```
+Open IIS as Administrator
+Under connections, selet your site
+Under Actions, click bindings
+Under Site Bindings, Select https and click edit
+Check/enable the "Disable HTTP/2" option
+```
+
+### Video
+
+https://www.youtube.com/watch?v=EwIRbf-9emY
+
+
+
 ## Git
 
 ### Download/Install Git for Windows
@@ -96,6 +158,20 @@ https://github.com/git-for-windows/git/releases/download/v2.35.1.windows.2/Git-2
 * git clone https://bislinks.visualstudio.com/PCAccessFree
 
 * git clone https://gitlab.com/bislink/pc-access-free.git
+
+
+## nodejs/npm
+
+Please download/install https://nodejs.org/dist/v16.14.2/node-v16.14.2-x64.msi
+
+## jquery/bootstrap
+
+### On a powershell with administrative privileges, run
+
+```
+cd C:/inetpub/wwwroot
+npm install @popperjs/core jquery bootstrap
+```
 
 
 ## Test/Run App
@@ -150,19 +226,17 @@ username|pas2W0rd|C:/inetpub/wwwroot|http://localhost
 http://localhost/PCAccessFree/index.cgi
 ```
 
-#### Loging with the credentials you just created.
+#### Log in with the credentials you just created.
 
-## nodejs/npm
 
-Please download/install https://nodejs.org/dist/v16.14.2/node-v16.14.2-x64.msi
 
-## jquery/bootstrap
-
-### On a powershell with administrative privileges, run
+## How to update to latest version?
 
 ```
+Open PowerShell as Administrator
 cd C:/inetpub/wwwroot
-npm install @popperjs/core jquery bootstrap
+git pull
 ```
+
 
 ## Have fun using PCAccessFree!
