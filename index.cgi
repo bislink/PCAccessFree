@@ -56,7 +56,7 @@ my %sys;
 
 	cookie_name => 'user',
 	dir_error => qq``,
-	tableclasses => "table",
+	tableclasses => "table-responsive",
 	error => ''
 # cookies
 
@@ -1339,6 +1339,8 @@ sub header1
   </div>
 </nav>
 
+<main class="panel">
+
 $sys{error}
 
 };
@@ -1362,6 +1364,8 @@ sub footer
 	$browser_info = &browser_info();
 
 	print qq~
+
+		</main>
 
 		<div class="spacer">
 			$lang{help_us_improve} <a href="$sys{bugs_url}" title="$lang{help_us_improve}">$lang{bugs} $lang{here}</a>
