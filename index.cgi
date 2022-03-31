@@ -42,7 +42,7 @@ my %sys;
 
 	script_url => "//$ENV{'SERVER_NAME'}:$ENV{SERVER_PORT}/$ENV{'SCRIPT_NAME'}",
 	PCAccessMainUrl => "//$ENV{'SERVER_NAME'}$ENV{'SCRIPT_NAME'}:$ENV{SCRIPT_PORT}",
-	PCAccessAdminUrl => "admin.cgi",
+	PCAccessAdminUrl => "nologin.cgi",
 
 	PCAccessSetupUrl => "setup.cgi",
 	script_name => "PC Access Free",
@@ -328,10 +328,47 @@ sub any
 	if ( $upDir !~ /\// ) { $upDir .= qq`/`; }
 
 	print qq{
-<!-- ad  -->
+		<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="public/pcaf_carousel_01.png" class="d-block w-100" alt="PCAF Carousel 01">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>$sys{carousel_1}</h5>
+        <p>$sys{carousel_1_p}</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="public/pcaf_carousel_02.png" class="d-block w-100" alt="PCAF Carousel 02">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>$sys{carousel_2}</h5>
+        <p>$sys{carousel_2_p}</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="public/pcaf_carousel_03.png" class="d-block w-100" alt="PCAF Carousel 03">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>$sys{carousel_3}</h5>
+        <p>$sys{carousel_3_p}</p>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
 	};
 
-	print qq{<br/><table id='A' class="table $sys{tableclasses}">};
+	print qq{<table id='A' class="table $sys{tableclasses}">};
 
 	# header/welcome/ad
 	print qq`
@@ -359,13 +396,13 @@ sub any
 	</tr>
 	`;
 
-	print "<tr> <td>";
+	print "<tr>";
 
 #UP DOWN A1
 
 #colspan 1
 
-	print qq{</td> <td colspan='7'>
+	print qq{<td colspan='7'>
 
 		<table id='A1' class="table $sys{tableclasses}">
 			<tr class="col-sm-4">
@@ -411,9 +448,9 @@ sub any
 
 #colspan 2
 
-	print "</td></tr><tr> <td>";  print "</td> <td colspan=7>";
+	print "</td></tr><tr>";  print "<td colspan=7>";
 
-=head1 Top Form disabled
+=head2 Top Form disabled
 # TOP FORMS
 		print qq{<table id='A2_fileForms' class="table $sys{tableclasses}">
 		<tr>};
@@ -426,14 +463,13 @@ sub any
 =cut
 
 	print "</td></tr>
-	<tr> <td>";
+	<tr>";
 
 # FOLDERS current folder
 
 #colspan 3
 
 	print qq{
-	</td>
 	<td colspan='7'>
 	}; #
 
@@ -490,11 +526,11 @@ sub any
 			</tr>} if (-d "$g/$_") && ($_ =~ /[a-zA-Z0-9]/);
 		}
 
-	print "</table></td></tr><tr> <td>";
+	print "</table></td></tr><tr>";
 
 #colspan 4
 
-	print qq{ </td> <td colspan=7>};
+	print qq{ <td colspan=7>};
 
 		print qq{<table id='foldersOperation' class="table $sys{tableclasses}">};
 
@@ -553,19 +589,19 @@ sub any
 #colspan 5
 # bottom forms
 
-	print "</table> </td> </tr> <tr> <td>";
-		print "</td> <td colspan=7>";
+	print "</table> </td> </tr> <tr>";
+		print "<td colspan=7>";
 		print qq{<table id='bottomFileForms'  class="table $sys{tableclasses}">
 			<tr>};
 		print "<td>"; &fileForm("$g");
 		print "</td> </tr> <tr> <td> "; &folderForm("$g");
 		print "</td> </tr> <tr> <td> "; &upload_form("$g"); # bottom upload form
 		print "</td></tr></table>";
-	print "</td> </tr> <tr> <td>";  #
+	print "</td> </tr> <tr>";  #
 
 #colspan 6
 
-	print "</td><td colspan=7>";
+	print "<td colspan=7>";
 
 		print qq{
 		<table id='ComingSoonPro' class="table $sys{tableclasses}">
@@ -1093,7 +1129,7 @@ sub alphaNumImg
 foreach (@_)
 	{
 	#			path							first part		last part
-	print "<img src=\"//bislinks.com/i/img/cms/";  print $_;  print "15.jpg\" height=10 border=0><br>";
+	print "<img src=\"public/img/cms/";  print $_;  print "15.jpg\" height=10 border=0 alt='number to image'><br>";
 	}
 }
 
@@ -1318,7 +1354,7 @@ sub header1
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="admin.cgi">Admin</a>
+          <a class="nav-link" href="nologin.cgi" title="Nologin Settings Admin">Settings Admin</a>
         </li>
 				<li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -1339,7 +1375,7 @@ sub header1
   </div>
 </nav>
 
-<main class="panel">
+<main class="container">
 
 $sys{error}
 
@@ -1367,27 +1403,35 @@ sub footer
 
 		</main>
 
-		<div class="spacer">
-			$lang{help_us_improve} <a href="$sys{bugs_url}" title="$lang{help_us_improve}">$lang{bugs} $lang{here}</a>
+		<footer class="footer mt-auto py-3 bg-light">
+
+			<div class="row">
+
+				<div class="col-sm">
+					$lang{help_us_improve} <a href="$sys{bugs_url}" title="$lang{help_us_improve}">$lang{bugs} $lang{here}</a>
+				</div>
+
+				<div class="col-sm">
+				&copy; &nbsp; &nbsp;
+				<button
+					type="button" class="btn btn-sm btn-info" data-bs-html="true" data-bs-toggle="popover" data-bs-trigger="focus" title="Server Info"
+					data-bs-content='$server_info'
+				>
+					$ENV{'COMPUTERNAME'}/$ENV{'SERVER_NAME'}
+				</button>
+				</div>
+
+				<div class="col-sm dev-error">
+					$sys{lang_file_error}
+				</div>
+
+				<div class="col-sm browser">
+					$browser_info
+				</div>
+
 		</div>
 
-		<div class="spacer">
-			&copy; &nbsp; &nbsp;
-			<button
-				type="button" class="btn btn-sm btn-info" data-bs-html="true" data-bs-toggle="popover" data-bs-trigger="focus" title="Server Info"
-				data-bs-content='$server_info'
-			>
-				$ENV{'COMPUTERNAME'}/$ENV{'SERVER_NAME'}
-			</button>
-		</div>
-
-		<div class="spacer dev-error">
-			$sys{lang_file_error}
-		</div>
-
-		<div class="spacer browser">
-			$browser_info
-		</div>
+		</footer>
 
 		<script src="public/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 

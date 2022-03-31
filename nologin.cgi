@@ -1,6 +1,6 @@
 #!C:\\Strawberry\\perl\\bin\\perl5.26.1.exe
 
-=head1 PCAccessFree
+=head1 PCAccessFree NoLogin
 	nologin.cgi
 =cut
 
@@ -93,6 +93,8 @@ if ( -e -f "$sys{script_dir}/lib/system_functions.txt" )
 	while ( my $function = <@sf> )
 	{
 		chomp $function;
+		# remove error var from list 
+		next if $function =~ /^error/;
 		my ( $left, $right ) = split(/\=/, $function, 2);
 		$fun{"$left"} = "$right";
 	}
