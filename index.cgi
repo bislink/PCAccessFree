@@ -57,7 +57,7 @@ my %sys;
 	cookie_name => 'user',
 	dir_error => qq``,
 	tableclasses => "table",
-
+	error => ''
 # cookies
 
 );
@@ -118,7 +118,7 @@ $default_language =~ s!\s+!!g;
 
 if ( -e -f "$sys{script_dir}/lang/$default_language.txt" )
 {
-	open(my $DL, "$sys{script_dir}/lang/$default_language.txt" ) or die $!;
+	open(my $DL, "$sys{script_dir}/lang/$default_language.txt" ) or $sys{error} = qq{ <div class="alert alert-warning">$!</div> };
 	my @dl = <$DL>;
 	close $DL;
 
@@ -917,7 +917,7 @@ sub authForm
 		my @u = '';
 		if ( -e -f "$sys{script_users_folder}/$in{get_cookie}.t" )
 		{
-			open(U, "$sys{script_users_folder}/$in{get_cookie}.t" ) or die "$sys{script_users_folder}/$in{get_cookie}.t";
+			open(U, "$sys{script_users_folder}/$in{get_cookie}.t" ) or $sys{error} = qq{ <div class="alert alert-warning"> $! $sys{script_users_folder}/$in{get_cookie}.t </div> };
 			$u = <U>;
 			close U;
 
@@ -1325,9 +1325,9 @@ sub header1
             More
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="public/favicon.ico">favicon</a></li>
-            <li><a class="dropdown-item" href="public/icon/icon_192x192.png">Icon</a></li>
-            <li><a class="dropdown-item" href="setup.cgi">Setup</a></li>
+            <li><a class="dropdown-item" href="public/favicon.ico"></a></li>
+            <li><a class="dropdown-item" href="public/icon/icon_192x192.png"></a></li>
+            <li><a class="dropdown-item" href="setup.cgi"></a></li>
           </ul>
         </li>
       </ul>
@@ -1338,6 +1338,8 @@ sub header1
     </div>
   </div>
 </nav>
+
+$sys{error}
 
 };
 

@@ -81,11 +81,150 @@ click OK multiple times - Yes to all
 
 https://youtu.be/hsmAqw08-aQ
 
+## Set User for IIS
 
+### Fixes `permission denied` error when saving settings via `nologin.cgi`:
+
+```
+Open IIS as Administrator
+Under 'connections,' select 'default web site' under 'Sites'
+Under 'actions,' click 'basic settings'
+Click 'connect as'
+select 'specific user'
+Click 'set' and provide a valid username/password for your first windows user account
+Click OK to Save
+OK Again to exit
+```
+
+### Now, go back to 'nologin.cgi' and edit/save 'system_functions' again.
+
+This time, you should not see 'permission denied' if you followed above instructions correctly.
+
+
+
+## Install Git
+
+### Download/Install Git for Windows
+
+https://github.com/git-for-windows/git/releases/download/v2.35.1.windows.2/Git-2.35.1.2-64-bit.exe
+
+
+
+## Get/install PC Access free on your computer
+
+### Download/install app from any of the following public repositories
+
+#### In PowerShell, with administrative privileges, run one of the following commands
+
+* cd C:/inetpub/wwwroot
+
+* git clone https://github.com/bislink/PCAccessFree.git
+
+* git clone https://bislinks.visualstudio.com/PCAccessFree
+
+* git clone https://gitlab.com/bislink/pc-access-free.git
+
+
+## Install nodejs
+
+Please download/install https://nodejs.org/dist/v16.14.2/node-v16.14.2-x64.msi
+
+
+
+## Install jQuery, Bootstrap via `npm`
+
+
+### On a PowerShell with administrative privileges, run
+
+```
+cd C:/inetpub/wwwroot/PCAccessFree/public
+npm install @popperjs/core jquery bootstrap
+```
+
+
+## Test/Run PC Access Free App
+
+### PC Access Free runs on your browser
+
+### Open your favorite browser and open the following URL in a new tab:
+
+http://localhost/PCAccessFree/nologin.cgi
+
+#### Set/enable features
+
+##### Alternatively, you can save the following lines `as they are` in `C:/inetpub/wwwroot/PCAccessFree/lib` as `system_functions.txt`
+
+```
+cookie_domain=localhost
+cookie_expiry=+3M
+css_js_url=//localhost/
+enable_browser_info=1
+enable_cookie_secure=1
+enable_date_folder=1
+enable_server_info=1
+language=en-us
+password_dir=C:/inetpub/PCAF22
+script_web_dir=C:/inetpub/wwwroot/PCAccessFree
+server_port=80
+user_pref_home_dir=C:/inetpub/wwwroot/PCAccessFree
+web_root=C:/inetpub/wwwroot
+web_root_url=//localhost
+```
+
+### After saving the changes, in case the default `username.t` file is not created:
+
+See permission denied section above.
+
+#### Open File Explorer and create directory `PCAF22` in `C:/inetpub`
+
+```
+cd C:/inetpub;
+mkdir PCAF22
+```
+OR
+
+```
+New-Item -Path "C:/inetpub/PCAF22" -ItemType "directory" -Force`
+```
+
+#### create a file named `username.t` in `C:/inetpub/PCAF22`
+
+##### Add a single line in the following format and save it:
+
+```
+username|pas2W0rd|C:/inetpub/wwwroot|http://localhost
+```
+
+###### Make sure you do not save file with `.txt` extension but with `.t` extension.
+
+### open the following url in a new tab in your favorite browser:
+
+```
+http://localhost/PCAccessFree/index.cgi
+```
+
+#### Log in with the credentials you just created.
+
+### Have fun using PC Access Free on your laptop/pc
+
+
+## How to update to latest version?
+
+```
+Open PowerShell as Administrator
+cd C:/inetpub/wwwroot
+git pull
+```
+
+
+
+
+
+# PC Access Free optional customizations
 
 ## Import SSL Certificate
 
-### Assuming, you have downloaded free.pca.bislinks.com `.pfx` file to `C:/Users/USER/Documents`
+### Assuming, you have downloaded `YOURNAME.bislinks.com.pfx` file to your computer, e.g., to `C:/Users/USER/Documents` from https://pca.bislinks.com/download-pfx.html
 
 ```
 Open IIS as Administrator
@@ -136,107 +275,3 @@ Check/enable the "Disable HTTP/2" option
 ### Video
 
 https://www.youtube.com/watch?v=EwIRbf-9emY
-
-
-
-## Git
-
-### Download/Install Git for Windows
-
-https://github.com/git-for-windows/git/releases/download/v2.35.1.windows.2/Git-2.35.1.2-64-bit.exe
-
-## PC Access free
-
-### Download/install app from any of the following public repositories
-
-#### In PowerShell, with administrative privileges, run one of the following commands
-
-* cd C:/inetpub/wwwroot
-
-* git clone https://github.com/bislink/PCAccessFree.git
-
-* git clone https://bislinks.visualstudio.com/PCAccessFree
-
-* git clone https://gitlab.com/bislink/pc-access-free.git
-
-
-## nodejs/npm
-
-Please download/install https://nodejs.org/dist/v16.14.2/node-v16.14.2-x64.msi
-
-## jquery/bootstrap
-
-### On a powershell with administrative privileges, run
-
-```
-cd C:/inetpub/wwwroot
-npm install @popperjs/core jquery bootstrap
-```
-
-
-## Test/Run App
-
-### Open your favorite browser and open the following URL in a new tab:
-
-http://localhost/PCAccessFree/nologin.cgi
-
-#### Set/enable features
-
-##### Alternatively, you can save the following lines as they are in 'C:/inetpub/wwwroot/lib' as 'system_functions.txt'
-
-```
-cookie_domain=localhost
-cookie_expiry=+3M
-css_js_url=//localhost/
-enable_browser_info=1
-enable_cookie_secure=1
-enable_date_folder=1
-enable_server_info=1
-language=en-us
-password_dir=C:/inetpub/PCAF22
-script_web_dir=C:/inetpub/wwwroot/PCAccessFree
-server_port=80
-user_pref_home_dir=C:/inetpub/wwwroot/PCAccessFree
-web_root=C:/inetpub/wwwroot
-web_root_url=//localhost
-```
-
-### After saving the changes,
-
-#### Open File Explorer and create directory `PCAF22` in `C:/inetpub`
-
-```
-cd C:/inetpub;
-mkdir PCAF22
-```
-
-#### create a file named `username.t` in `C:/inetpub/PCAF22`
-
-##### Add a single line in the following format and save it:
-
-```
-username|pas2W0rd|C:/inetpub/wwwroot|http://localhost
-```
-
-###### Make sure you do not save file with `.txt` extension but with `.t` extension.
-
-### open the following url in a new tab in your favorite browser:
-
-```
-http://localhost/PCAccessFree/index.cgi
-```
-
-#### Log in with the credentials you just created.
-
-
-
-## How to update to latest version?
-
-```
-Open PowerShell as Administrator
-cd C:/inetpub/wwwroot
-git pull
-```
-
-
-## Have fun using PCAccessFree!
