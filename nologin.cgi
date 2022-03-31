@@ -88,15 +88,15 @@ my %fun;
 if ( -e -f "$sys{script_dir}/lib/system_functions.txt" )
 {
 	open(my $SysFun, "$sys{script_dir}/lib/system_functions.txt") or $sys{error} = qq{<div class="alert alert-warning">$!</div>};
-	my @sf = <$SysFun>;
+	#my @sf = <$SysFun>;
 
-	while ( my $function = <@sf> )
+	while ( my $function = <$SysFun> )
 	{
 		chomp $function;
-		# remove error var from list 
+		# remove error var from list
 		next if $function =~ /^error/;
-		my ( $left, $right ) = split(/\=/, $function, 2);
-		$fun{"$left"} = "$right";
+		my ($left, $right) = split(/\=/, $function, 2);
+		$fun{"$left"} = qq{$right};
 	}
 	close $SysFun;
 }
@@ -115,7 +115,7 @@ else
 
 my $form = '';
 $form .= qq{};
-for (sort keys %fun )
+for (sort keys %fun)
 {
 	chomp;
 
@@ -124,7 +124,7 @@ for (sort keys %fun )
 		$sys{title_tip} = qq{0=disable 1=enable};
 		$sys{"suggest$_"} = qq{ (0=disable 1=enable) };
 	}
-	elsif ( $_ =~ /password_dir/ )
+elsif ( $_ =~ /^password_dir/ )
 	{
 		if ( $fun{$_} eq '' )
 		{
@@ -137,7 +137,7 @@ for (sort keys %fun )
 			$sys{"suggest$_"} =  qq{ ($sys{password_dir})};
 		}
 	}
-	elsif ( $_ =~ /css_js_url/ )
+elsif ( $_ =~ /^css_js_url/ )
 	{
 		if ( $fun{$_} eq '' )
 		{
@@ -150,7 +150,7 @@ for (sort keys %fun )
 			$sys{"suggest$_"} = qq{ ($sys{csjs_url}) };
 		}
 	}
-	elsif ( $_ =~ /cookie_domain/ )
+elsif ( $_ =~ /^cookie_domain/ )
 	{
 		if ( $fun{$_} eq '' )
 		{
@@ -163,7 +163,7 @@ for (sort keys %fun )
 			$sys{"suggest$_"} = qq{ ($ENV{SERVER_NAME}) };
 		}
 	}
-	elsif ( $_ =~ /user_pref_home_dir/ )
+elsif ( $_ =~ /^user_pref_home_dir/ )
 	{
 		if ( $fun{$_} eq '' )
 		{
@@ -176,7 +176,7 @@ for (sort keys %fun )
 			$sys{"suggest$_"} = qq{ ($sys{script_dir}) };
 		}
 	}
-	elsif ( $_ =~ /script_web_dir/ )
+elsif ( $_ =~ /^script_web_dir/ )
 	{
 		if ( $fun{$_} eq '' )
 		{
@@ -189,7 +189,7 @@ for (sort keys %fun )
 			$sys{"suggest$_"} = qq{ ($sys{script_dir}) };
 		}
 	}
-	elsif ( $_ =~ /server_port/ )
+elsif ( $_ =~ /^server_port/ )
 	{
 		if ( $fun{$_} eq '' )
 		{
@@ -202,7 +202,7 @@ for (sort keys %fun )
 			$sys{"suggest$_"} = qq{ ($ENV{SERVER_PORT}) };
 		}
 	}
-	elsif ( $_ =~ /web_root/ )
+elsif ( $_ =~ /^web_root/ )
 	{
 		if ( $fun{$_} eq '' )
 			{
