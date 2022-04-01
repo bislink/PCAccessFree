@@ -45,6 +45,8 @@ sub general {
 
 package Server;
 
+sub new { bless {}, shift }
+
 sub server_info
 {
 	my %in;

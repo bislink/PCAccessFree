@@ -89,6 +89,20 @@ helper lang => sub { state $lang = Lang->new(); };
 use Syst;
 helper syst => sub { state $syst = Syst->new(); };
 
+=head2 Package Utils
+	Utilities used everywhere
+=cut
+
+use Utils;
+helper utils => sub { state $utils = Utils->new(); };
+
+=head2 Package Admin
+	Everyting needed by a logged in user
+=cut
+
+use Admin;
+helper admin => sub { state $admin = Admin->new(); };
+
 =head2 sys Hash
 	The hash %sys carries important name/value pairs like app dir, etc.
 	Future plan: move to lib
@@ -615,9 +629,174 @@ get '/logout' => sub {
 get '/admin/profile/:user' => sub {
 	my $c = shift;
 	my $user = $c->param('user');
+	chomp $user;
+	$user = $c->utils->cleanse( string => "$user" );
 	my $out = '';
+	#$out .= qq{$user};
+	#
+	my $verify = '';
+	if ( $user =~ /[a-zA-Z0-9]/ ) {
+			# run sql and get return value from .pm
+			$verify = $c->admin->profile(
+				user => "$user",
+				url4save => $c->url_for('/admin/profile/save')->to_abs(),
+				url4update => $c->url_for('/admin/profile/update')->to_abs(),
+				url4view => $c->url_for("/profile/$user")->to_abs()
+			);
+	}
+	$out .= qq{$verify};
+	# render
 	$c->render('admin/profile/welcome', h1 => "Profile", user => "$user", out => $out);
 };
+
+
+=head2 Save Profile
+=cut
+
+post '/admin/profile/save' => sub {
+	my $c = shift;
+
+	my $user = $c->session('user');
+
+	my %in = (
+		url4save => $c->url_for('/admin/profile/save')->to_abs(),
+		url4update => $c->url_for('/admin/profile/update')->to_abs(),
+		url4view => $c->url_for("/profile/$user")->to_abs(),
+		@_,
+	);
+
+	#
+	my %out = ();
+
+	#
+	for ( qw/id username created firstname lastname email description/ ) {
+    $out{"$_"} = $c->param("$_");
+  }
+	# take care of new lines in textarea content
+	$out{description} =~ s!\n! NEWLINE !g;
+	# sql
+	#sql
+	#( $in{firstname}, $in{lastname}, $in{email}, $in{description} ) = (  );
+	my $save_profile_sql = qq{INSERT INTO `profile` (`id`, `username`, `created`, `firstname`, `lastname`, `email`, `description`)
+	values (DEFAULT, "$out{username}", DEFAULT, "$out{firstname}", "$out{lastname}", "$out{email}", "$out{description}") };
+	my $out = '';
+	for (keys %out ) {
+		$out .= qq{$_=$out{$_} <br/>}
+	}
+	# enable to test only
+	#$out .= qq{<hr/> $save_profile_sql};
+	#
+	#insert into table
+	my $commit_sql = $c->admin->profile_save( sql => $save_profile_sql );
+	#
+	if ( $commit_sql >= '1' ) {
+		$out .= qq{
+			<div class="alert alert-success">Saved successfully</div>
+			<div class="container">
+				View <a href="$out{url4view}" title="view profile">profile</a>
+			</div>
+		};
+	} else {
+		$out .= qq{ <div class="alert alert-danger">Profile creation failed</div> };
+	}
+	# render
+	$c->render('admin/profile/save', h1 => "save profile", user => $out{username}, out => $out);
+};
+# end save profile
+
+
+
+=head2 Update Profile
+	Update profile - data comes from /admin/profile/:user - url4update
+=cut
+
+post '/admin/profile/update' => sub {
+	my $c = shift;
+
+	my $user = $c->session('user');
+
+	my %out = (
+		url4save => $c->url_for('/admin/profile/save')->to_abs(),
+		url4update => $c->url_for('/admin/profile/update')->to_abs(),
+		url4view => $c->url_for("/profile/$user")->to_abs()
+	);
+
+	#
+	$out{username} = $c->session('user');
+	chomp $out{username};
+
+	#
+	for ( qw/firstname lastname email description/ ) {
+    $out{"$_"} = $c->param("$_");
+  }
+
+	# take care of new lines in textarea content
+	$out{description} =~ s!\n! NEWLINE !g;
+
+	#sql
+	#( $in{firstname}, $in{lastname}, $in{email}, $in{description} ) = (  );
+	my $update_profile_sql = qq{UPDATE `profile` SET `firstname`="$out{firstname}", `lastname`="$out{lastname}", `email`="$out{email}", `description`="$out{description}" WHERE `username`="$out{username}" LIMIT 1};
+	my $out = '';
+
+	# enable during test/dev only
+	#for (keys %out ) { $out .= qq{$_=$out{$_} <br/>} }
+
+	# enable during test only
+	#$out .= qq{<hr/> $update_profile_sql};
+
+	# insert into table
+	my $commit_sql = $c->admin->profile_update( sql => $update_profile_sql );
+
+	#
+	if ( $commit_sql >= '1' ) {
+		$out .= qq{
+			<div class="alert alert-success">Updated successfully</div>
+			<div class="container">
+				View <a href="$out{url4view}" title="view profile">profile</a>
+			</div>
+		};
+	} else {
+		$out .= qq{ <div class="alert alert-danger">Profile updating failed</div> };
+	}
+
+	# render
+	$c->render('admin/profile/save', h1 => "save profile", user => $out{username}, out => $out);
+};
+# end update profile
+
+
+=head2 Profile View
+=cut
+
+get '/profile/:user' => sub {
+	my $c = shift;
+
+	my %in = (
+		user => $c->param('user')
+	);
+
+	my $out = '';
+	my @data = $c->admin->profile_view( user => $in{user} );
+	#
+	#for (@data) { $out .= qq{$_ }; }
+
+	# build the html output
+	# Dont show username <tr> <td> Username </td> <td> $data[1] </td> </tr>
+	$out .= qq{
+		<table class="table table-responsive">
+
+			<tr> <td> First name </td> <td> $data[3] </td> </tr>
+			<tr> <td> Last Name </td> <td> $data[4] </td> </tr>
+			<tr> <td> Email </td> <td> $data[5] </td> </tr>
+			<tr> <td> Description </td> <td> $data[6] </td> </tr>
+		</table>
+	};
+
+	#
+	$c->render('profile_view', h1 => "View profile", user => $in{user}, out => qq{ $out } );
+};
+# end profile view
+
 
 
 =head2 Versions

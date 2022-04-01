@@ -1,0 +1,6 @@
+% layout 'default';
+% title ' View Profile ';
+
+<article><h2><%= $user %>&apos;s profile</h2>
+  <%== $out %>
+</article>

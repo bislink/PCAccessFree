@@ -1,6 +1,7 @@
 %# admin/nav
 % my $dir = ''; $dir = app->home->to_abs(); $dir =~ s!\\!\/!g;
 % my (%lang, %error) = Lang::get_language( dir => $dir );
+% my $user = session->{user};
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container-fluid">
@@ -23,9 +24,10 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <li class="dropdown-item disabled"> <a class="nav-link disabled" href="<%= url_for current_route %>"><%= current_route %> </a> </li>
+            <li><a class="dropdown-item" href="<%= url_for '/profile/' %><%= $user %>">Profile <%= $user %> </a></li>
             <li><a class="dropdown-item" href="#"></a></li>
             <li><a class="dropdown-item" href="#"></a></li>
-            <li><a class="dropdown-item" href="#"></a></li>
+
           </ul>
         </li>
       </ul>

@@ -138,7 +138,7 @@ Please download/install https://nodejs.org/dist/v16.14.2/node-v16.14.2-x64.msi
 
 ```
 cd C:/inetpub/wwwroot/PCAccessFree/public
-npm install @popperjs/core jquery bootstrap
+npm install @popperjs/core jquery bootstrap bootstrap-icons
 ```
 
 

@@ -1,0 +1,10 @@
+% layout 'default';
+% title ' Update Profile ';
+% if ( session->{user} ) {
+  <article><h2><%= $user %>&apos;s profile</h2>
+    <%== $out %>
+  </article>
+% } else {
+  Session expired, please
+  %= link_to 'Login Again' => '/login';
+% }
