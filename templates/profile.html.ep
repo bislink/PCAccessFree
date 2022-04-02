@@ -1,0 +1,20 @@
+% if (stash 'user') {
+  % my $user = stash 'user';
+  % my $url = url_for("/profile/$user")->to_abs();
+  <!doctype html>
+<html lang="en">
+  <head>
+  <script>
+    window.location.href = "<%= $url %>";
+  </script>
+  </head>
+  <body>
+  If the page does not redirect within 5 seconds please click <a href="<%= $url %>">here</a>
+  </body>
+</html>
+% } else {
+  <form action="<%= url_for '/profile/' %>" method="get">
+  <input type="text" name="user" id="user">
+  <input type="submit" value="Go">
+</form>
+% }

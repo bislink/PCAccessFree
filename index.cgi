@@ -76,7 +76,7 @@ if ( -e -f "$path/lib/system_functions.txt" )
 	close $SysFun;
 } else {
 	open( my $sysfun, ">$path/lib/system_functions.txt" ) or $sys{error} .= qq{<div class="alert alert-danger">$!</div>};
-	print $sysfun qq{cookie_domain=localhost\ncookie_expiry=+3M\ncss_js_url=//localhost/\nenable_browser_info=1\nenable_cookie_secure=1\nenable_date_folder=1\nenable_server_info=1\nlanguage=en-us\npassword_dir=C:/inetpub/PCAF22\nscript_web_dir=C:/inetpub/wwwroot/PCAccessFree\nserver_port=80\nuser_pref_home_dir=C:/inetpub/wwwroot/PCAccessFree\nweb_root=C:/inetpub/wwwroot\nweb_root_url=//localhost\n};
+	print $sysfun qq{cookie_domain=localhost\ncookie_expiry=+3M\ncss_js_url=//localhost/\nenable_browser_info=1\nenable_cookie_secure=1\nenable_date_folder=1\nenable_server_info=1\nlanguage=en-us\npassword_dir=C:/inetpub/PCAF22\nscript_web_dir=C:/inetpub/wwwroot/PCAccessFree\nserver_port=80\nuser_pref_home_dir=C:/inetpub/wwwroot/PCAccessFree\nweb_root=C:/inetpub/wwwroot\nweb_root_url=//localhost\ncarousel_1_p=Turn your PC into a Content Managern\ncrousel_2_p=Built for Windows Operating Systems\ncarousel_1=PC Access Free\ncarousel_3=Customizable with Bootstrap\ncarousel_3_p=Bootstrap is popular JavaScript/CSS templating framework\ncarousel_2=Built with Perl/Mojolicious\n};
 	close $sysfun;
 }
 

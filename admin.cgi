@@ -810,7 +810,16 @@ get '/versions' => sub {
 # enc versions
 
 
+=head2 Profile
 
+=cut
+
+get '/profile' => sub {
+	my $c = shift;
+	my $user = $c->param('user');
+	$c->render('profile', user => $user );
+};
+# end profile
 
 
 app->start();
