@@ -537,19 +537,41 @@ get '/admin' => sub {
 };
 # end get /admin
 
+
+
+=head2 Admin/settings
+	system_functions.txt
+	Database settings: settings.txt
+=cut
+
 # admin/settings
 get '/admin/settings' => sub {
 	my $self = shift;
 	my $session_user = $self->session('user');
-	my $out = $self->syst->settings( file => "$dir/lib/system_functions.txt");
+	#
+	my $out = '';
+	#
+	my %set = ();
+	#
+	$set{system_functions} = $self->syst->settings( file => "$dir/lib/system_functions.txt");
+	#
+	$set{db_settings} = $self->syst->settings( file => "$dir/lib/Database/settings.txt");
+	#
+
+	#
 	if ($session_user) {
 		$self->render(
 			'/admin/settings',
 			h1 => "PC Access Free - App Settings",
+			user => "$session_user",
+			system_settings => $set{system_functions},
+			db_settings => $set{db_settings},
 			out => $out
 		);
 	} else {
-		$self->render('/login')
+		$self->render('/admin/settings',
+			h1 => "Session Expired", user => '', system_settings => '', db_settings => '', out => ""
+		);
 	}
 };
 # end
@@ -820,6 +842,35 @@ get '/profile' => sub {
 	$c->render('profile', user => $user );
 };
 # end profile
+
+
+post '/admin/save_db_settings' => sub {
+	my $self = shift;
+	my $out = '';	#
+	my $tofile = '';
+	# names only
+	my @names = $self->syst->settings_names_array( file => "$dir/lib/Database/settings.txt");
+	# begin output - table
+	$out .= qq{<table class="table"> <tr> <td colspan="2">The following values were saved to settings.txt</td> </tr> };
+	for (sort @names) {
+		# content to be saved to file
+		$tofile .= qq{$_=} . $self->param("$_"). qq{\n};
+		# output - table tr
+		$out .= qq{<tr> <td>$_</td> <td>} . $self->param("$_") . q{</td> </tr>};
+	}
+	# end output - table
+	$out .= qq{</table>};
+	# test
+	#$out .= qq{<textarea class="form-control">$tofile</textarea>};
+	# write to file
+	if ( open( my $sysfile, ">", "$dir/lib/Database/settings.txt") ) {
+		print $sysfile "$tofile";
+	}
+	#close $sysfile;
+	#
+	$self->render('admin/save_db_settings', h1 => "", out => $out);
+};
+# end post save db settings
 
 
 app->start();

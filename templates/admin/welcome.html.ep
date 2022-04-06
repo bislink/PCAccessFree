@@ -2,12 +2,58 @@
 % title 'Admin Panel - ' . session->{user} . ' - ';
 
 % if ( session->{user} ) {
-  <article class="panel dashboard"><h2>Admin Panel</h2>
-    <a href="<%= url_for '/admin/settings' %>" title="setings">Settings</a>
-    <a href="<%= url_for '/logout' %>">Logout</a>
+
+  <article class="panel dashboard"><h2 class="inv">Admin Panel</h2>
+
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+
+      <div class="col">
+        <div class="card h-100">
+
+          <div class="card-body">
+            <h5 class="card-title">Settings</h5>
+            <p class="card-text">
+              <a href="<%= url_for '/admin/settings' %>" title="setings">Settings</a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card h-100">
+
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card h-100">
+
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card h-100">
+
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </article>
+
 % } else {
-  <article class="footer"><h2>Welcome back</h2>
-    <%= session->{user} %>
+  <article class="footer"><h2>Session Expired</h2>
+    %= link_to 'Login Again' => '/login';
   </article>
 % }

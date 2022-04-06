@@ -14,6 +14,7 @@ sub settings {
         #$out .= qq{$line };
         chomp $line;
         next if $line =~ /^$/;
+        next if $line =~ /^error/;
         my ($name, $value) = split(/\=/, $line, 2);
         $out .= qq{
           <div class="mb-3">

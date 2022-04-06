@@ -1,9 +1,59 @@
 % layout 'default';
 % title 'Settings - ';
 
-<h2>Settings</h2>
+% if ( session->{user} ) {
 
-<form action="<%= url_for '/admin/savesettings' %>" method="post">
-  <%== $out %>
-  <div class="mb-3"><input type="submit" value="Save"></div>
-</form>
+  <article><h2><%= $user %> - Settings </h2>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">System</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Database</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="messages-tab" data-bs-toggle="tab" data-bs-target="#messages" type="button" role="tab" aria-controls="messages" aria-selected="false"></button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false"></button>
+      </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+
+      <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <br/>
+        <form action="<%= url_for '/admin/savesettings' %>" method="post">
+          <%== $system_settings %>
+          <div class="mb-3"><input type="submit" value="Save"></div>
+        </form>
+      </div>
+
+      <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <br/>
+        <form action="<%= url_for '/admin/save_db_settings' %>" method="post">
+          <%== $db_settings %>
+          <div class="mb-3"><input type="submit" value="Save"></div>
+        </form>
+      </div>
+
+      <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">
+
+      </div>
+
+      <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+
+      </div>
+
+    </div>
+
+
+  </article>
+
+% } else {
+  Session expired, please
+  %= link_to 'Login Again' => '/login';
+% }

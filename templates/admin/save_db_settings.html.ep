@@ -1,0 +1,5 @@
+% layout 'default';
+% title 'Save DB Settings ';
+<article class="container"><h4>Settings Saved</h4>
+<%== $out %>
+</article>

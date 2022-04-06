@@ -1,0 +1,6 @@
+db=mojocms
+host=localhost
+moj_users_table=users
+pass=Mojo4Cms,22032
+port=3308
+user=mojocms
