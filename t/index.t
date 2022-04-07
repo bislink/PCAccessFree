@@ -47,11 +47,12 @@ require 'index.cgi';
 use Test::More tests => 9;
 
 =head3 Most basic test
-  check if perl -v returns ok and version is 5
+  check if perl -v returns ok, version is 5, and OS matches mswin
 =cut
 
 my @perlv = `perl -v`;
 # 1
+#  perl[0] is empty line
 ok ( $perlv[1] =~ /this is perl 5/i and $perlv[1] =~ /mswin/i );
 
 
@@ -60,7 +61,7 @@ ok ( $perlv[1] =~ /this is perl 5/i and $perlv[1] =~ /mswin/i );
   Should always pass!
 =cut
 
-# 1
+# 2
 ok( 1 + 1 == 2);
 
 
@@ -72,13 +73,13 @@ ok( 1 + 1 == 2);
       lib/Helper.pm
 =cut
 
-# 2
-ok( -f 'index.cgi' );
 # 3
-ok( -f "$dir/lib/system_functions.txt");
+ok( -f 'index.cgi' );
 # 4
+ok( -f "$dir/lib/system_functions.txt");
+# 5
 ok( -d $dir );
-#5
+# 6
 ok( -f "$dir/lib/Helper.pm");
 
 
@@ -86,9 +87,9 @@ ok( -f "$dir/lib/Helper.pm");
   index.cgi should show form with phrases login, pcaccessfree
 =cut
 
-# 6
-ok( `perl index.cgi` =~ /login/i );
 # 7
+ok( `perl index.cgi` =~ /login/i );
+# 8
 #  do not add -w flag
 ok( `perl index.cgi` =~ /pcaccessfree/i );
 

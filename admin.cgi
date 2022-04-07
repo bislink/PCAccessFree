@@ -844,16 +844,21 @@ get '/profile' => sub {
 # end profile
 
 
+=head2 Save DB Settings
+	Save settings to lib/Database/settings.txt 
+=cut
+
 post '/admin/save_db_settings' => sub {
 	my $self = shift;
-	my $out = '';	#
+	my $out = '';
+	# Var to hold content to be written to settings.txt
 	my $tofile = '';
-	# names only
+	# get names only from settings.txt file with name=value pairs
 	my @names = $self->syst->settings_names_array( file => "$dir/lib/Database/settings.txt");
-	# begin output - table
+	# begin output to browser/user - table
 	$out .= qq{<table class="table"> <tr> <td colspan="2">The following values were saved to settings.txt</td> </tr> };
 	for (sort @names) {
-		# content to be saved to file
+		# build content to be saved to file
 		$tofile .= qq{$_=} . $self->param("$_"). qq{\n};
 		# output - table tr
 		$out .= qq{<tr> <td>$_</td> <td>} . $self->param("$_") . q{</td> </tr>};
@@ -862,15 +867,20 @@ post '/admin/save_db_settings' => sub {
 	$out .= qq{</table>};
 	# test
 	#$out .= qq{<textarea class="form-control">$tofile</textarea>};
+
 	# write to file
 	if ( open( my $sysfile, ">", "$dir/lib/Database/settings.txt") ) {
 		print $sysfile "$tofile";
 	}
-	#close $sysfile;
-	#
+	# render
 	$self->render('admin/save_db_settings', h1 => "", out => $out);
 };
 # end post save db settings
+
+
+
+
+
 
 
 app->start();

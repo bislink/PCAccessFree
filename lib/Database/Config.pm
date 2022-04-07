@@ -37,7 +37,7 @@ sub directories {
 sub db
 {
 	my %in = (
-		settings_file => 'C:/inetpub/wwwroot/PCAccessFree/lib/Database/settings.txt' || 'C:/Users/sumu/public/github/PCAccessFree/lib/Database/settings.txt',
+		settings_file => 'C:/Users/sumu/public/github/PCAccessFree/lib/Database/settings.txt',
 		@_,
 	);
 
@@ -48,12 +48,14 @@ sub db
 =cut
 
 if ( -f "$in{settings_file}") {
-	if ( open( my $settings, "$settings_file") ) {
+	if ( open( my $settings, "<$in{settings_file}") ) {
 		while ( my $line = <$settings> ) {
 			chomp $line;
 			my ($left, $right) = split(/\=/, $line, 2);
-			$db{left} = $right;
+			$db{$left} = $right;
 		}
+	} else {
+		$db{error} = " Config.58 ";
 	}
 	# end open settings file
 } else {
