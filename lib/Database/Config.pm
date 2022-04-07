@@ -4,6 +4,18 @@ package Database::Config;
 	Some Important DB and Directories
 =cut
 
+=head3 Path For Setting Files
+	Requires Perl Module: Cwd
+=cut
+
+use Cwd qw();
+my $cwd = Cwd::abs_path();
+$cwd =~ s!\\!\/!g;
+
+=head3 New
+
+=cut
+
 sub new { bless {}, shift }
 
 sub directories {
@@ -37,9 +49,18 @@ sub directories {
 sub db
 {
 	my %in = (
-		settings_file => 'C:/Users/sumu/public/github/PCAccessFree/lib/Database/settings.txt',
+		settings_file => '',
 		@_,
 	);
+
+=head3 Check and Set
+	correct path for settings file
+		should be done everywhere the paths are provided/used!
+=cut
+
+	if ($cwd =~ /wwwroot/i ) { $in{settings_file} = 'C:/inetpub/wwwroot/PCAccessFree/lib/Database/settings.txt'; }
+	elsif ( $cwd =~ /users/i ) { $in{settings_file} = 'C:/Users/sumu/public/github/PCAccessFree/lib/Database/settings.txt'; }
+	else { $in{settings_file} = $in{settings_file}; }
 
 	my %db;
 

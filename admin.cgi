@@ -111,7 +111,7 @@ helper admin => sub { state $admin = Admin->new(); };
 my %sys;
 %sys = (
 	script_name => "PCAccessFree",
-	password_dir_name => "PCAF072",
+	password_dir_name => "PCAF22",
 );
 
 # error
@@ -845,7 +845,7 @@ get '/profile' => sub {
 
 
 =head2 Save DB Settings
-	Save settings to lib/Database/settings.txt 
+	Save settings to lib/Database/settings.txt
 =cut
 
 post '/admin/save_db_settings' => sub {
