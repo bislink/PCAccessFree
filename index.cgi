@@ -934,7 +934,7 @@ sub authForm
 		title => "$sys{script_name}",               # default title
 		cookie_status => "get",
 		cookie_value => "",
-		#cookie_get => $cookies{'user'}->value,      #
+		get_cookie => $getUserCookie,
 		@_,
 	);
 
@@ -951,7 +951,8 @@ sub authForm
 		# open user.t and load/open user's default folder
 		my $u = '';
 		my @u = '';
-		if ( -e -f "$sys{script_users_folder}/$in{get_cookie}.t" )
+
+		if ( $in{get_cookie} ne '' )
 		{
 			open(U, "$sys{script_users_folder}/$in{get_cookie}.t" ) or $sys{error} = qq{ <div class="alert alert-warning"> $! $sys{script_users_folder}/$in{get_cookie}.t </div> };
 			$u = <U>;
@@ -961,7 +962,7 @@ sub authForm
 			@u = split(/\|/, $u);
 
 			&header1( title => "Already Logged In", cookie_status => "get" );
-			&any("$u[2]" );
+			&any("$u[2]");
 			&footer();
 		}
 		else
@@ -1014,6 +1015,8 @@ sub authForm
 			</div>
 
 			<div class="spacer">$in{body_cont}</div>
+
+			$getUserCookie
 
 		};
 

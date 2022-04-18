@@ -1,0 +1,9 @@
+% layout 'lang';
+% title 'Change Language';
+<div>
+Language changed to : <%== $lang %>
+Return to <a href="<%= url_for '/admin' %>" title="Dashboard">Dashboard</a> 
+</div>
+<div>
+<%== $error %>
+</div>

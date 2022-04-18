@@ -15,7 +15,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item"><a class="nav-link disabled" href="#"><%= current_route %></a></li>
         <li class="nav-item"><a class="nav-link" href="index.cgi" title="PCAccessFree CGI Home">PCAF(CGI)</a></li>
-        <li class="nav-item"><a class="nav-link" href="<%= url_for '/' %>">NoLogin</a></li>
+        <li class="nav-item"><a class="nav-link" href="<%= $nologin %>">NoLogin</a></li>
         <!--li class="nav-item"><a class="nav-link" href="<%= $nologin %>" title="<%= $lang{change_settings_nologin} %>">NoLogin</a></li-->
 				<li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -26,6 +26,23 @@
             <li><a class="dropdown-item" href="public/icon/icon_192x192.png"></a></li>
           </ul>
         </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Lang
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <li class="dropdown-item disabled"> <a class="nav-link disabled" href="<%= url_for current_route %>">Current Language</a> </li>
+            <li><a class="dropdown-item" href="#"> <%= $lang{lang} %> </a></li>
+            <li class="dropdown-item disabled"> <a class="nav-link disabled" href="<%= url_for current_route %>">Change Language</a> </li>
+            <li><a class="dropdown-item" href="<%= url_for '/lang/change/en-us' %>">English</a></li>
+            <li><a class="dropdown-item" href="<%= url_for '/lang/change/kn-in' %>">Kannada</a></li>
+            <li><a class="dropdown-item" href="<%= url_for '/lang/change/ko-kr' %>">Korean</a></li>
+            <li><a class="dropdown-item" href="<%= url_for '/lang/change/ta-in' %>">Tamil</a></li>
+            <li><a class="dropdown-item" href="#"></a></li>
+          </ul>
+        </li>
+
       </ul>
       <form class="d-flex" action="<%= url_for '/search' %>" method="post">
         <input class="form-control me-2" type="search" name="searchterm" placeholder="<%= $lang{form_search_term} %>" aria-label="">

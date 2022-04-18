@@ -8,11 +8,12 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="<%= url_for '/admin' %>" title="<%== $lang{dashboard} %>"><%== $lang{script_name} %></a>
+    <a class="navbar-brand" href="<%= url_for '/' %>"><%== $lang{script_name} %></a>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         % if ( session->{user} ) {
           <li class="nav-item"> <a class="nav-link" href="<%= url_for '/admin/profile/' %><%= session->{user} %>"><%= session->{user} %> </a> </li>
+          <li class="nav-item"> <a class="nav-link" title="<%== $lang{dashboard} %>" href="<%= url_for '/admin' %>">Dash </a> </li>
           <li class="nav-item"> <a class="nav-link" href="<%= url_for '/logout' %>">Logout</a> </li>
         % } else {
           <li class="nav-item"><a class="nav-link" href="admin.cgi">Admin</a></li>
@@ -24,12 +25,31 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <li class="dropdown-item disabled"> <a class="nav-link disabled" href="<%= url_for current_route %>"><%= current_route %> </a> </li>
+            <li class="dropdown-item disabled"> <a class="nav-link disabled" href="#">Profile</a> </li>
             <li><a class="dropdown-item" href="<%= url_for '/profile/' %><%= $user %>">Profile <%= $user %> </a></li>
+            <li class="dropdown-item disabled"> <a class="nav-link disabled" href="#">Edit Language File</a> </li>
+            <li><a class="dropdown-item" href="<%= url_for '/admin/lang/show/en-us' %>">English</a></li>
+            <li><a class="dropdown-item" href="<%= url_for '/admin/lang/show/kn-in' %>">Kannada</a></li>
             <li><a class="dropdown-item" href="#"></a></li>
-            <li><a class="dropdown-item" href="#"></a></li>
-
           </ul>
         </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Lang
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <li class="dropdown-item disabled"> <a class="nav-link disabled" href="<%= url_for current_route %>">Current Language</a> </li>
+            <li><a class="dropdown-item" href="<%= url_for '/lang/' %><%= $user %>"> <%= $lang{lang} %> </a></li>
+            <li class="dropdown-item disabled"> <a class="nav-link disabled" href="<%= url_for current_route %>">Change Language</a> </li>
+            <li><a class="dropdown-item" href="<%= url_for '/lang/change/en-us' %>">English</a></li>
+            <li><a class="dropdown-item" href="<%= url_for '/lang/change/kn-in' %>">Kannada</a></li>
+            <li><a class="dropdown-item" href="<%= url_for '/lang/change/ko-kr' %>">Korean</a></li>
+            <li><a class="dropdown-item" href="<%= url_for '/lang/change/ta-in' %>">Tamil</a></li>
+            <li><a class="dropdown-item" href="#"></a></li>
+          </ul>
+        </li>
+
       </ul>
       <form class="d-flex" action="<%= url_for '/search' %>" method="post">
         <input class="form-control me-2" type="search" name="searchterm" placeholder="Search Term" aria-label="">

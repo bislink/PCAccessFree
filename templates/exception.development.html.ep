@@ -1,8 +1,10 @@
 % layout 'error';
 % title 'Error';
+% my $dir = ''; $dir = app->home->to_abs(); $dir =~ s!\\!\/!g;
+% my (%lang, %error) = Lang::get_language( dir => $dir );
 
 <article class="dev"><h2>Exception Error</h2>
-	<%= $exception->message %>
+	<%== $exception->message %>
 </article>
 
 <article><h3>Back to</h3>

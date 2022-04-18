@@ -1,6 +1,9 @@
 package Admin;
 use Mojo::Base 'Mojolicious::Controller';
 
+use utf8;
+use open ':encoding(utf-8)';
+
 use DBI;
 
 use Database::Config;

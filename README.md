@@ -1,11 +1,37 @@
 # PCAccessFree (Windows Version)
 
-Convert your personal computer (Windows 7, 8, 10, 11) into a file server, Windows File Manager,
-Content Management System, et cetera.
+Convert your personal computer (Windows 7, 8, 10, or 11) into a File Server/Manager, Content Management System, et cetera.
 
-Created using Perl (CGI, Mojolicious, DBI), Bootstrap, JavaScript, and SQL programming languages.
+Created using Perl (CGI, Mojolicious, DBI, DBIx::Perl), Bootstrap, and MySQL/MariaDB/PostgreSQL programming languages.
 
-## Internet Information Services
+## Synopsis
+
+### First Time - One Time Actions
+
+    Install/Setup `Internet Information Services`
+    Install/Setup `Perl`
+    Install required `Perl Modules`
+    Setup Perl Handler in `Internet Information Services`
+    Install `Git For Windows`
+    Install/Download `PC Access Free` using `git clone`
+
+    For a quick start, see `/install.md`
+
+### After first time - Subsequent Actions
+
+    Update `PC Access Free` using `git pull`
+
+    cd C:/inetpub/wwwroot/PCAccessFree
+    git clone
+
+    If you modified anything in folder `PCAccessFree,` do
+
+    cd C:/inetpub/wwwroot/PCAccessFree
+    git stash
+    git clone
+
+
+## Install/Setup `Internet Information Services (IIS)`
 
 ### Search/open 'Turn Windows features on or off'
 
@@ -17,7 +43,10 @@ Click OK
 Wait for installation to complete, restart your PC if asked to
 ```
 
-## Perl
+## Install `Perl`
+
+Use `install.ps1` to install `.msi` packages.
+See `install.md` for details.
 
 ### Download/install Perl from Strawberry Perl
 
@@ -83,7 +112,7 @@ https://youtu.be/hsmAqw08-aQ
 
 ## Set User for IIS
 
-### Fixes `permission denied` error when saving settings via `nologin.cgi`:
+### Fix for `permission denied` error when saving settings via `nologin.cgi`:
 
 ```
 Open IIS as Administrator
@@ -127,14 +156,19 @@ https://github.com/git-for-windows/git/releases/download/v2.35.1.windows.2/Git-2
 
 ## Install nodejs
 
-Please download/install https://nodejs.org/dist/v16.14.2/node-v16.14.2-x64.msi
+Use `install.ps1` to install `.msi` packages.
+See `install.md` for details.
 
+Please download/install https://nodejs.org/dist/v16.14.2/node-v16.14.2-x64.msi
 
 
 ## Install jQuery, Bootstrap via `npm`
 
+For versions below `0.7.9`
 
-### On a PowerShell with administrative privileges, run
+As of `0.7.9,` no need to do this step as jquery/bootstrap are part of `git pull.`
+
+### (On a PowerShell with administrative privileges, run)
 
 ```
 cd C:/inetpub/wwwroot/PCAccessFree/public
@@ -142,7 +176,7 @@ npm install @popperjs/core jquery bootstrap bootstrap-icons
 ```
 
 
-## Test/Run PC Access Free App
+## Test/Run `PC Access Free` App
 
 ### PC Access Free runs on your browser
 
@@ -150,7 +184,13 @@ npm install @popperjs/core jquery bootstrap bootstrap-icons
 
 http://localhost/PCAccessFree/nologin.cgi
 
-#### Set/enable features
+#### (Set/enable features)
+
+Only for versions below ``
+
+This step has been automated via `nologin.cgi.` No need to do it manually.
+
+So, just open `http://localhost/PCAccessFree/nologin.cgi` to edit these settings.
 
 ##### Alternatively, you can save the following lines `as they are` in `C:/inetpub/wwwroot/PCAccessFree/lib` as `system_functions.txt`
 
@@ -177,6 +217,8 @@ See permission denied section above.
 
 #### Open File Explorer and create directory `PCAF22` in `C:/inetpub`
 
+This step also has been automated.
+
 ```
 cd C:/inetpub;
 mkdir PCAF22
@@ -184,6 +226,7 @@ mkdir PCAF22
 OR
 
 ```
+cd C:/inetpub;
 New-Item -Path "C:/inetpub/PCAF22" -ItemType "directory" -Force`
 ```
 
@@ -212,66 +255,11 @@ http://localhost/PCAccessFree/index.cgi
 
 ```
 Open PowerShell as Administrator
-cd C:/inetpub/wwwroot
+cd C:/inetpub/wwwroot/PCAccessFree
 git pull
 ```
 
 
+# PC Access Free - Optional Customizations
 
-
-
-# PC Access Free optional customizations
-
-## Import SSL Certificate
-
-### Assuming, you have downloaded `YOURNAME.bislinks.com.pfx` file to your computer, e.g., to `C:/Users/USER/Documents` from https://pca.bislinks.com/download-pfx.html
-
-```
-Open IIS as Administrator
-Under Connections, Click on your main IIS Server Connection, usually your computer name
-In the middle pane, double click "Server Certificates"
-Under Actions, click 'import'
-In the 'import certificate' dialogue, under 'certificate file .pfx,' select location `c:/Users/USERNAME/Documents`
-and select .pfx file you just downloaded
-```
-
-### Video
-
-https://youtu.be/QMqcQB_aGDg
-
-
-
-## Add HTTPS
-
-```
-Open IIS as Administrator
-Under connections, selet your site
-Under Actions, click bindings
-Under Actions, click bindings
-Under Site Bindings, click add
-Under Type, select https
-Under IP Address, Select "All Unassigned"
-Under Port, leave it as 443 or assign a custom port above 10000, e.g., 21202 or 20443 or 30443 or 40443
-Under SSL Certificates, Select free.pca.bislinks.com
-Check "Disalbe HTTP/2" in order to disable http2
-Clcik OK to save
-Click close to close Site Bindings.
-
-```
-
-
-## Disable http2 in IIS
-
-### For SSL sites only
-
-```
-Open IIS as Administrator
-Under connections, selet your site
-Under Actions, click bindings
-Under Site Bindings, Select https and click edit
-Check/enable the "Disable HTTP/2" option
-```
-
-### Video
-
-https://www.youtube.com/watch?v=EwIRbf-9emY
+## See CUSTOMIZATION.md

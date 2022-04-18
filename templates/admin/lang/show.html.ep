@@ -1,6 +1,32 @@
+% my $language = '';
+% if ( stash 'language' ) { $language = stash 'language'; }
+% else { $language = "en-us"; }
 % my $dir = ''; $dir = app->home->to_abs(); $dir =~ s!\\!\/!g;
 % my (%lang, %error) = Lang::get_language( dir => $dir );
+
 % layout 'default';
 % title ' Edit a language file ';
 
-<%== $out %>
+% if ( session->{user} ) {
+
+<article class="language"><h2>Lanuage <%= $lang{lang} %> </h2>
+  <form lang="<%= $language %>" action="/admin/savesettings" method="post">
+    <%== $out %>
+  </form>
+</article>
+
+% if ( stash 'language' ) {
+  <%= stash 'language' %>
+% }
+
+% if ( stash 'no_html_out' ) {
+  <textarea class="form-item">
+    <%== stash 'no_html_out' %>
+  </textarea>
+% }
+
+
+% } else {
+  Session expired, please
+  %= link_to 'Login Again' => '/login';
+% }

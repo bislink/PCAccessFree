@@ -22,6 +22,9 @@
 
 =cut
 
+use utf8;
+use open ':encoding(utf-8)';
+
 use strict;
 use vars qw/ %ENV /;
 use Mojolicious::Lite;
@@ -149,24 +152,24 @@ plugin 'NotYAMLConfig' => { file => "$sys{script_dir}/pcaccessfree.yml" };
 my $config = plugin 'NotYAMLConfig' => { file => "$sys{script_dir}/pcaccessfree.yml" };
 
 
-=head2 %fun Hash
+=head2 fun Hash
 
 =cut
 
-my %fun;
+my %fun = ();
+my $left = '';
+my $right = '';
 
 if ( -e -f "$sys{script_dir}/lib/system_functions.txt" )
 {
 	open(my $SysFun, "$sys{script_dir}/lib/system_functions.txt") or $sys{error} = qq{<div class="alert alert-warning">$!</div>};
-	my @sf = <$SysFun>;
 
-	while ( my $function = <@sf> )
+	while ( my $function = <$SysFun> )
 	{
 		chomp $function;
-		my ( $left, $right ) = split(/\=/, $function, 2);
+		($left, $right) = split(/\=/, $function, 2);
 		$fun{"$left"} = "$right";
 	}
-	close $SysFun;
 }
 else
 {
@@ -598,24 +601,39 @@ post '/admin/savesettings' => sub {
 };
 # end post settings
 
+
+=head2 Show Language to edit
+	not ready yet
+=cut
+
 # admin/settings
 get '/admin/lang/show/:lang' => sub {
 	my $self = shift;
 	my $lang = $self->param('lang');
+	chomp $lang;
 	my $session_user = $self->session('user');
-	my $out = $self->lang->english( file => "$dir/lang/$lang.txt");
-	if ($session_user) {
+	my $out = $self->lang->english( file => "$dir/lang/$lang.txt", language => "$lang");
+	my $no_html_out = $self->lang->english( file => "$dir/lang/$lang.txt", language => "$lang", no_html => '1' );
+	#if ($session_user) {
 		$self->render(
-			'/admin/settings',
+			'/admin/lang/show',
 			h1 => "PC Access Free - Lang Settings",
-			out => $out
+			language => "$lang",
+			out => qq{$out},
+			no_html_out => qq{$no_html_out},
 		);
-	} else {
-		$self->render('/login')
-	}
+	#} else {
+		#$self->render('/', h1 => "", out => "");
+		#my $url = $self->url_for('/')->to_abs();
+		#$self->render( text => "Session expired. Login <a href=\"$url\">again</a>");
+	#}
 };
 
-# admin/settings
+
+=head2 Save Language
+	Not ready yet
+=cut
+
 post '/admin/lang/save/:lang' => sub {
 	my $self = shift;
 	my $lang = $self->param('lang');
@@ -623,7 +641,7 @@ post '/admin/lang/save/:lang' => sub {
 	my $out = $self->lang->english( file => "$dir/lib/system_functions.txt");
 	if ($session_user) {
 		$self->render(
-			'/admin/settings',
+			'/admin/lang/save',
 			h1 => "PC Access Free - App Settings",
 			out => $out
 		);
@@ -878,8 +896,28 @@ post '/admin/save_db_settings' => sub {
 # end post save db settings
 
 
+=head2 Change Language
+	No login necessary
+=cut
 
-
+get '/lang/change/:lang' => sub {
+	my $c = shift;
+	my $error = '';
+	my $lang = $c->param('lang');
+	chomp $lang;
+	#
+	$lang = $c->utils->cleanse( string => "$lang");
+	#
+	if ( open( my $file, ">$dir/lang/default-language.txt") ) {
+		print $file "$lang";
+		$error = "";
+	} else {
+		$error = "Could not find default-language.txt";
+	}
+	#
+	$c->render('lang/change', h1 => "Change Language", lang => "$lang", error => "$error");
+};
+# end change language
 
 
 
